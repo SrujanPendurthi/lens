@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Run everything with `.venv/bin/python` from `/Users/srujanpendurthi/Projects/Current/lens`.
-- **No git commits.** The repo root is `/Users/srujanpendurthi/Projects/Current`, which is shared with sibling projects and has no commits yet. Every "commit" step below is a test checkpoint instead.
+- **Commits:** lens is its own repo (`origin` = https://github.com/SrujanPendurthi/lens.git, branch `main`). Commit at each checkpoint step with a conventional message (`feat:`/`fix:`/`chore:`/`docs:`) ending in `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. Stage only files the task touched (never `data/`), and push after Task 7. No force-push and no history rewrites.
 - Never touch `../lagunaLab` or `../moeStream`. GPU/model runs go one at a time via `../.gpu/gpu-run lens ...` under `run_evals.py`'s swap watchdog.
 - **Do not resume the Qwen3-4B picker run** (D10). Qwen remains only for sub-goal generation, which is fully cached for the 200-step sample.
 - Fixed values: sample = seed-0 shuffled `data/steps.jsonl`; the Haiku sample is `--n 53`; the D7 gate uses recall@10 and top-10 picks; the Haiku model id is `claude-haiku-5-5`.
@@ -85,7 +85,7 @@ print('mismatches', bad); assert not bad"
 
 Expected: `mismatches []`. Also print a `subgoal cache misses: N` line; it must be 0.
 
-- [ ] **Step 6: Checkpoint.** Re-run Step 4; no commit (see Global Constraints).
+- [ ] **Step 6: Checkpoint.** Re-run Step 4, then commit (see Global Constraints).
 
 ### Task 2: Crash-safe results + `--summarize`
 
