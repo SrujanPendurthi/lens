@@ -98,9 +98,10 @@ def pick(text, picker="qwen"):
         if picker == "haiku":
             response = subprocess.run([
                 "claude", "-p", "--model", HAIKU, "--tools", "", "--strict-mcp-config",
-                "--setting-sources", "", "--no-session-persistence", "--output-format", "json",
+                "--setting-sources", "", "--no-session-persistence", "--safe-mode",
+                "--disable-slash-commands", "--output-format", "json",
                 "--system-prompt", "You pick one web page element. Reply with only its number in brackets, e.g. [123], or [none].",
-            ], input=text, capture_output=True, text=True, timeout=120)
+            ], input=text, capture_output=True, text=True, timeout=120, cwd="/private/tmp")
             if response.returncode:
                 raise RuntimeError(response.stderr[-500:])
             row = parse_claude_json(response.stdout)

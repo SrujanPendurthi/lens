@@ -18,7 +18,9 @@ class GateTests(unittest.TestCase):
         for name in RANKERS:
             row[name] = {"gold_rank": max_rank if name == "maxsim" else single_rank,
                          "ms": 1, "ok": True, "tokens": 10, "ttft": 0.1}
-        row["baseline"] = {"ok": True, "tokens": 100, "ttft": 0.1, "truncated": False}
+        for name in RANKERS:
+            row[f"{name}@{k}"] = {"ok":True, "tokens":10, "ttft":0.1, "gold_shown":True, "hallucinated":False}
+        row["baseline"] = {"ok": True, "tokens": 100, "ttft": 0.1, "truncated": False, "gold_shown":True, "hallucinated":False}
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             summarize([row], k, llm)
@@ -39,7 +41,7 @@ class GateTests(unittest.TestCase):
 
 
 class QueryTests(unittest.TestCase):
-    def run_eval(self, mode, llm, node_text="own", visible_refs=None):
+    def run_eval(self, mode, llm, node_text="own", visible_refs=None, extra=(), ref="1"):
         import torch
         step = {"task": "Book a trip", "prev": ["typed Boston"],
                 "gold": ["1"], "op": {"op": "CLICK", "value": ""},
@@ -48,12 +50,13 @@ class QueryTests(unittest.TestCase):
             steps, output = Path(directory) / "steps.jsonl", Path(directory) / "out.jsonl"
             steps.write_text(json.dumps(step) + "\n")
             args = ["eval.py", "--n", "1", "--node-text", node_text, "--output", str(output)]
+            args.extend(extra)
             if not llm:
                 args.append("--no-llm")
             with patch("sys.argv", args), patch("eval.STEPS", str(steps)), \
                  patch("eval.rank", return_value=torch.tensor([1.0])) as rank_mock, \
                  patch("lens.pick.subgoal", return_value={"text": "click Search", "tokens": 80, "ms": 10}) as goal_mock, \
-                 patch("lens.pick.pick", return_value={"ref": "1", "prompt_tokens": 100, "ttft": 0.1,
+                 patch("lens.pick.pick", return_value={"ref": ref, "prompt_tokens": 100, "ttft": 0.1,
                                                        "truncated": visible_refs is not None, "visible_refs": visible_refs}) as pick_mock, \
                  contextlib.redirect_stdout(io.StringIO()):
                 main()
@@ -72,7 +75,7 @@ class QueryTests(unittest.TestCase):
         row, _, _ = self.run_eval("subgoal", True)
         self.assertEqual(row["baseline"]["tokens"], 100)
         for name in RANKERS:
-            self.assertEqual(row[name]["tokens"], 180)
+            self.assertEqual(row[f"{name}@10"]["tokens"], 180)
 
     def test_context_only_reaches_rankers(self):
         _, rank_mock, _ = self.run_eval("subgoal", True, node_text="context")
@@ -82,6 +85,34 @@ class QueryTests(unittest.TestCase):
     def test_gold_removed_by_truncation_counts_as_baseline_failure(self):
         row, _, _ = self.run_eval("subgoal", True, visible_refs=[])
         self.assertFalse(row["baseline"]["ok"])
+
+    def test_hallucinated_ref(self):
+        row, _, _ = self.run_eval("subgoal", True, ref="999", extra=["--ks", "10"])
+        self.assertFalse(row["single@10"]["ok"])
+        self.assertTrue(row["single@10"]["hallucinated"])
+
+    def test_multi_k_arms_and_subset(self):
+        row, _, _ = self.run_eval("subgoal", True, extra=["--ks", "10,50", "--rankers", "single"])
+        self.assertIn("single@10", row)
+        self.assertIn("single@50", row)
+        self.assertNotIn("cross", row)
+        self.assertEqual(row["single@50"]["shown"], 1)
+        self.assertTrue(row["single@50"]["gold_shown"])
+
+    def test_truncated_gold_is_not_shown(self):
+        row, _, _ = self.run_eval("subgoal", True, visible_refs=[])
+        self.assertFalse(row["baseline"]["gold_shown"])
+        self.assertEqual(row["baseline"]["shown"], 0)
+
+    def test_gate_incomplete_without_maxsim10(self):
+        row={"n_nodes":1,"textless_gold":False, "subgoal_tokens":20,"subgoal_ms":1,
+             "single":{"gold_rank":0,"ms":1},
+             "baseline":{"ok":True,"tokens":100,"ttft":1,"truncated":False,"gold_shown":True,"hallucinated":False},
+             "single@10":{"ok":True,"tokens":10,"ttft":1,"truncated":False,"gold_shown":True,"hallucinated":False}}
+        output=io.StringIO()
+        with contextlib.redirect_stdout(output):
+            summarize([row],10,True)
+        self.assertIn("GATE: INCOMPLETE", output.getvalue())
 
 
 class SubgoalTests(unittest.TestCase):
@@ -171,6 +202,16 @@ class IncrementalTests(unittest.TestCase):
             self.assertIn("steps=1", out.getvalue())
             self.assertIn("GATE: ", out.getvalue())
 
+    def test_summarize_preserves_saved_query_mode(self):
+        row={"query_mode":"oracle","n_nodes":1,"textless_gold":False}
+        row.update({n:{"gold_rank":0,"ms":1} for n in RANKERS})
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/"rows.jsonl"; path.write_text(json.dumps(row)+"\n")
+            out=io.StringIO()
+            with patch("sys.argv",["eval.py","--summarize",str(path)]), contextlib.redirect_stdout(out):
+                main()
+            self.assertIn("query=oracle",out.getvalue())
+
 
 class HaikuTests(unittest.TestCase):
     OK = '{"type":"result","is_error":false,"result":"[42]","duration_api_ms":900,"usage":{"input_tokens":120,"cache_read_input_tokens":30,"cache_creation_input_tokens":0,"output_tokens":4}}'
@@ -209,6 +250,9 @@ class HaikuTests(unittest.TestCase):
             cli.assert_called_once()
             self.assertEqual(cli.call_args.kwargs["input"], "choose")
             self.assertEqual(cli.call_args.kwargs["timeout"], 120)
+            self.assertEqual(cli.call_args.kwargs["cwd"], "/private/tmp")
+            self.assertIn("--safe-mode", cli.call_args.args[0])
+            self.assertIn("--disable-slash-commands", cli.call_args.args[0])
 
 if __name__ == "__main__":
     unittest.main()
