@@ -1,0 +1,10 @@
+{
+  "prepared_steps": 743,
+  "gold_coverage": 0.9973082099596231,
+  "sample_size": 200,
+  "identical_own_nodes_and_metadata": true,
+  "original_steps_sha256": "a4bfc6aa073a24c3f37576113258ef9e886928d80615dc9fdbc5ceaa78c7a666",
+  "nodes_with_context": 397084,
+  "total_nodes": 432643,
+  "cached_subgoals_match_brief2_exactly": true
+}

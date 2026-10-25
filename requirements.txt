@@ -1,0 +1,6 @@
+torch
+pylate
+sentence-transformers
+rank-bm25
+lxml
+mlx-lm

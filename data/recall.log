@@ -1,0 +1,234 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 21817.35it/s]
+[1mBertModel LOAD REPORT[0m from: BAAI/bge-small-en-v1.5
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+No sentence-transformers model found with name answerdotai/answerai-colbert-small-v1.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 26136.42it/s]
+[1mBertModel LOAD REPORT[0m from: answerdotai/answerai-colbert-small-v1
+Key           | Status     |  | 
+--------------+------------+--+-
+linear.weight | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 17337.29it/s]
+[1mBertForSequenceClassification LOAD REPORT[0m from: cross-encoder/ms-marco-MiniLM-L-6-v2
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+bert.embeddings.position_ids | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+1 {'bm25': 56, 'single': 76, 'maxsim': 143, 'cross': 9}
+2 {'bm25': 892, 'single': 1125, 'maxsim': 1006, 'cross': 1293}
+3 {'bm25': 51, 'single': 193, 'maxsim': 307, 'cross': 76}
+4 {'bm25': 58, 'single': 616, 'maxsim': 371, 'cross': 241}
+5 {'bm25': 29, 'single': 6, 'maxsim': 13, 'cross': 5}
+6 {'bm25': 568, 'single': 319, 'maxsim': 566, 'cross': 342}
+7 {'bm25': 1308, 'single': 296, 'maxsim': 1529, 'cross': 478}
+8 {'bm25': 514, 'single': 192, 'maxsim': 104, 'cross': 27}
+9 {'bm25': 242, 'single': 204, 'maxsim': 117, 'cross': 135}
+10 {'bm25': 44, 'single': 985, 'maxsim': 1119, 'cross': 403}
+11 {'bm25': 24, 'single': 49, 'maxsim': 107, 'cross': 39}
+12 {'bm25': 45, 'single': 115, 'maxsim': 73, 'cross': 136}
+13 {'bm25': 0, 'single': 43, 'maxsim': 5, 'cross': 23}
+14 {'bm25': 28, 'single': 0, 'maxsim': 53, 'cross': 0}
+15 {'bm25': 70, 'single': 247, 'maxsim': 190, 'cross': 135}
+16 {'bm25': 297, 'single': 4, 'maxsim': 75, 'cross': 1}
+17 {'bm25': 42, 'single': 26, 'maxsim': 42, 'cross': 23}
+18 {'bm25': 293, 'single': 343, 'maxsim': 385, 'cross': 342}
+19 {'bm25': 170, 'single': 149, 'maxsim': 83, 'cross': 45}
+20 {'bm25': 1, 'single': 90, 'maxsim': 105, 'cross': 7}
+21 {'bm25': 69, 'single': 186, 'maxsim': 156, 'cross': 232}
+22 {'bm25': 14, 'single': 492, 'maxsim': 471, 'cross': 142}
+23 {'bm25': 312, 'single': 41, 'maxsim': 78, 'cross': 40}
+24 {'bm25': 257, 'single': 105, 'maxsim': 194, 'cross': 107}
+25 {'bm25': 112, 'single': 5, 'maxsim': 72, 'cross': 55}
+26 {'bm25': 8, 'single': 52, 'maxsim': 37, 'cross': 99}
+27 {'bm25': 106, 'single': 13, 'maxsim': 5, 'cross': 6}
+28 {'bm25': 3, 'single': 42, 'maxsim': 42, 'cross': 19}
+29 {'bm25': 141, 'single': 122, 'maxsim': 94, 'cross': 0}
+30 {'bm25': 874, 'single': 560, 'maxsim': 384, 'cross': 248}
+31 {'bm25': 22, 'single': 8, 'maxsim': 24, 'cross': 13}
+32 {'bm25': 252, 'single': 105, 'maxsim': 54, 'cross': 233}
+33 {'bm25': 239, 'single': 82, 'maxsim': 152, 'cross': 58}
+34 {'bm25': 68, 'single': 67, 'maxsim': 164, 'cross': 184}
+35 {'bm25': 155, 'single': 144, 'maxsim': 86, 'cross': 131}
+36 {'bm25': 453, 'single': 145, 'maxsim': 332, 'cross': 100}
+37 {'bm25': 411, 'single': 660, 'maxsim': 620, 'cross': 522}
+38 {'bm25': 80, 'single': 28, 'maxsim': 133, 'cross': 3}
+39 {'bm25': 147, 'single': 105, 'maxsim': 72, 'cross': 52}
+40 {'bm25': 71, 'single': 340, 'maxsim': 360, 'cross': 203}
+41 {'bm25': 163, 'single': 223, 'maxsim': 248, 'cross': 40}
+42 {'bm25': 793, 'single': 673, 'maxsim': 570, 'cross': 499}
+43 {'bm25': 193, 'single': 72, 'maxsim': 38, 'cross': 140}
+44 {'bm25': 226, 'single': 226, 'maxsim': 106, 'cross': 134}
+45 {'bm25': 170, 'single': 117, 'maxsim': 220, 'cross': 147}
+46 {'bm25': 4, 'single': 3, 'maxsim': 4, 'cross': 1}
+47 {'bm25': 12, 'single': 122, 'maxsim': 118, 'cross': 61}
+48 {'bm25': 663, 'single': 26, 'maxsim': 55, 'cross': 11}
+49 {'bm25': 26, 'single': 25, 'maxsim': 43, 'cross': 11}
+50 {'bm25': 210, 'single': 33, 'maxsim': 37, 'cross': 40}
+51 {'bm25': 72, 'single': 0, 'maxsim': 62, 'cross': 2}
+52 {'bm25': 171, 'single': 138, 'maxsim': 83, 'cross': 168}
+53 {'bm25': 83, 'single': 62, 'maxsim': 118, 'cross': 23}
+54 {'bm25': 2032, 'single': 381, 'maxsim': 1180, 'cross': 685}
+55 {'bm25': 171, 'single': 202, 'maxsim': 171, 'cross': 125}
+56 {'bm25': 369, 'single': 421, 'maxsim': 414, 'cross': 528}
+57 {'bm25': 210, 'single': 58, 'maxsim': 170, 'cross': 129}
+58 {'bm25': 68, 'single': 23, 'maxsim': 21, 'cross': 37}
+59 {'bm25': 637, 'single': 715, 'maxsim': 900, 'cross': 835}
+60 {'bm25': 117, 'single': 9, 'maxsim': 109, 'cross': 17}
+61 {'bm25': 210, 'single': 109, 'maxsim': 108, 'cross': 107}
+62 {'bm25': 16, 'single': 18, 'maxsim': 37, 'cross': 9}
+63 {'bm25': 108, 'single': 340, 'maxsim': 475, 'cross': 128}
+64 {'bm25': 40, 'single': 406, 'maxsim': 69, 'cross': 356}
+65 {'bm25': 88, 'single': 83, 'maxsim': 102, 'cross': 38}
+66 {'bm25': 239, 'single': 163, 'maxsim': 202, 'cross': 119}
+67 {'bm25': 1163, 'single': 1131, 'maxsim': 1196, 'cross': 1024}
+68 {'bm25': 338, 'single': 311, 'maxsim': 200, 'cross': 411}
+69 {'bm25': 17, 'single': 16, 'maxsim': 22, 'cross': 8}
+70 {'bm25': 99, 'single': 192, 'maxsim': 178, 'cross': 39}
+71 {'bm25': 110, 'single': 136, 'maxsim': 159, 'cross': 32}
+72 {'bm25': 171, 'single': 120, 'maxsim': 166, 'cross': 70}
+73 {'bm25': 78, 'single': 68, 'maxsim': 47, 'cross': 66}
+74 {'bm25': 150, 'single': 125, 'maxsim': 126, 'cross': 131}
+75 {'bm25': 612, 'single': 537, 'maxsim': 500, 'cross': 637}
+76 {'bm25': 19, 'single': 3, 'maxsim': 24, 'cross': 4}
+77 {'bm25': 74, 'single': 35, 'maxsim': 31, 'cross': 20}
+78 {'bm25': 45, 'single': 101, 'maxsim': 124, 'cross': 44}
+79 {'bm25': 34, 'single': 113, 'maxsim': 105, 'cross': 85}
+80 {'bm25': 302, 'single': 93, 'maxsim': 186, 'cross': 49}
+81 {'bm25': 252, 'single': 122, 'maxsim': 100, 'cross': 227}
+82 {'bm25': 36, 'single': 88, 'maxsim': 80, 'cross': 44}
+83 {'bm25': 39, 'single': 42, 'maxsim': 82, 'cross': 36}
+84 {'bm25': 37, 'single': 219, 'maxsim': 172, 'cross': 136}
+85 {'bm25': 17, 'single': 2, 'maxsim': 14, 'cross': 11}
+86 {'bm25': 40, 'single': 70, 'maxsim': 57, 'cross': 7}
+87 {'bm25': 38, 'single': 27, 'maxsim': 30, 'cross': 19}
+88 {'bm25': 75, 'single': 213, 'maxsim': 679, 'cross': 1}
+89 {'bm25': 778, 'single': 726, 'maxsim': 384, 'cross': 234}
+90 {'bm25': 108, 'single': 118, 'maxsim': 71, 'cross': 63}
+91 {'bm25': 209, 'single': 386, 'maxsim': 374, 'cross': 322}
+92 {'bm25': 200, 'single': 50, 'maxsim': 219, 'cross': 122}
+93 {'bm25': 0, 'single': 1, 'maxsim': 5, 'cross': 1}
+94 {'bm25': 66, 'single': 4, 'maxsim': 20, 'cross': 17}
+95 {'bm25': 83, 'single': 8, 'maxsim': 27, 'cross': 66}
+96 {'bm25': 65, 'single': 79, 'maxsim': 122, 'cross': 23}
+97 {'bm25': 483, 'single': 17, 'maxsim': 60, 'cross': 90}
+98 {'bm25': 123, 'single': 57, 'maxsim': 180, 'cross': 17}
+99 {'bm25': 86, 'single': 32, 'maxsim': 116, 'cross': 44}
+100 {'bm25': 40, 'single': 124, 'maxsim': 88, 'cross': 365}
+101 {'bm25': 1172, 'single': 1, 'maxsim': 198, 'cross': 245}
+102 {'bm25': 401, 'single': 763, 'maxsim': 743, 'cross': 636}
+103 {'bm25': 6, 'single': 287, 'maxsim': 153, 'cross': 103}
+104 {'bm25': 8, 'single': 19, 'maxsim': 83, 'cross': 129}
+105 {'bm25': 0, 'single': 44, 'maxsim': 156, 'cross': 34}
+106 {'bm25': 362, 'single': 775, 'maxsim': 693, 'cross': 363}
+107 {'bm25': 213, 'single': 155, 'maxsim': 172, 'cross': 150}
+108 {'bm25': 4, 'single': 96, 'maxsim': 183, 'cross': 20}
+109 {'bm25': 45, 'single': 12, 'maxsim': 23, 'cross': 13}
+110 {'bm25': 286, 'single': 272, 'maxsim': 271, 'cross': 188}
+111 {'bm25': 1, 'single': 2, 'maxsim': 67, 'cross': 0}
+112 {'bm25': 32, 'single': 4, 'maxsim': 10, 'cross': 5}
+113 {'bm25': 9, 'single': 2, 'maxsim': 5, 'cross': 1}
+114 {'bm25': 153, 'single': 178, 'maxsim': 227, 'cross': 54}
+115 {'bm25': 203, 'single': 89, 'maxsim': 105, 'cross': 22}
+116 {'bm25': 313, 'single': 470, 'maxsim': 695, 'cross': 736}
+117 {'bm25': 124, 'single': 112, 'maxsim': 128, 'cross': 90}
+118 {'bm25': 459, 'single': 653, 'maxsim': 151, 'cross': 52}
+119 {'bm25': 5, 'single': 0, 'maxsim': 11, 'cross': 4}
+120 {'bm25': 177, 'single': 63, 'maxsim': 116, 'cross': 136}
+121 {'bm25': 60, 'single': 195, 'maxsim': 198, 'cross': 729}
+122 {'bm25': 16, 'single': 63, 'maxsim': 81, 'cross': 141}
+123 {'bm25': 8, 'single': 16, 'maxsim': 40, 'cross': 100}
+124 {'bm25': 0, 'single': 0, 'maxsim': 6, 'cross': 7}
+125 {'bm25': 0, 'single': 92, 'maxsim': 184, 'cross': 0}
+126 {'bm25': 23, 'single': 86, 'maxsim': 159, 'cross': 85}
+127 {'bm25': 0, 'single': 0, 'maxsim': 46, 'cross': 0}
+128 {'bm25': 261, 'single': 348, 'maxsim': 220, 'cross': 260}
+129 {'bm25': 789, 'single': 978, 'maxsim': 756, 'cross': 270}
+130 {'bm25': 626, 'single': 305, 'maxsim': 234, 'cross': 3}
+131 {'bm25': 226, 'single': 294, 'maxsim': 319, 'cross': 228}
+132 {'bm25': 71, 'single': 62, 'maxsim': 11, 'cross': 152}
+133 {'bm25': 16, 'single': 35, 'maxsim': 41, 'cross': 62}
+134 {'bm25': 139, 'single': 41, 'maxsim': 58, 'cross': 112}
+135 {'bm25': 78, 'single': 95, 'maxsim': 117, 'cross': 119}
+136 {'bm25': 469, 'single': 842, 'maxsim': 803, 'cross': 657}
+137 {'bm25': 3, 'single': 17, 'maxsim': 414, 'cross': 5}
+138 {'bm25': 488, 'single': 57, 'maxsim': 308, 'cross': 40}
+139 {'bm25': 508, 'single': 890, 'maxsim': 457, 'cross': 848}
+140 {'bm25': 49, 'single': 27, 'maxsim': 70, 'cross': 14}
+141 {'bm25': 394, 'single': 259, 'maxsim': 235, 'cross': 303}
+142 {'bm25': 416, 'single': 579, 'maxsim': 1089, 'cross': 1064}
+143 {'bm25': 71, 'single': 79, 'maxsim': 227, 'cross': 33}
+144 {'bm25': 353, 'single': 183, 'maxsim': 246, 'cross': 161}
+145 {'bm25': 37, 'single': 27, 'maxsim': 19, 'cross': 93}
+146 {'bm25': 102, 'single': 0, 'maxsim': 1, 'cross': 0}
+147 {'bm25': 4, 'single': 56, 'maxsim': 41, 'cross': 15}
+148 {'bm25': 113, 'single': 170, 'maxsim': 215, 'cross': 83}
+149 {'bm25': 74, 'single': 19, 'maxsim': 74, 'cross': 246}
+150 {'bm25': 15, 'single': 15, 'maxsim': 14, 'cross': 14}
+151 {'bm25': 80, 'single': 9, 'maxsim': 79, 'cross': 0}
+152 {'bm25': 460, 'single': 8, 'maxsim': 39, 'cross': 7}
+153 {'bm25': 295, 'single': 389, 'maxsim': 269, 'cross': 216}
+154 {'bm25': 469, 'single': 392, 'maxsim': 328, 'cross': 690}
+155 {'bm25': 84, 'single': 89, 'maxsim': 191, 'cross': 175}
+156 {'bm25': 58, 'single': 65, 'maxsim': 64, 'cross': 66}
+157 {'bm25': 89, 'single': 396, 'maxsim': 121, 'cross': 517}
+158 {'bm25': 15, 'single': 5, 'maxsim': 26, 'cross': 16}
+159 {'bm25': 282, 'single': 416, 'maxsim': 347, 'cross': 192}
+160 {'bm25': 333, 'single': 104, 'maxsim': 147, 'cross': 119}
+161 {'bm25': 109, 'single': 169, 'maxsim': 283, 'cross': 314}
+162 {'bm25': 26, 'single': 36, 'maxsim': 28, 'cross': 40}
+163 {'bm25': 320, 'single': 133, 'maxsim': 238, 'cross': 115}
+164 {'bm25': 390, 'single': 337, 'maxsim': 388, 'cross': 345}
+165 {'bm25': 72, 'single': 26, 'maxsim': 9, 'cross': 1}
+166 {'bm25': 13, 'single': 1, 'maxsim': 10, 'cross': 3}
+167 {'bm25': 7, 'single': 100, 'maxsim': 289, 'cross': 48}
+168 {'bm25': 3, 'single': 55, 'maxsim': 51, 'cross': 90}
+169 {'bm25': 55, 'single': 110, 'maxsim': 77, 'cross': 58}
+170 {'bm25': 156, 'single': 186, 'maxsim': 167, 'cross': 214}
+171 {'bm25': 28, 'single': 164, 'maxsim': 265, 'cross': 240}
+172 {'bm25': 207, 'single': 51, 'maxsim': 59, 'cross': 67}
+173 {'bm25': 16, 'single': 137, 'maxsim': 116, 'cross': 14}
+174 {'bm25': 343, 'single': 810, 'maxsim': 301, 'cross': 317}
+175 {'bm25': 1235, 'single': 243, 'maxsim': 621, 'cross': 185}
+176 {'bm25': 45, 'single': 64, 'maxsim': 101, 'cross': 70}
+177 {'bm25': 35, 'single': 65, 'maxsim': 33, 'cross': 93}
+178 {'bm25': 91, 'single': 128, 'maxsim': 110, 'cross': 48}
+179 {'bm25': 20, 'single': 0, 'maxsim': 34, 'cross': 6}
+180 {'bm25': 96, 'single': 95, 'maxsim': 158, 'cross': 283}
+181 {'bm25': 111, 'single': 28, 'maxsim': 106, 'cross': 52}
+182 {'bm25': 147, 'single': 120, 'maxsim': 101, 'cross': 29}
+183 {'bm25': 8, 'single': 221, 'maxsim': 263, 'cross': 504}
+184 {'bm25': 31, 'single': 158, 'maxsim': 320, 'cross': 110}
+185 {'bm25': 214, 'single': 197, 'maxsim': 188, 'cross': 221}
+186 {'bm25': 690, 'single': 1711, 'maxsim': 793, 'cross': 873}
+187 {'bm25': 150, 'single': 20, 'maxsim': 128, 'cross': 114}
+188 {'bm25': 448, 'single': 128, 'maxsim': 362, 'cross': 195}
+189 {'bm25': 52, 'single': 74, 'maxsim': 56, 'cross': 45}
+190 {'bm25': 2, 'single': 16, 'maxsim': 390, 'cross': 22}
+191 {'bm25': 1, 'single': 31, 'maxsim': 83, 'cross': 0}
+192 {'bm25': 8, 'single': 1, 'maxsim': 2, 'cross': 1}
+193 {'bm25': 669, 'single': 189, 'maxsim': 809, 'cross': 80}
+194 {'bm25': 132, 'single': 129, 'maxsim': 99, 'cross': 116}
+195 {'bm25': 1, 'single': 0, 'maxsim': 18, 'cross': 11}
+196 {'bm25': 138, 'single': 58, 'maxsim': 146, 'cross': 111}
+197 {'bm25': 90, 'single': 130, 'maxsim': 177, 'cross': 55}
+198 {'bm25': 152, 'single': 146, 'maxsim': 176, 'cross': 131}
+199 {'bm25': 705, 'single': 555, 'maxsim': 243, 'cross': 432}
+200 {'bm25': 41, 'single': 32, 'maxsim': 37, 'cross': 35}
+
+steps=200  median nodes=457.0  textless gold=3.5%
+arm          R@5   R@10   R@20  enc ms    acc  tok med  ttft s
+bm25        8.5%  13.0%  19.0%       2
+single     10.0%  14.0%  19.5%     410
+maxsim      1.5%   4.5%   9.0%     946
+cross      10.5%  16.5%  24.5%     812
+GATE: KILL (recall-only)

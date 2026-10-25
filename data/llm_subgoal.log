@@ -1,0 +1,88 @@
+Gold extraction coverage: 99.73% (743 steps)
+EXAMPLE: {"task": "Go to the list of ballet event for the next 30 days.", "prev": "[textbox]  Search for artists, teams or venues... -> TYPE: Ballet", "subgoal": "Click the Search button", "gold": "[11043] button \"submit Search\""}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 9918.20it/s]
+[1mBertModel LOAD REPORT[0m from: BAAI/bge-small-en-v1.5
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+No sentence-transformers model found with name answerdotai/answerai-colbert-small-v1.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7833.42it/s]
+[1mBertModel LOAD REPORT[0m from: answerdotai/answerai-colbert-small-v1
+Key           | Status     |  | 
+--------------+------------+--+-
+linear.weight | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 9440.96it/s]
+[1mBertForSequenceClassification LOAD REPORT[0m from: cross-encoder/ms-marco-MiniLM-L-6-v2
+Key                          | Status     |  | 
+-----------------------------+------------+--+-
+bert.embeddings.position_ids | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+1 {'baseline': False, 'bm25': 4, 'single': 1, 'maxsim': 6, 'cross': 6}
+EXAMPLE: {"task": "Get the most popular documentary tv series sorted by IMDB rating, see the details of the top result.", "prev": "[link]  User Rating -> CLICK", "subgoal": "Sort the results by IMDB rating", "gold": "[21333] a \"Going Postal\""}
+2 {'baseline': False, 'bm25': 892, 'single': 996, 'maxsim': 1151, 'cross': 921}
+EXAMPLE: {"task": "Buy tickets for a group at Hurricane harbor Phoenix on April 22", "prev": "[link]  Groups \ue92e -> CLICK", "subgoal": "Type 50 in the group size box", "gold": "[40898] a \"Buy Now\""}
+3 {'baseline': False, 'bm25': 192, 'single': 195, 'maxsim': 176, 'cross': 36}
+EXAMPLE: {"task": "Find the flight schedule between London and New York for April 7 and check the upgrade details of the noon flight.", "prev": "[button]  Search -> CLICK", "subgoal": "Click the noon flight entry to view upgrade details", "gold": "[68292] button \"button View details\""}
+4 {'baseline': False, 'bm25': 31, 'single': 78, 'maxsim': 121, 'cross': 39}
+EXAMPLE: {"task": "Add a pair of diamond stud earrings to the cart.", "prev": "[span]  diamond stud earrings -> CLICK", "subgoal": "Add to cart button", "gold": "[11504] img \"10k Gold 1 Carat T.W. Black Diamond Stud Earrings 10k Gold 1 Carat T.W. Black Diamond Stud Earrings\""}
+5 {'baseline': False, 'bm25': 562, 'single': 485, 'maxsim': 401, 'cross': 503}
+Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]Fetching 11 files: 100%|██████████| 11/11 [00:00<00:00, 5076.17it/s]
+6 {'baseline': False, 'bm25': 556, 'single': 33, 'maxsim': 133, 'cross': 174}
+7 {'baseline': False, 'bm25': 1308, 'single': 280, 'maxsim': 1327, 'cross': 1379}
+8 {'baseline': False, 'bm25': 514, 'single': 16, 'maxsim': 27, 'cross': 12}
+9 {'baseline': False, 'bm25': 242, 'single': 44, 'maxsim': 47, 'cross': 26}
+10 {'baseline': False, 'bm25': 31, 'single': 526, 'maxsim': 549, 'cross': 66}
+11 {'baseline': False, 'bm25': 29, 'single': 23, 'maxsim': 23, 'cross': 38}
+12 {'baseline': False, 'bm25': 4, 'single': 12, 'maxsim': 20, 'cross': 40}
+13 {'baseline': False, 'bm25': 11, 'single': 42, 'maxsim': 14, 'cross': 179}
+14 {'baseline': False, 'bm25': 366, 'single': 292, 'maxsim': 544, 'cross': 322}
+15 {'baseline': False, 'bm25': 320, 'single': 125, 'maxsim': 156, 'cross': 159}
+16 {'baseline': False, 'bm25': 0, 'single': 6, 'maxsim': 58, 'cross': 1}
+17 {'baseline': True, 'bm25': 6, 'single': 16, 'maxsim': 35, 'cross': 16}
+18 {'baseline': False, 'bm25': 293, 'single': 267, 'maxsim': 326, 'cross': 303}
+19 {'baseline': False, 'bm25': 170, 'single': 174, 'maxsim': 166, 'cross': 28}
+20 {'baseline': False, 'bm25': 1, 'single': 52, 'maxsim': 47, 'cross': 0}
+21 {'baseline': False, 'bm25': 347, 'single': 16, 'maxsim': 91, 'cross': 181}
+22 {'baseline': False, 'bm25': 0, 'single': 4, 'maxsim': 2, 'cross': 0}
+23 {'baseline': True, 'bm25': 25, 'single': 0, 'maxsim': 1, 'cross': 0}
+24 {'baseline': False, 'bm25': 233, 'single': 96, 'maxsim': 162, 'cross': 33}
+25 {'baseline': False, 'bm25': 112, 'single': 11, 'maxsim': 15, 'cross': 0}
+26 {'baseline': False, 'bm25': 0, 'single': 3, 'maxsim': 25, 'cross': 74}
+27 {'baseline': False, 'bm25': 236, 'single': 124, 'maxsim': 159, 'cross': 266}
+28 {'baseline': False, 'bm25': 18, 'single': 75, 'maxsim': 91, 'cross': 19}
+29 {'baseline': False, 'bm25': 857, 'single': 1185, 'maxsim': 586, 'cross': 2677}
+30 {'baseline': False, 'bm25': 874, 'single': 776, 'maxsim': 640, 'cross': 473}
+31 {'baseline': False, 'bm25': 8, 'single': 9, 'maxsim': 14, 'cross': 66}
+32 {'baseline': False, 'bm25': 139, 'single': 1, 'maxsim': 9, 'cross': 112}
+33 {'baseline': False, 'bm25': 1, 'single': 0, 'maxsim': 17, 'cross': 0}
+34 {'baseline': False, 'bm25': 13, 'single': 8, 'maxsim': 19, 'cross': 111}
+35 {'baseline': False, 'bm25': 61, 'single': 22, 'maxsim': 37, 'cross': 200}
+36 {'baseline': False, 'bm25': 453, 'single': 304, 'maxsim': 533, 'cross': 274}
+37 {'baseline': False, 'bm25': 1, 'single': 5, 'maxsim': 15, 'cross': 75}
+38 {'baseline': False, 'bm25': 218, 'single': 328, 'maxsim': 567, 'cross': 166}
+39 {'baseline': False, 'bm25': 38, 'single': 2, 'maxsim': 21, 'cross': 59}
+40 {'baseline': False, 'bm25': 289, 'single': 162, 'maxsim': 194, 'cross': 386}
+41 {'baseline': False, 'bm25': 163, 'single': 316, 'maxsim': 286, 'cross': 16}
+42 {'baseline': False, 'bm25': 672, 'single': 18, 'maxsim': 42, 'cross': 178}
+43 {'baseline': False, 'bm25': 193, 'single': 5, 'maxsim': 4, 'cross': 45}
+44 {'baseline': False, 'bm25': 226, 'single': 147, 'maxsim': 127, 'cross': 83}
+45 {'baseline': False, 'bm25': 235, 'single': 334, 'maxsim': 204, 'cross': 33}
+46 {'baseline': False, 'bm25': 6, 'single': 1, 'maxsim': 5, 'cross': 1}
+47 {'baseline': False, 'bm25': 378, 'single': 190, 'maxsim': 156, 'cross': 239}
+48 {'baseline': False, 'bm25': 663, 'single': 47, 'maxsim': 64, 'cross': 11}
+49 {'baseline': False, 'bm25': 28, 'single': 59, 'maxsim': 85, 'cross': 45}
+50 {'baseline': False, 'bm25': 210, 'single': 2, 'maxsim': 116, 'cross': 25}
+51 {'baseline': False, 'bm25': 88, 'single': 74, 'maxsim': 182, 'cross': 80}
+52 {'baseline': False, 'bm25': 171, 'single': 129, 'maxsim': 42, 'cross': 93}
+53 {'baseline': True, 'bm25': 46, 'single': 139, 'maxsim': 130, 'cross': 66}
+/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/multiprocessing/resource_tracker.py:301: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/loky-2921-yybcivj7'}
+  warnings.warn(
