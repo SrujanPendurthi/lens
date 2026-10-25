@@ -19,43 +19,9 @@ When writing code or assisting with architecture in this repository, remember:
 | **Intent Vector ($Q$)** | Embeddings representing the agent's current sub-goal, used to prune irrelevant page graph nodes. |
 | **Yield-and-Inspect** | Asynchronous control flow enabling agents to act on partial page index states. |
 
-## 3. Codebase Standards & Technical Constraints
-
-### Threading & Async Isolation
-* Use `asyncio` for all networking, browser management, and protocol streams.
-* The **Background Graph Daemon** (CDP streaming + PyTorch GPU encoder) MUST run in an isolated worker thread or process. Never block the main asyncio event loop with GPU tensor passes.
-* Use `asyncio.to_thread()` or CUDA stream queues for encoder passes.
-
-> **v1 status (2026-10-23):** v1 is the offline Mind2Web eval (`eval.py`, plan D1-D7). The index, quantization and CUDA rules below are **later phase (post v1 gate)**. In v1, MaxSim is exact torch over per-node vectors, the dev device is MPS, and the deploy device is CUDA via `LENS_DEVICE`.
-
-### Vector Databases & Search Engines
-* Do **NOT** use standard single-vector ANN engines (Pinecone, Chroma, standard HNSW) for token-level Late Interaction.
-* All local multi-vector indexes MUST use specialized late-interaction backends (e.g., PLAID C++ bindings, custom PyTorch/Numba MaxSim kernels, or Vespa).
-
-### Quantization Rules
-* Intermediate token arrays must use FP16 or INT8 formats.
-* Low-relevance peripheral tokens must be quantized to 1-bit binary vectors evaluated via Hamming distance XOR operations.
-
-## 4. Protocol Control-Flow Pattern
-
-Always structure agent interaction loops using the async yield-and-inspect primitive:
-
-```python
-# Protocol Pattern Example
-async for graph_snapshot in lens_stream.subscribe(intent_query=agent_goal):
-    # Check if top nodes satisfy confidence threshold
-    if graph_snapshot.max_confidence >= 0.85:
-        top_patches = graph_snapshot.get_top_patches(k=3)
-        action = await agent.decide_action(top_patches)
-        await browser_session.execute(action)
-        break
-    else:
-        # Pause reasoning loop to let background GPU encoder expand deeper nodes
-        await lens_stream.pause_for_index(timeout_ms=100, confidence_threshold=0.85)
-```
-
-## 5. Primary Contribution Areas
-
-1. **Quantization Kernels:** Writing fast C++/CUDA/Numba implementations of PLAID centroid residual packing and 1-bit binary MaxSim scoring.
-2. **Dynamic Graph Pruners:** Implementing intent-steered graph node eviction algorithms.
-3. **Protocol Bindings:** Maintaining WebSocket/gRPC primitive handlers for `YIELD_AND_INSPECT` and `UPDATE_INTENT_VECTOR`.
+## 3. Current status
+v1 is the offline Mind2Web evaluation implemented in `eval.py`.
+The multi-vector index, quantization, CUDA and yield-and-inspect work is deferred per PLAN.md D5/D8.
+The runner, ranker limits and picker decisions live in PLAN.md.
+Use the cached Qwen sub-goals; do not resume the Qwen3-4B picker (D10).
+The Haiku backend and current evaluation evidence are documented in BRIEF_5_REPORT.md.

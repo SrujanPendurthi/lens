@@ -2,20 +2,20 @@
 
 ## Handover status (2026-10-25)
 
-Brief 3 implementation and unit checks are complete, but **D9 is incomplete**.
-The full picker run stopped after 53/200 steps when the required watchdog
-detected more than 2 GiB of swap growth. The context recall run did not start.
-All four own-mode rankers match Brief 2 on the 53 completed steps. Cached
-picker outputs and the interrupted log are saved; see `BRIEF_3_REPORT.md`.
-D8's zero-shot KILL remains the latest completed decision. Do not describe
-the Opus plan as finished until both Brief 3 runs and its final report exist.
+Brief 3's Qwen picker was stopped at 53/200 steps by the swap watchdog;
+D10 explicitly replaces it with Haiku rather than resuming it. The cleanup
+and Haiku-picker plan is `docs/superpowers/plans/2026-10-25-cleanup-and-haiku-picker.md`.
+Its implementation is tested and the Haiku hidden-context probe passed at
+203 input tokens. Context recall stopped at 67/200 rows with MPS out-of-memory
+and a swap-watchdog stop. The Haiku evaluation was not launched. See
+`BRIEF_5_REPORT.md` for saved partial results and remaining work.
 
 ## Handover status (2026-10-23)
 
 The 200-step recall evaluation completed: **KILL under D7**. MaxSim recall@10
 is 4.5%, versus 14.0% for single-vector. Gold extraction and the trained
 ColBERT projection were checked. Stop before picker evaluation and later-phase
-infrastructure. See `EVAL_REPORT.md` for evidence, limits, and harness changes;
+infrastructure. See Results below and `data/recall.log` for the historical evidence;
 `results.jsonl` contains the saved per-step results. The original plan follows.
 
 ## Context

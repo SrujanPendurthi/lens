@@ -46,7 +46,7 @@
 - Produces: `run_evals.py` CLI `run_evals.py LOG -- <eval.py args...>`, which runs `../.gpu/gpu-run lens .venv/bin/python eval.py <args>` with the existing watchdog.
 - Produces: `eval.py` has no `--query` flag. The output default is `results_subgoal{_ctx}.jsonl`.
 
-- [ ] **Step 1: Update tests.** In `test_eval.py`, delete `test_oracle_uses_operation_and_tag_without_gold_text` and `test_task_keeps_original_query`, and remove `--query` from `QueryTests.run_eval` args. Add:
+- [x] **Step 1: Update tests.** In `test_eval.py`, delete `test_oracle_uses_operation_and_tag_without_gold_text` and `test_task_keeps_original_query`, and remove `--query` from `QueryTests.run_eval` args. Add:
 
 ```python
 class CacheTests(unittest.TestCase):
@@ -67,13 +67,13 @@ class CacheTests(unittest.TestCase):
                          hashlib.sha1(f"pick-v2\n{picker.MODEL}\nx".encode()).hexdigest())
 ```
 
-- [ ] **Step 2: Run them; the new ones fail.** Run `.venv/bin/python -m unittest test_eval -v`. Expected: `CacheTests` errors with `AttributeError: ... '_cached'` / `'pick_key'`.
+- [x] **Step 2: Run them; the new ones fail.** Run `.venv/bin/python -m unittest test_eval -v`. Expected: `CacheTests` errors with `AttributeError: ... '_cached'` / `'pick_key'`.
 
-- [ ] **Step 3: Implement.** Add `_cached` and `pick_key(text: str, picker: str = "qwen") -> str`. For qwen, `pick_key` returns the sha1 of `f"pick-v2\n{MODEL}\n{text}"`; for haiku, the sha1 of `f"pick-v2\n{HAIKU}\n{text}"`, with `HAIKU = "claude-haiku-5-5"`. Route `subgoal()` and `pick()` through `_cached`, keeping their cache keys unchanged. Apply the rank.py, eval.py and run_evals.py cuts listed under Files. `subgoal()` sets `row["miss"] = True` only on rows it generates (not stored in the cache); `eval.py` counts misses and prints `subgoal cache misses: N` before the summary.
+- [x] **Step 3: Implement.** Add `_cached` and `pick_key(text: str, picker: str = "qwen") -> str`. For qwen, `pick_key` returns the sha1 of `f"pick-v2\n{MODEL}\n{text}"`; for haiku, the sha1 of `f"pick-v2\n{HAIKU}\n{text}"`, with `HAIKU = "claude-haiku-5-5"`. Route `subgoal()` and `pick()` through `_cached`, keeping their cache keys unchanged. Apply the rank.py, eval.py and run_evals.py cuts listed under Files. `subgoal()` sets `row["miss"] = True` only on rows it generates (not stored in the cache); `eval.py` counts misses and prints `subgoal cache misses: N` before the summary.
 
-- [ ] **Step 4: Run all tests.** `.venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: all pass.
+- [x] **Step 4: Run all tests.** `.venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: all pass.
 
-- [ ] **Step 5: Regression check (real models, not mocked).** Run `.venv/bin/python eval.py --n 20 --no-llm --output /tmp/reg.jsonl` (sub-goals come from the cache), then:
+- [x] **Step 5: Regression check (real models, not mocked).** Run `.venv/bin/python eval.py --n 20 --no-llm --output /tmp/reg.jsonl` (sub-goals come from the cache), then:
 
 ```bash
 .venv/bin/python -c "
@@ -85,7 +85,7 @@ print('mismatches', bad); assert not bad"
 
 Expected: `mismatches []`. Also print a `subgoal cache misses: N` line; it must be 0.
 
-- [ ] **Step 6: Checkpoint.** Re-run Step 4, then commit (see Global Constraints).
+- [x] **Step 6: Checkpoint.** Re-run Step 4, then commit (see Global Constraints).
 
 ### Task 2: Crash-safe results + `--summarize`
 
@@ -98,7 +98,7 @@ Expected: `mismatches []`. Also print a `subgoal cache misses: N` line; it must 
 - Produces: the output jsonl gets one line per finished step, flushed immediately (the file is opened `"w"` at start).
 - Produces: `eval.py --summarize PATH [--k 10]` loads rows from PATH and calls `summarize(rows, k, llm)`, with `llm = "baseline" in rows[0]`. Partial files are valid input.
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
 
 ```python
 class IncrementalTests(unittest.TestCase):
@@ -113,13 +113,13 @@ class IncrementalTests(unittest.TestCase):
 
 Assertions: after the induced crash the output has exactly 1 line, and `--summarize` stdout contains `steps=1` and `GATE: `.
 
-- [ ] **Step 2: Run them.** `.venv/bin/python -m unittest test_eval.IncrementalTests -v`. Expected: FAIL (the file is empty because rows are written at the end; `--summarize` is unknown).
+- [x] **Step 2: Run them.** `.venv/bin/python -m unittest test_eval.IncrementalTests -v`. Expected: FAIL (the file is empty because rows are written at the end; `--summarize` is unknown).
 
-- [ ] **Step 3: Implement** the per-row write with `f.write(json.dumps(row) + "\n"); f.flush()`, and the `--summarize` branch.
+- [x] **Step 3: Implement** the per-row write with `f.write(json.dumps(row) + "\n"); f.flush()`, and the `--summarize` branch.
 
-- [ ] **Step 4: Run all tests** (Task 1 Step 4 command). Expected: pass.
+- [x] **Step 4: Run all tests** (Task 1 Step 4 command). Expected: pass.
 
-- [ ] **Step 5: Checkpoint.**
+- [x] **Step 5: Checkpoint.**
 
 ### Task 3: Haiku picker backend via `claude -p`
 
@@ -136,7 +136,7 @@ Assertions: after the induced crash the output has exactly 1 line, and `--summar
   `claude -p --model claude-haiku-5-5 --tools "" --strict-mcp-config --setting-sources "" --no-session-persistence --output-format json --system-prompt "You pick one web page element. Reply with only its number in brackets, e.g. [123], or [none]."`
   Run it via `subprocess.run(..., input=text, capture_output=True, text=True, timeout=120)`. A non-zero exit raises `RuntimeError(stderr[-500:])`.
 
-- [ ] **Step 1: Write the failing tests** (no network):
+- [x] **Step 1: Write the failing tests** (no network):
 
 ```python
 OK = '{"type":"result","is_error":false,"result":"[42]","duration_api_ms":900,"usage":{"input_tokens":120,"cache_read_input_tokens":30,"cache_creation_input_tokens":0,"output_tokens":4}}'
@@ -155,17 +155,17 @@ def test_haiku_error_not_cached(self):
     # pick("x", "haiku") raises RuntimeError and the CACHE file has no line for pick_key("x","haiku")
 ```
 
-- [ ] **Step 2: Run them.** Expected: FAIL (`ImportError`).
+- [x] **Step 2: Run them.** Expected: FAIL (`ImportError`).
 
-- [ ] **Step 3: Implement** the haiku branch inside `pick()` through `_cached(pick_key(text, picker), ...)`. The exception propagates before anything is cached.
+- [x] **Step 3: Implement** the haiku branch inside `pick()` through `_cached(pick_key(text, picker), ...)`. The exception propagates before anything is cached.
 
-- [ ] **Step 4: Run all tests.** Expected: pass.
+- [x] **Step 4: Run all tests.** Expected: pass.
 
-- [ ] **Step 5: Check the CLI version and auth.** Run `claude --version` and `echo 'Reply [7].' | <haiku command>`. Expected: JSON with `"result"` containing `[7]`. If auth fails or the sandbox blocks `~/.claude`/network, stop and report.
+- [x] **Step 5: Check the CLI version and auth.** Run `claude --version` and `echo 'Reply [7].' | <haiku command>`. Expected: JSON with `"result"` containing `[7]`. If auth fails or the sandbox blocks `~/.claude`/network, stop and report.
 
-- [ ] **Step 6: Hidden-context check.** From that output, input tokens (`input + cache_read + cache_creation`) must be **< 300**. If higher, try adding `--bare` (if `claude --help` lists it) or `CLAUDE_CODE_DISABLE_*` env options shown in `claude --help`, and re-check. Do not continue to Task 6 until it is < 300. Report the final command.
+- [x] **Step 6: Hidden-context check.** From that output, input tokens (`input + cache_read + cache_creation`) must be **< 300**. If higher, try adding `--bare` (if `claude --help` lists it) or `CLAUDE_CODE_DISABLE_*` env options shown in `claude --help`, and re-check. Do not continue to Task 6 until it is < 300. Report the final command.
 
-- [ ] **Step 7: Checkpoint.**
+- [x] **Step 7: Checkpoint.**
 
 ### Task 4: Multi-k picks, rankers subset, hallucination + oracle-in-list metrics
 
@@ -182,7 +182,7 @@ def test_haiku_error_not_cached(self):
   - `gold_shown` = any gold ref ∈ shown refs.
 - Produces summary: one line per pick arm with acc, acc where gold was shown (`acc|shown`), hallucinated %, median tokens, median ttft, plus per-op acc (CLICK/TYPE/SELECT). The gate uses arm `maxsim@10` and prints `INCOMPLETE` if that arm is absent.
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
 
 ```python
 def test_hallucinated_ref(self):
@@ -198,13 +198,13 @@ def test_gate_incomplete_without_maxsim10(self):
     # summarize rows that have no "maxsim@10" key, llm=True -> "GATE: INCOMPLETE"
 ```
 
-- [ ] **Step 2: Run them.** Expected: FAIL (unknown flags / KeyError).
+- [x] **Step 2: Run them.** Expected: FAIL (unknown flags / KeyError).
 
-- [ ] **Step 3: Implement.** Update the existing `GateTests`/`QueryTests` that relied on `row[name]["ok"]`, so they read `row[f"{name}@10"]`.
+- [x] **Step 3: Implement.** Update the existing `GateTests`/`QueryTests` that relied on `row[name]["ok"]`, so they read `row[f"{name}@10"]`.
 
-- [ ] **Step 4: Run all tests.** Expected: pass.
+- [x] **Step 4: Run all tests.** Expected: pass.
 
-- [ ] **Step 5: Checkpoint.**
+- [x] **Step 5: Checkpoint.**
 
 ### Task 5: Run B, context recall (no picker)
 
@@ -227,8 +227,8 @@ def test_gate_incomplete_without_maxsim10(self):
 - Modify: `claude_guidance_file.md`: replace §3 "Codebase Standards", §4 "Protocol Control-Flow Pattern" and §5 "Primary Contribution Areas" with a 5-line "Current status" section. It says v1 is the offline eval; the multi-vector index, quantization, CUDA and yield-and-inspect work is deferred per PLAN.md D5/D8; and the runner and picker details live in PLAN.md.
 - Create: `BRIEF_5_REPORT.md`
 
-- [ ] **Step 1: Apply** the deletions and the guidance edit.
-- [ ] **Step 2: Write `BRIEF_5_REPORT.md`** with:
+- [x] **Step 1: Apply** the deletions and the guidance edit.
+- [x] **Step 2: Write `BRIEF_5_REPORT.md`** with:
   - (a) the Task 1 regression result;
   - (b) the Task 5 side-by-side recall table;
   - (c) the Task 6 summary verbatim, labelled "53 steps: gate indicative only";
@@ -236,4 +236,14 @@ def test_gate_incomplete_without_maxsim10(self):
   - (e) code changes (file:line + why);
   - (f) the test status;
   - (g) anything surprising.
-- [ ] **Step 3: Conditional (do NOT do this, only report it):** if context-mode MaxSim R@10 ≤ single R@10 *and* `maxsim@10` acc ≤ `single@10` acc, write in the report: "maxsim + pylate removable (audit item 8)". Removing them is a planning decision.
+- [x] **Step 3: Conditional (do NOT do this, only report it):** if context-mode MaxSim R@10 ≤ single R@10 *and* `maxsim@10` acc ≤ `single@10` acc, write in the report: "maxsim + pylate removable (audit item 8)". Removing them is a planning decision.
+
+## Execution status (2026-10-25)
+
+Tasks 1–4 and the docs cleanup are implemented and verified. Task 5 stopped
+at 67/200 rows with MPS out-of-memory and a swap-watchdog stop. Task 6 was
+not launched, as required by the stop-on-Metal-blocker constraint. The Haiku
+hidden-context prerequisite itself passed (203 input tokens) with safe mode,
+skills disabled, and the CLI child in /private/tmp. See BRIEF_5_REPORT.md for
+partial results and exact errors. Unchecked evaluation/report steps remain
+incomplete; the saved evidence is not a completed 200-step comparison.
