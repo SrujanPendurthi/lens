@@ -51,6 +51,8 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
 
   - Outcome: GENERALIZES (single lift +2 hits; maxsim lift +16 hits).
 
+- D17 (2026-10-27, re-grill after brief 11; user choice) **The multi-vector thesis is closed. Next: the retrieve+pick product test.** The question is the one D7 asked from the start: can a cheap ranker shrink the LLM's element list without losing accuracy? Ranker: zero-shot single-vector (bge-small); nothing beat it meaningfully on unseen sites. Arms: Haiku on the full list (baseline) vs Haiku on single@10 and single@50, on the same 200 test_task steps. Per-arm gate, in counts: PASS if accuracy ≥ baseline − 2 pts and median tokens ≤ 20% of baseline; KILL if accuracy < baseline − 5 pts; else NEITHER. D17 PASS if either arm passes. The MaxSim path and pylate are cut. Plan: docs/superpowers/plans/2026-10-27-retrieve-pick-test.md.
+
 ## Results
 - Run 1 (recall-only, Q = task + prev, n=200, median 457 nodes): R@10 bm25 13.0, single 14.0, maxsim 4.5, cross 16.5; R@100 51/50/40/55. Gate formally KILL, but **invalid**: even the cross-encoder ceiling fails, because gold is the next step and the query is the whole task (e.g. gold `button "submit Search"` after typing "Ballet"). Superseded by D6′.
 - Brief 2 (recall-only, n=200): oracle R@10 bm25 11.5, single 15.5, maxsim 8.5, cross 10.5. Sub-goal R@10 17.5/24.0/15.5/21.0, R@100 41.5/57.0/47.5/55.0. Sub-goal cost: median 112 tokens, 713 ms. Caveats: the oracle query is weak for CLICK (it carries no target name); the sub-goal can't see the page, so it hallucinates details or skips steps; the query_length change from 64 to 32 is confounded with the query-mode change. Full report: BRIEF_2_REPORT.md.
