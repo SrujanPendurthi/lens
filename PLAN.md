@@ -49,11 +49,26 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
 
 - D16 (2026-10-27, after brief 10) **All three D12 pieces failed, so the thesis gets re-grilled.** Multi-vector never beat single-vector by 5 pts: 17.5 (pagemaxsim), 19.5 (ColPali mean), 30.0 vs 30.0 (fine-tuned). Fine-tuning lifted both models (+7 single, +24 maxsim hits at R@10), but test_task reuses the training websites. One open fact goes into the re-grill: does the lift hold on unseen sites (`test_website`)? Pre-registered: single_ft − single R@10 ≤ 0 hits means MEMORIZATION, otherwise GENERALIZES. No other gate, and no new direction before the re-grill. Plan: docs/superpowers/plans/2026-10-27-cleanup-and-website-check.md.
 
-  - Outcome: GENERALIZES (single lift +2 hits; maxsim lift +16 hits).
+  - Outcome: GENERALIZES (single lift +2 hits; maxsim lift +16 hits). Paired: single 14 gained vs 12 lost (p≈0.85), so the single fine-tune lift is indistinguishable from 0 on unseen sites; maxsim 23 vs 7 (p≈0.005) only catches up to zero-shot single (55 vs 52). test_website = 10 sites, so the effective sample is ~10, not 200.
 
 - D17 (2026-10-27, re-grill after brief 11; user choice) **The multi-vector thesis is closed (MaxSim path and pylate cut). The retrieve+pick product test is already answered: KILL.** Brief 6 ran exactly this test, Haiku on the full list vs on single-vector top-k, on 53 train steps. Baseline got 19/53 (35.8%) at 15,402 median tokens; single@50 got 12/53 (22.6%) at 2,407; single@10 got 9/53 (17.0%) at 1,057. Under the D17 rule (KILL if accuracy < baseline − 5 pts) both arms KILL, at −13 and −19 pts, too wide a gap for a 200-step test rerun to close, so it isn't rerun. The picker is fine when gold is shown (87.5%), so the shortlist is the problem. Next: D18, fix the queries.
 
-- D18 (2026-10-27) **Page-aware sub-goal (pre-registered).** Today's sub-goal never sees the page, so it guesses element names (brief 2 caveat). New query, two stages: (1) rank with zero-shot single on today's sub-goal; (2) Qwen3-4B sees task + previous actions + those top-50 candidates (`[ref] tag "text"`, best first) and writes one line naming the element by its visible text. Re-rank with zero-shot single on that line. Gate on the same 200 test_task steps, compared step by step against today's single R@10 (53/200): PASS if net (gained − lost) ≥ +5 hits AND one-sided sign test on the gained/lost steps p < 0.05; else FAIL. One prompt variant, no tuning. PASS → rerun the D17 Haiku product test with the new query. FAIL → re-grill again. Plan: docs/superpowers/plans/2026-10-27-page-aware-subgoal.md.
+- D18 (2026-10-27) **Page-aware sub-goal (pre-registered).** Today's sub-goal never sees the page, so it guesses element names (brief 2 caveat). New query, two stages: (1) rank with zero-shot single on today's sub-goal; (2) Qwen3-4B sees task + previous actions + those top-50 candidates (`[ref] tag "text"`, best first) and writes one line naming the element by its visible text. Re-rank with zero-shot single on that line. Gate on the same 200 test_task steps, compared step by step against today's single R@10 (53/200): PASS if net (gained − lost) ≥ +5 hits AND one-sided sign test on the gained/lost steps p < 0.05; else FAIL. One prompt variant, no tuning. PASS → rerun the D17 Haiku product test with the new query. FAIL → re-grill again. Shelved by D19 before running; the plan was deleted, and git keeps it.
+
+- D19 (2026-10-27, re-grill with the user) **Reframe: Lens is for research agents, not element clicking.** Thesis: Lens sits between web pages and a research agent and hands over only the relevant evidence, so the agent makes fewer unsupported claims at equal or fewer tokens and similar speed. Any method is allowed; ColBERT and ColPali are not required. D1–D18 tested action grounding on 3–4 word DOM elements; those results do not transfer to reading long passages, where late interaction's known advantage lies. Goal: a portfolio project first; a business only if Lens beats the reranked-RAG product baseline (arm D).
+  - Benchmark: FRAMES (google/frames-benchmark), seeded 100 of 824 questions, using a cached Wikipedia snapshot of the listed pages (revision ids recorded). Text only.
+  - Arms, each giving Haiku a 2,000-token evidence budget except A:
+    - A, raw: all pages, capped at 150k tokens (reference).
+    - B, rag: 256-token chunks with 32 overlap, scored by bge-small.
+    - C, lens: answerai-colbert-small MaxSim over each sentence with its neighbours as context; adjacent picks merged.
+    - D, rerank: rag top-50 rescored by cross-encoder ms-marco-MiniLM.
+  - Metric: atomic claims judged against the full source pages. Sonnet judges via claude -p; Haiku answers. Abstaining counts as zero claims, with abstention rate reported. Judge check: Opus labels 30 claims blind, agreement ≥ 85%, and the user settles disagreements.
+  - Gate (C vs B):
+    - Primary: per-question wins − losses on unsupported claims ≥ 5, one-sided sign test p < 0.05, and C's pooled unsupported rate below B's.
+    - Guard: C abstention ≤ B + 10 pts.
+    - Guard: C median retrieval ms ≤ 1.25× B.
+  - The same rule, C vs D, is the "product edge" line. Accuracy is reported, not gated.
+  - PASS → build the cross-page knowledge graph next. FAIL → re-grill.
 
 ## Results
 - Run 1 (recall-only, Q = task + prev, n=200, median 457 nodes): R@10 bm25 13.0, single 14.0, maxsim 4.5, cross 16.5; R@100 51/50/40/55. Gate formally KILL, but **invalid**: even the cross-encoder ceiling fails, because gold is the next step and the query is the whole task (e.g. gold `button "submit Search"` after typing "Ballet"). Superseded by D6′.
