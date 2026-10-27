@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 from lens.nodes import Node, extract, page_words
-from lens.rank import RANKERS, rank
+from lens.rank import ALLOWED_RANKERS, RANKERS, rank, rank_page
 
 STEPS = "data/steps.jsonl"
 
@@ -93,8 +93,8 @@ def main():
     except ValueError:
         ap.error("--ks must be comma-separated positive integers")
     rankers = list(dict.fromkeys(a.rankers.split(",")))
-    if not rankers or any(name not in RANKERS for name in rankers):
-        ap.error("--rankers must contain names from " + ",".join(RANKERS))
+    if not rankers or any(name not in ALLOWED_RANKERS for name in rankers):
+        ap.error("--rankers must contain names from " + ",".join(ALLOWED_RANKERS))
     if not ks or min(ks) < 1:
         ap.error("--ks must be positive")
     if a.n < 1 or a.k < 1:
@@ -130,6 +130,9 @@ def main():
             row = {"task": s["task"], "op": s["op"]["op"], "query_mode": "subgoal", "node_text": a.node_text, "picker": a.picker, "query": query,
                    "subgoal_tokens": goal["tokens"], "subgoal_ms": goal["ms"],
                    "n_nodes": len(nodes), "textless_gold": not any(n.text for n in nodes if n.ref in gold)}
+            if "pagemaxsim" in rankers:
+                page_refs = {ref for _, ref in s["page"] if ref is not None}
+                row["page_textless_gold"] = not bool(gold & page_refs)
             if len(rows) < 5:
                 example = {"task": s["task"], "prev": s["prev"][-1] if s["prev"] else "none",
                            "subgoal": query, "gold": gold_node.line() if gold_node else "missing"}
@@ -151,7 +154,9 @@ def main():
             texts = [f"{n.text} | {n.context}" if a.node_text == "context" else n.text for n in nodes]
             for name in rankers:
                 t0 = time.perf_counter()
-                order = rank(name, query, texts, node_text=a.node_text).argsort(descending=True).tolist()
+                scores = (rank_page(query, s["page"], [n.ref for n in nodes]) if name == "pagemaxsim"
+                          else rank(name, query, texts, node_text=a.node_text))
+                order = scores.argsort(descending=True).tolist()
                 row[name] = {"ms": (time.perf_counter() - t0) * 1000,
                              "gold_rank": min((order.index(i) for i, n in enumerate(nodes) if n.ref in gold), default=2**63 - 1)}
                 if not a.no_llm:
@@ -160,7 +165,7 @@ def main():
             rows.append(row)
             f.write(json.dumps(row) + "\n")
             f.flush()
-            print(len(rows), {k: row[k].get("gold_rank", row[k].get("ok")) for k in ("baseline",) + RANKERS if k in row}, flush=True)
+            print(len(rows), {k: row[k].get("gold_rank", row[k].get("ok")) for k in ("baseline",) + ALLOWED_RANKERS if k in row}, flush=True)
     print(f"subgoal cache misses: {misses}")
     summarize(rows, a.k, not a.no_llm, "subgoal", a.node_text)
 
@@ -169,7 +174,7 @@ def summarize(rows, k, llm, query="subgoal", node_text=None):
     if not rows:
         raise ValueError("no result rows to summarize")
     n = len(rows)
-    rankers = [name for name in RANKERS if all(name in r for r in rows)]
+    rankers = [name for name in ALLOWED_RANKERS if all(name in r for r in rows)]
     rec = lambda name, kk: sum(r[name]["gold_rank"] < kk for r in rows) / n
     print(f"\nquery={query}")
     print(f"node_text={node_text or rows[0].get('node_text', 'own')}")

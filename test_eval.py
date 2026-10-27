@@ -44,6 +44,50 @@ class PrepTests(unittest.TestCase):
                 self.assertEqual(list((path / "missing-shots").iterdir()), [])
 
 
+class PageMaxSimTests(unittest.TestCase):
+    def test_alignment_counts(self):
+        import lens.rank as rank
+        emb, idx = rank.encode_doc_tokens([["View", "details", "noon"]])[0]
+        self.assertEqual(emb.shape[0], len(idx))
+        self.assertEqual(emb.shape[0], 128)
+        self.assertIsNone(idx[1])  # inserted document marker
+        self.assertEqual(sorted({i for i in idx if i is not None}), [0, 1, 2])
+
+    def test_relevant_node_wins(self):
+        import lens.rank as rank
+        words = [("Search", "1"), ("button", "1"), ("Privacy", "2"), ("policy", "2")]
+        import torch
+        model = SimpleNamespace(encode=lambda *args, **kwargs: [torch.tensor([[1., 0.]])])
+        encoded = [(torch.tensor([[1., 0.], [1., 0.], [0., 1.], [0., 1.]]), [0, 1, 2, 3])]
+        with patch.object(rank, "_model", return_value=model), patch.object(rank, "encode_doc_tokens", return_value=encoded):
+            scores = rank.rank_page("click the search button", words, ["1", "2"])
+        self.assertGreater(scores[0], scores[1])
+
+    def test_embeddings_match_pylate_before_filtering(self):
+        import torch
+        import lens.rank as rank
+        model = rank._model("maxsim", "context")
+        words = ["View", "unbelievably", "detailed", "!", "noon"]
+        emb, indices = rank.encode_doc_tokens([words])[0]
+        normal = model.encode([" ".join(words)], is_query=False, output_value=None)
+        length = len(normal["input_ids"][0])
+        self.assertTrue(torch.allclose(emb[:length], torch.as_tensor(normal["token_embeddings"][0]), atol=1e-6))
+        self.assertGreater(indices.count(1), 1)  # subwords retain the same owner
+        self.assertEqual(sorted({i for i in indices if i is not None}), list(range(len(words))))
+
+    def test_textless_node_ranks_last(self):
+        import lens.rank as rank
+        scores = rank.rank_page("search", [("Search", "1")], ["1", "9"])
+        self.assertEqual(scores[1].item(), float("-inf"))
+
+    def test_overlap_takes_max(self):
+        import lens.rank as rank
+        words = [("w%d" % i, None) for i in range(40)] + [("Search", "1")] + [("w", None)] * 40
+        a = rank.rank_page("search", words, ["1"], window=64, stride=32)
+        b = rank.rank_page("search", words, ["1"], window=64, stride=64)
+        self.assertGreaterEqual(a[0].item(), b[0].item() - 1e-4)
+
+
 class GateTests(unittest.TestCase):
     def verdict(self, max_rank, single_rank, *, k=10, llm=False):
         row = {"n_nodes": 100, "textless_gold": False}
@@ -77,7 +121,8 @@ class QueryTests(unittest.TestCase):
         import torch
         step = {"task": "Book a trip", "prev": ["typed Boston"],
                 "gold": ["1"], "op": {"op": "CLICK", "value": ""},
-                "nodes": [{"ref": "1", "tag": "button", "text": "secret gold text", "context": "Boston trip details"}]}
+                "nodes": [{"ref": "1", "tag": "button", "text": "secret gold text", "context": "Boston trip details"}],
+                "page": [["Search", "1"]]}
         with tempfile.TemporaryDirectory() as directory:
             steps, output = Path(directory) / "steps.jsonl", Path(directory) / "out.jsonl"
             steps.write_text(json.dumps(step) + "\n")
@@ -95,6 +140,15 @@ class QueryTests(unittest.TestCase):
             if llm:
                 self.assertTrue(all("Boston trip details" not in call.args[0] for call in pick_mock.call_args_list))
             return json.loads(output.read_text()), rank_mock, goal_mock
+
+    def test_page_ranker_receives_page_and_shuffled_refs(self):
+        import torch
+        with patch("eval.rank_page", return_value=torch.tensor([1.])) as page_rank:
+            row, rank_mock, _ = self.run_eval("subgoal", False, extra=["--rankers", "pagemaxsim"])
+        page_rank.assert_called_once_with("click Search", [["Search", "1"]], ["1"])
+        rank_mock.assert_not_called()
+        self.assertFalse(row["page_textless_gold"])
+        self.assertIn("pagemaxsim", row)
 
     def test_subgoal_without_picker_still_generates_query(self):
         row, rank_mock, goal_mock = self.run_eval("subgoal", False)

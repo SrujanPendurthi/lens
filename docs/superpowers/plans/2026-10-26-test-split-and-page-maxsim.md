@@ -134,7 +134,7 @@ for each window of `words` (start in range(0, len, stride), slice [start:start+w
 score[ref] = best[ref].sum() if ref in best else -inf
 ```
 
-- [ ] **Step 1: Write the failing tests** (add a `PageMaxSimTests` class; the real model loads on CPU, 33M params, about seconds):
+- [x] **Step 1: Write the failing tests** (add a `PageMaxSimTests` class; the real model loads on CPU, 33M params, about seconds):
 
 ```python
 def test_alignment_counts(self):
@@ -158,10 +158,10 @@ def test_overlap_takes_max(self):
     self.assertGreaterEqual(a[0].item(), b[0].item() - 1e-4)   # overlap never lowers a node's score
 ```
 
-- [ ] **Step 2: Run them.** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval.PageMaxSimTests -v`. Expected: FAIL (`AttributeError: encode_doc_tokens`).
-- [ ] **Step 3: Implement** `encode_doc_tokens`, `rank_page`, and the eval wiring.
-- [ ] **Step 4: Run all tests** (Task 2 Step 5 command, with `LENS_DEVICE=cpu`). Expected: PASS.
-- [ ] **Step 5: Commit** with `feat: whole-page contextual MaxSim ranker (vision piece 1)`.
+- [x] **Step 2: Run them.** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval.PageMaxSimTests -v`. Expected: FAIL (`AttributeError: encode_doc_tokens`).
+- [x] **Step 3: Implement** `encode_doc_tokens`, `rank_page`, and the eval wiring.
+- [x] **Step 4: Run all tests** (Task 2 Step 5 command, with `LENS_DEVICE=cpu`). Expected: PASS.
+- [x] **Step 5: Commit** with `feat: whole-page contextual MaxSim ranker (vision piece 1)`.
 
 ### Task 4: Runs + report
 
