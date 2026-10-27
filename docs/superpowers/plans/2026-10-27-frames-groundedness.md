@@ -157,7 +157,7 @@
   - `judge(q: dict, pages: dict[str, str], answers: dict[str, str]) -> dict[str, dict]`, cached under `sha1("frames-judge-v1\n" + SONNET + "\n" + prompt)`.
   - `gate(rows, c, b) -> str`.
 
-- [ ] **Step 1: Write the failing tests** (`test_frames.py`, with `_claude` mocked):
+- [x] **Step 1: Write the failing tests** (`test_frames.py`, with `_claude` mocked):
   - `test_judge_maps_shuffled_ids`:
     - answers for 4 arms; the mocked judge JSON labels the `a`-id holding the `lens` answer with 2 UNSUPPORTED claims and the others with 0;
     - the result has `lens` with 2 unsupported, the other arms 0, for 3 different question ids (different shuffles).
@@ -166,8 +166,8 @@
     - output contains `wins 12, losses 4, net +8, p=0.038` and `→ PASS`.
     - With C ms 120 vs 90 (1.33×), the line ends `→ FAIL (speed)`. With abstention C 20% vs B 5%, it ends `→ FAIL (abstention)`.
   - `test_abstained_has_zero_claims`: answer `"I could not find this."` gives `abstained True` and `claims == []`, even if the judge returns claims for it.
-- [ ] **Step 2: Run** `.venv/bin/python -m unittest test_frames -v`. Expected: FAIL.
-- [ ] **Step 3: Implement.**
+- [x] **Step 2: Run** `.venv/bin/python -m unittest test_frames -v`. Expected: FAIL.
+- [x] **Step 3: Implement.**
   - The exact judge system prompt:
     ```
     You grade answers for groundedness. SOURCE PAGES are the complete pages the answers could use. For each ANSWER: split it into atomic factual claims; label each claim SUPPORTED if the source pages state or directly entail it, else UNSUPPORTED; set verdict CORRECT if it matches the GOLD ANSWER in substance, else INCORRECT. An answer saying it could not find the information has no claims and verdict ABSTAINED. Reply with JSON only: {"answers": [{"id": "a1", "claims": [{"claim": "...", "label": "SUPPORTED"}], "verdict": "CORRECT"}]}
@@ -183,7 +183,7 @@
     - `D19 product edge lens vs rerank: …`;
     - `reported rerank vs rag: …`.
   - `--judge-sample` writes 30 claims, seeded from all claims of the first 10 questions, as `{"id", "question", "page_titles", "claim", "sonnet_label", "opus_label": null, "final_label": null}`.
-- [ ] **Step 4: Run all tests.** Expected: PASS.
+- [x] **Step 4: Run all tests.** Expected: PASS.
 - [ ] **Step 5: Prep.**
   - Run `.venv/bin/python frames.py --prep`. Expected: 100 questions and their pages saved.
   - Print the page count, the median and max tokens per question, the replacements, and the snapshot date range.
