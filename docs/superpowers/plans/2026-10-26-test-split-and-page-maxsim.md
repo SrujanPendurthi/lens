@@ -168,9 +168,9 @@ def test_overlap_takes_max(self):
 **Files:**
 - Create: `BRIEF_7_REPORT.md`
 
-- [ ] **Step 1: Sub-goals for the new steps.** They are uncached, so Qwen generates them once. Run `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/recall_test.log -- --n 200 --no-llm --steps data/steps_test.jsonl --rankers bm25,single,maxsim,cross,pagemaxsim --output results_test_200.jsonl`. Expected: 200 rows and a `GATE:` line. `subgoal cache misses` should be ≤ 200 on this run and 0 on any rerun.
-- [ ] **Step 2: Gate.** From `results_test_200.jsonl`, compute R@5/10/20/50/100 per ranker plus the D12 verdict line: `D12 piece 1: pagemaxsim R@10 = X, single R@10 = Y, margin = X-Y → PASS if ≥ 5.0 else FAIL`. Also report pagemaxsim median ms per step (CPU) and its R@10 on steps where gold is textless vs has text.
-- [ ] **Step 3: Write `BRIEF_7_REPORT.md`** with:
+- [x] **Step 1: Sub-goals for the new steps.** They are uncached, so Qwen generates them once. Run `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/recall_test.log -- --n 200 --no-llm --steps data/steps_test.jsonl --rankers bm25,single,maxsim,cross,pagemaxsim --output results_test_200.jsonl`. Expected: 200 rows and a `GATE:` line. `subgoal cache misses` should be ≤ 200 on this run and 0 on any rerun.
+- [x] **Step 2: Gate.** From `results_test_200.jsonl`, compute R@5/10/20/50/100 per ranker plus the D12 verdict line: `D12 piece 1: pagemaxsim R@10 = X, single R@10 = Y, margin = X-Y → PASS if ≥ 5.0 else FAIL`. Also report pagemaxsim median ms per step (CPU) and its R@10 on steps where gold is textless vs has text.
+- [x] **Step 3: Write `BRIEF_7_REPORT.md`** with:
   - (a) the dataset facts: rows, coverage, shots count, and disk use of `data/mm_test_task`;
   - (b) the verbatim `--summarize` output;
   - (c) the R@k table and the D12 verdict line;
@@ -178,4 +178,4 @@ def test_overlap_takes_max(self):
   - (e) code changes (file:line + why) and test status;
   - (f) anything surprising.
   Numbers only; no interpretation beyond them.
-- [ ] **Step 4: Commit** `results_test_200.jsonl` + `BRIEF_7_REPORT.md` with `docs: brief 7 results (test split, pagemaxsim gate)`, then `git push`.
+- [x] **Step 4: Commit** `results_test_200.jsonl` + `BRIEF_7_REPORT.md` with `docs: brief 7 results (test split, pagemaxsim gate)`, then `git push`.
