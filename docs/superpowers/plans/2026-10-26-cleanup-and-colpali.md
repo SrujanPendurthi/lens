@@ -179,15 +179,15 @@ class ColPaliModelTests(unittest.TestCase):
 
 **Files:** Create `BRIEF_8_REPORT.md`; output `results_test_colpali.jsonl`.
 
-- [ ] **Step 1: Run.** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/colpali_test.log -- --n 200 --no-llm --rankers bm25,single,maxsim,cross,colpali --output results_test_colpali.jsonl` (`nohup`; tile embeddings cache, so reruns resume cheaply). Expected: 200 rows and 0 sub-goal cache misses.
-- [ ] **Step 2: Gate line.** `D12 piece 2: colpali R@10 = X, single R@10 = Y, margin = X-Y → PASS if ≥ 5.0 else FAIL`. Also give:
+- [x] **Step 1: Run.** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/colpali_test.log -- --n 200 --no-llm --rankers bm25,single,maxsim,cross,colpali --output results_test_colpali.jsonl` (`nohup`; tile embeddings cache, so reruns resume cheaply). Expected: 200 rows and 0 sub-goal cache misses.
+- [x] **Step 2: Gate line.** `D12 piece 2: colpali R@10 = X, single R@10 = Y, margin = X-Y → PASS if ≥ 5.0 else FAIL`. Also give:
   - R@5/10/20/50/100 for all 5 rankers;
   - colpali R@10 split by `textless_gold` and by op (CLICK/TYPE/SELECT);
   - the `no_screenshot` count;
   - median tiles per step;
   - the median encode s per tile and per step, with device;
   - the embedding cache size on disk.
-- [ ] **Step 3: Write `BRIEF_8_REPORT.md`** with:
+- [x] **Step 3: Write `BRIEF_8_REPORT.md`** with:
   - (a) the cleanup summary (lines removed, the regression result);
   - (b) the verbatim `--summarize` output;
   - (c) the gate line and tables;
@@ -195,4 +195,4 @@ class ColPaliModelTests(unittest.TestCase):
   - (e) deviations;
   - (f) anything surprising.
   Numbers only.
-- [ ] **Step 4: Commit** `BRIEF_8_REPORT.md` + `results_test_colpali.jsonl` with `docs: brief 8 results (ColPali gate)`, then `git push`.
+- [x] **Step 4: Commit** `BRIEF_8_REPORT.md` + `results_test_colpali.jsonl` with `docs: brief 8 results (ColPali gate)`, then `git push`.
