@@ -177,10 +177,10 @@
 - Create: `results_test_ft.jsonl`, `BRIEF_10_REPORT.md`
 - Modify: `PLAN.md` (D15 outcome and a Brief 10 results line)
 
-- [ ] **Step 1: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/ft_test.log -- eval.py --n 200 --no-llm --rankers single,maxsim,single_ft,maxsim_ft --output results_test_ft.jsonl`.
+- [x] **Step 1: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/ft_test.log -- eval.py --n 200 --no-llm --rankers single,maxsim,single_ft,maxsim_ft --output results_test_ft.jsonl`.
   - Expected: 200 rows, `subgoal cache misses: 0`, and zero-shot single/maxsim R@10 = 53/200 and 36/200 (matching `results_test_200.jsonl`).
   - If any of these is off, STOP.
-- [ ] **Step 2: Write `BRIEF_10_REPORT.md`:**
+- [x] **Step 2: Write `BRIEF_10_REPORT.md`:**
   - triplet count and skip counts; train/test overlap;
   - final train losses;
   - the verbatim `eval.py --summarize results_test_ft.jsonl`;
@@ -188,7 +188,7 @@
   - the fine-tuning lift (ft − zero-shot R@10) for each model;
   - `maxsim_ft` R@10 by op;
   - deviations.
-- [ ] **Step 3: `PLAN.md`:**
+- [x] **Step 3: `PLAN.md`:**
   - Add `Outcome: PASS|FAIL, maxsim_ft R@10 = a/200 vs single_ft b/200 (margin m pts)` under D15.
   - Add a `- Brief 10 (...)` line to Results.
-- [ ] **Step 4: Commit** `docs: brief 10 results (piece 3 gate)` + `chore: llm cache`, then push. **Stop there**: whether it's PASS (infra) or FAIL (re-grill the thesis), the next decision belongs to the planner.
+- [x] **Step 4: Commit** `docs: brief 10 results (piece 3 gate)` + `chore: llm cache`, then push. **Stop there**: whether it's PASS (infra) or FAIL (re-grill the thesis), the next decision belongs to the planner.
