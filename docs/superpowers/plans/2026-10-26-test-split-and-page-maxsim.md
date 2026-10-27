@@ -1,6 +1,6 @@
 # Test Split + Whole-Page Contextual MaxSim (Vision Piece 1) Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order (there are no sub-skills or subagents). Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [ ]` → `- [x]` in this file as you finish it, and commit the ticks with that task's commit, so another agent can resume exactly where you stop. Read **Codex execution notes** below before starting.
 
 **Goal:** Move the eval to the official Multimodal-Mind2Web `test_task` split (saving screenshots for vision piece 2), re-measure the four rankers there, then test whether whole-page contextual MaxSim beats single-vector recall@10 by ≥ 5 points (gate D12).
 
@@ -22,6 +22,19 @@
   - pagemaxsim: window **64 words**, stride **32 words**, ColBERT document length **128** tokens, query length **32**.
   - Gate: `pagemaxsim` R@10 ≥ `single` R@10 + **5.0** pts on the same 200 steps.
 - If the download, sandbox, Metal, or memory blocks a run, stop and report the exact error. Don't bypass the sandbox.
+
+## Codex execution notes
+
+- **Sandbox needs:**
+  - Task 2 Step 1 downloads from Hugging Face, so it needs network access.
+  - `run_evals.py` / `../.gpu/gpu-run` need execution outside the workspace sandbox (the lock lives in `../.gpu/`); request approval as in brief 5.
+  - The model caches in `~/.cache/huggingface` are already populated for ColBERT, bge, the cross-encoder and Qwen.
+  - If any of these is denied, stop and report it. Don't work around it.
+- **`ps` is blocked** in your sandbox. To wait on a background run, poll its log for the `GATE:` line (e.g. every 60 s) instead of checking PIDs.
+- **Long runs (Task 4 Step 1, roughly 30-60 min on CPU):** launch with `nohup <command> > /dev/null 2>&1 &` (the log goes to the run_evals LOG path), then poll. Rows are written incrementally, so a stopped run keeps its finished steps; `eval.py --summarize` works on partial files.
+- **Low on usage?** Stop at a task boundary, commit, push, and put one status line at the top of `BRIEF_7_REPORT.md` (create it if needed): `STATUS: stopped after Task N; next = Task N+1 Step M`. A Sonnet agent will resume from the ticked checkboxes.
+- **Deviations:** if the real data or library contradicts the plan (e.g. pylate exposes the `[D]` marker differently), make the smallest change that satisfies the plan's tests and intent, and list it under "Deviations" in the report. Don't change the fixed values, the gate, or the D1-D12 decisions.
+- **Final message:** under 25 lines. Give the D12 verdict line, the R@10 row for each ranker, dataset facts, the commit hashes, the push status, and any deviations or blockers.
 
 ## Review Focus
 
