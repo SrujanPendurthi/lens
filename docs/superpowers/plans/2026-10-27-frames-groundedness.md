@@ -120,7 +120,7 @@
   - `pack(units: list[tuple[str, str, float]], budget: int) -> str`, where units are `(page_title, text, score)`;
   - `evidence(arm: str, question: str, pages: dict[str, str], budget: int = 2000) -> tuple[str, dict]`. `arm` is one of `raw|rag|lens|rerank`. The stats dict is `{"ms": float, "tokens": int, "units": int, "truncated": bool}`.
 
-- [ ] **Step 1: Write the failing tests** (`test_evidence.py`, unittest; mock `lens.evidence.rank` everywhere):
+- [x] **Step 1: Write the failing tests** (`test_evidence.py`, unittest; mock `lens.evidence.rank` everywhere):
   - `test_chunks_are_original_slices`:
     - `text = "Alpha Beta. " * 400`;
     - every chunk is a substring of `text`, `count(chunk) <= 256`, and the first 32 tokens of chunk *i+1* equal the last 32 of chunk *i*;
@@ -136,10 +136,10 @@
     - 60 chunks; the mocked `single` returns ascending scores and the mocked `cross` returns descending;
     - `cross` is called with exactly the 50 best-by-`single` chunks, and the final order follows `cross`.
   - `test_raw_truncates_at_cap`: pages totalling over the cap give `stats["truncated"] is True` and `count(text) <= cap`.
-- [ ] **Step 2: Run** `.venv/bin/python -m unittest test_evidence -v`. Expected: FAIL (`ModuleNotFoundError`).
-- [ ] **Step 3: Implement** per the Global Constraints arms and packing. Load the tokenizer once with `functools.cache`.
-- [ ] **Step 4: Run all tests.** Expected: PASS.
-- [ ] **Step 5: Commit** `feat: Lens evidence arms (raw/rag/lens/rerank)` and push.
+- [x] **Step 2: Run** `.venv/bin/python -m unittest test_evidence -v`. Expected: FAIL (`ModuleNotFoundError`).
+- [x] **Step 3: Implement** per the Global Constraints arms and packing. Load the tokenizer once with `functools.cache`.
+- [x] **Step 4: Run all tests.** Expected: PASS.
+- [x] **Step 5: Commit** `feat: Lens evidence arms (raw/rag/lens/rerank)` and push.
 
 ### Task 3: `frames.py` harness + page snapshot
 
