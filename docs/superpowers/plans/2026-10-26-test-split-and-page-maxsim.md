@@ -86,9 +86,9 @@ assert w2 == [("Close", "3")], w2
   - Rows whose gold isn't in `nodes` are kept (coverage is checked by the existing eval check).
 - Produces: `.venv/bin/python eval.py --prep-mm data/mm_test_task --steps data/steps_test.jsonl`.
 
-- [ ] **Step 1: Download** only the `test_task` parquet shards into `data/mm_test_task/`, about 2.3 GB, via `huggingface_hub.snapshot_download(repo_id="osunlp/Multimodal-Mind2Web", repo_type="dataset", allow_patterns="data/test_task-*", local_dir="data/mm_test_task")`. Print one row's field types so you can see which fields are JSON strings.
+- [x] **Step 1: Download** only the `test_task` parquet shards into `data/mm_test_task/`, about 2.3 GB, via `huggingface_hub.snapshot_download(repo_id="osunlp/Multimodal-Mind2Web", repo_type="dataset", allow_patterns="data/test_task-*", local_dir="data/mm_test_task")`. Print one row's field types so you can see which fields are JSON strings.
 
-- [ ] **Step 2: Write the failing test.**
+- [x] **Step 2: Write the failing test.**
 
 ```python
 def test_prep_parses_json_string_fields(self):
@@ -103,11 +103,11 @@ def test_prep_parses_json_string_fields(self):
     self.assertIn(["Go", "7"], rows[0]["page"])
 ```
 
-- [ ] **Step 3: Run it.** `.venv/bin/python -m unittest test_eval -k prep_parses -v`. Expected: FAIL (`prep_mm` not defined).
-- [ ] **Step 4: Implement** `prep_mm`, reading with `pyarrow.parquet`.
-- [ ] **Step 5: Run all tests:** `.venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS.
-- [ ] **Step 6: Build the real file.** `.venv/bin/python eval.py --prep-mm data/mm_test_task --steps data/steps_test.jsonl`. Report the row count (expect 1339), the gold-coverage line from a `--no-llm --n 1` dry run, and the shots count.
-- [ ] **Step 7: Commit** with `feat: prep Multimodal-Mind2Web test split with screenshots`.
+- [x] **Step 3: Run it.** `.venv/bin/python -m unittest test_eval -k prep_parses -v`. Expected: FAIL (`prep_mm` not defined).
+- [x] **Step 4: Implement** `prep_mm`, reading with `pyarrow.parquet`.
+- [x] **Step 5: Run all tests:** `.venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS.
+- [x] **Step 6: Build the real file.** `.venv/bin/python eval.py --prep-mm data/mm_test_task --steps data/steps_test.jsonl`. Report the row count (expect 1339), the gold-coverage line from a `--no-llm --n 1` dry run, and the shots count.
+- [x] **Step 7: Commit** with `feat: prep Multimodal-Mind2Web test split with screenshots`.
 
 ### Task 3: `pagemaxsim` ranker
 

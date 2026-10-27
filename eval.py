@@ -9,7 +9,9 @@ import random
 import statistics as st
 import time
 
-from lens.nodes import Node, extract
+from pathlib import Path
+
+from lens.nodes import Node, extract, page_words
 from lens.rank import RANKERS, rank
 
 STEPS = "data/steps.jsonl"
@@ -28,9 +30,43 @@ def prep(path, steps_path=STEPS):
                                       "op": a["operation"], "gold": gold, "nodes": [n.__dict__ for n in nodes]}) + "\n")
 
 
+def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") -> None:
+    import pyarrow.parquet as pq
+
+    def parsed(value):
+        return json.loads(value) if isinstance(value, str) else value
+
+    shots = Path(shots_dir)
+    shots.mkdir(parents=True, exist_ok=True)
+    with open(steps_path, "w") as out:
+        for path in sorted(Path(parquet_dir).rglob("*.parquet")):
+            for batch in pq.ParquetFile(path).iter_batches(batch_size=1):
+                for action in batch.to_pylist():
+                    pos = parsed(action["pos_candidates"])
+                    neg = parsed(action["neg_candidates"])
+                    # Some shards store each candidate as its own JSON string.
+                    pos, neg = [parsed(c) for c in pos], [parsed(c) for c in neg]
+                    gold = sorted({str(c["backend_node_id"]) for c in pos})
+                    refs = list(dict.fromkeys(str(c["backend_node_id"]) for c in pos + neg))
+                    nodes = extract(action["cleaned_html"], refs)
+                    uid = action["action_uid"]
+                    shot = shots / f"{uid}.png"
+                    if not shot.exists() and action["screenshot"] is not None:
+                        screenshot = action["screenshot"]
+                        data = screenshot.get("bytes")
+                        shot.write_bytes(data if data is not None else Path(screenshot["path"]).read_bytes())
+                    row = {"task": action["confirmed_task"],
+                           "prev": action["action_reprs"][:int(action["target_action_index"])][-3:],
+                           "op": parsed(action["operation"]), "gold": gold,
+                           "nodes": [n.__dict__ for n in nodes], "uid": uid,
+                           "page": page_words(action["cleaned_html"], refs)}
+                    out.write(json.dumps(row) + "\n")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prep")
+    ap.add_argument("--prep-mm")
     ap.add_argument("--n", type=int, default=200)
     ap.add_argument("--k", type=int, default=10, help="summary compatibility; D7 always uses top 10")
     ap.add_argument("--ks", default="10", help="comma-separated picker cutoffs")
@@ -48,6 +84,8 @@ def main():
         if not rows:
             ap.error("no result rows to summarize")
         return summarize(rows, a.k, "baseline" in rows[0], rows[0].get("query_mode", "unknown"), rows[0].get("node_text", "own"))
+    if a.prep_mm:
+        return prep_mm(a.prep_mm, a.steps)
     if a.prep:
         return prep(a.prep, a.steps)
     try:
@@ -66,11 +104,16 @@ def main():
         steps = [json.loads(l) for l in f]
     if not steps:
         ap.error("no prepared steps; run --prep first")
-    coverage = sum(bool(set(s["gold"]) & {n["ref"] for n in s["nodes"]}) for s in steps) / len(steps)
-    print(f"Gold extraction coverage: {coverage:.2%} ({len(steps)} steps)", flush=True)
+    labeled = [s for s in steps if s["gold"]]
+    if not labeled:
+        ap.error("no labeled steps to evaluate")
+    print(f"Prepared actions: {len(steps)}; unlabeled: {len(steps) - len(labeled)}", flush=True)
+    coverage = sum(bool(set(s["gold"]) & {n["ref"] for n in s["nodes"]}) for s in labeled) / len(labeled)
+    print(f"Gold extraction coverage: {coverage:.2%} ({len(labeled)} steps)", flush=True)
     if coverage < 0.98:
         ap.error("gold extraction coverage is below 98%; fix extraction before evaluating")
     random.Random(0).shuffle(steps)  # one shard holds whole tasks; shuffle so n steps span many sites
+    steps = [s for s in steps if set(s["gold"]) & {n["ref"] for n in s["nodes"]}]
     rows = []
     misses = 0
     suffix = "_ctx" if a.node_text == "context" else ""

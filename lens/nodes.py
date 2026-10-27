@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import re
 
 from lxml import etree
 
@@ -16,9 +17,19 @@ class Node:
         return f'[{self.ref}] {self.tag} "{self.text}"'
 
 
+def _page_root(cleaned_html):
+    # Dataset iframe contents are expanded DOMs, not HTML's raw-text fallback.
+    expanded = re.sub(r"(</?)iframe(?=[\s>])", r"\1lens-iframe", cleaned_html, flags=re.I)
+    root = etree.fromstring(expanded.encode(), etree.HTMLParser())
+    if root is not None:
+        for element in root.iter("lens-iframe"):
+            element.tag = "iframe"
+    return root
+
+
 def extract(cleaned_html, refs, max_words=30):
     """Return a Node for each ref (backend_node_id) found in cleaned_html, in ref order."""
-    root = etree.fromstring(cleaned_html.encode(), etree.HTMLParser())
+    root = _page_root(cleaned_html)
     by_id = {e.get("backend_node_id"): e for e in root.iter() if e.get("backend_node_id")}
     nodes = []
     for ref in refs:
@@ -40,7 +51,7 @@ def extract(cleaned_html, refs, max_words=30):
 
 def page_words(cleaned_html: str, refs: list[str]) -> list[tuple[str, str | None]]:
     """Visible page words in document order, owned by the innermost candidate."""
-    root = etree.fromstring(cleaned_html.encode(), etree.HTMLParser())
+    root = _page_root(cleaned_html)
     candidates = set(refs)
     words = []
 

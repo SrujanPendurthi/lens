@@ -12,6 +12,38 @@ from eval import main, summarize
 from lens.rank import RANKERS
 
 
+
+class PrepTests(unittest.TestCase):
+    def test_prep_parses_json_string_fields(self):
+        import base64
+        import pyarrow as pa
+        import pyarrow.parquet as pq
+        import eval as evaluator
+        png = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=")
+        for strings in (True, False):
+            with self.subTest(strings=strings), tempfile.TemporaryDirectory() as d:
+                path = Path(d)
+                fields = {"operation": {"op": "CLICK"}, "pos_candidates": [{"backend_node_id": "7"}], "neg_candidates": []}
+                row = {k: json.dumps(v) if strings else v for k, v in fields.items()}
+                row.update(cleaned_html='<html><body><button backend_node_id="7">Go</button></body></html>',
+                           action_reprs=["a", "b", "c", "d"], target_action_index="2", action_uid="example",
+                           confirmed_task="Go", screenshot={"bytes": png})
+                pq.write_table(pa.Table.from_pylist([row]), path / "input.parquet")
+                out, shots = path / "out.jsonl", path / "shots"
+                evaluator.prep_mm(d, str(out), str(shots))
+                result = json.loads(out.read_text())
+                self.assertEqual(result["gold"], ["7"])
+                self.assertEqual(result["prev"], ["a", "b"])
+                self.assertEqual(result["op"]["op"], "CLICK")
+                self.assertEqual((shots / f'{result["uid"]}.png').read_bytes(), png)
+                self.assertIn(["Go", "7"], result["page"])
+                row["screenshot"] = None
+                pq.write_table(pa.Table.from_pylist([row]), path / "input.parquet")
+                evaluator.prep_mm(d, str(out), str(path / "missing-shots"))
+                self.assertEqual(json.loads(out.read_text())["gold"], ["7"])
+                self.assertEqual(list((path / "missing-shots").iterdir()), [])
+
+
 class GateTests(unittest.TestCase):
     def verdict(self, max_rank, single_rank, *, k=10, llm=False):
         row = {"n_nodes": 100, "textless_gold": False}
@@ -113,6 +145,21 @@ class QueryTests(unittest.TestCase):
         with contextlib.redirect_stdout(output):
             summarize([row],10,True)
         self.assertIn("GATE: INCOMPLETE", output.getvalue())
+
+    def test_unlabeled_actions_do_not_lower_extraction_coverage(self):
+        import torch
+        step = {"task": "Go", "prev": [], "gold": ["1"], "op": {"op": "CLICK"},
+                "nodes": [{"ref": "1", "tag": "button", "text": "Go"}]}
+        with tempfile.TemporaryDirectory() as d:
+            steps, output = Path(d) / "steps.jsonl", Path(d) / "out.jsonl"
+            steps.write_text(json.dumps(step) + "\n" + json.dumps(step | {"gold": []}) + "\n")
+            with patch("sys.argv", ["eval.py", "--steps", str(steps), "--output", str(output), "--no-llm"]), \
+                 patch("eval.rank", return_value=torch.tensor([1.])), \
+                 patch("lens.pick.subgoal", return_value={"text": "Go", "tokens": 1, "ms": 1}), \
+                 contextlib.redirect_stdout(io.StringIO()) as stream:
+                main()
+            self.assertIn("100.00% (1 steps)", stream.getvalue())
+            self.assertEqual(len(output.read_text().splitlines()), 1)
 
 
 class SubgoalTests(unittest.TestCase):

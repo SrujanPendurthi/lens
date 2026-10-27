@@ -18,3 +18,8 @@ w = page_words(html, ["1", "2"])
 assert w == [("Flights", None), ("noon", "1"), ("View", "2"), ("details", "2"), ("after", None)], w
 w2 = page_words('<html><body><button backend_node_id="3" aria_label="Close"/></body></html>', ["3"])
 assert w2 == [("Close", "3")], w2
+
+# Mind2Web expands iframe DOMs; the HTML parser otherwise treats them as raw text.
+frame = '<html><body><iframe backend_node_id="8"><button backend_node_id="7">Go</button></iframe></body></html>'
+assert [n.ref for n in extract(frame, ["7"])] == ["7"]
+assert page_words(frame, ["7"]) == [("Go", "7")]
