@@ -108,11 +108,11 @@
 
 **Interfaces:** none. Its output is a pass/STOP decision that goes in the report.
 
-- [ ] **Step 1:** Take the first 5 of the 200 sampled steps that have a positive-area gold box.
+- [x] **Step 1:** Take the first 5 of the 200 sampled steps that have a positive-area gold box.
   - For each, crop the screenshot to the gold box plus a 40 px margin and draw the box in red.
   - Save to `data/box_check/<uid>.png`, using a throwaway script in `/private/tmp`, not committed.
-- [ ] **Step 2:** Open each crop. A crop passes if the red box frames the element the gold node text names (`[ref] tag "text"` from the step's nodes). Record pass/fail and the node line for all 5 in `BRIEF_9_REPORT.md`.
-- [ ] **Step 3:** If fewer than 4/5 pass, **STOP**. Commit the report with `STATUS: alignment failed` and report: the boxes are off, so no ColPali rerun is valid. Otherwise continue.
+- [x] **Step 2:** Open each crop. A crop passes if the red box frames the element the gold node text names (`[ref] tag "text"` from the step's nodes). Record pass/fail and the node line for all 5 in `BRIEF_9_REPORT.md`.
+- [x] **Step 3:** If fewer than 4/5 pass, **STOP**. Commit the report with `STATUS: alignment failed` and report: the boxes are off, so no ColPali rerun is valid. Otherwise continue.
 
 ### Task 3: Mean-pooled box score + cache key
 
