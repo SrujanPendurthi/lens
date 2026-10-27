@@ -106,7 +106,7 @@
   - `triplets(steps: list[dict], seed: int = 0) -> tuple[list[dict], dict]`. It returns rows `{"query", "positive", "negative"}` and skip counts `{"textless_gold": int, "no_negative": int, "no_gold": int}`.
   - The file `data/triplets_train.jsonl`.
 
-- [ ] **Step 1: Write the failing test** `test_train.py`:
+- [x] **Step 1: Write the failing test** `test_train.py`:
   ```python
   def test_triplets_skip_and_pick(self):
       steps = [
@@ -121,21 +121,21 @@
       self.assertEqual(rows, [{"query": "click go", "positive": "Go", "negative": "Stop"}])
       self.assertEqual(skips, {"textless_gold": 1, "no_negative": 1, "no_gold": 1})
   ```
-- [ ] **Step 2: Run** `.venv/bin/python -m unittest test_train -v`. Expected: FAIL (`ModuleNotFoundError: train`).
-- [ ] **Step 3: Implement `triplets`.**
+- [x] **Step 2: Run** `.venv/bin/python -m unittest test_train -v`. Expected: FAIL (`ModuleNotFoundError: train`).
+- [x] **Step 3: Implement `triplets`.**
   - Positive = text of the first gold node with text, in node order.
   - Negative = `random.Random(f"{seed}\n{task}\n{len(prev)}").choice` over non-gold nodes with text.
   - Check order: no surviving gold, then textless gold, then no negative. Call the sub-goal as `lens.pick.subgoal(...)` (module attribute; the test patches it).
   - Add a `train.py --triplets STEPS OUT` CLI that writes the rows and prints the skip counts.
   - `run_evals.py`: run `["../.gpu/gpu-run", "lens", ".venv/bin/python", *args]`; usage becomes `run_evals.py LOG -- <script.py> <args...>`.
-- [ ] **Step 4: Run the test.** Expected: PASS.
-- [ ] **Step 5: Prep and generate (long):**
+- [x] **Step 4: Run the test.** Expected: PASS.
+- [x] **Step 5: Prep and generate (long):**
   1. Download the 27 `train-*.parquet` files of `osunlp/Multimodal-Mind2Web` to `data/mm_train/` (`huggingface_hub.snapshot_download(..., allow_patterns="train-*")`).
   2. Run `.venv/bin/python eval.py --prep-mm data/mm_train --steps data/steps_train.jsonl`.
   3. Print the train/test overlap: `len({s["task"] for s in train} & {s["task"] for s in test})`. **Expected: 0. If it is not 0, STOP and report.**
   4. Run `run_evals.py data/triplets.log -- train.py --triplets data/steps_train.jsonl data/triplets_train.jsonl`. Expected: about 7k rows, with skip counts printed.
   5. Delete `data/mm_train/`.
-- [ ] **Step 6: Commit** `feat: train-split triplets for piece 3` (train.py, test_train.py, run_evals.py, .gitignore) plus `chore: llm cache`.
+- [x] **Step 6: Commit** `feat: train-split triplets for piece 3` (train.py, test_train.py, run_evals.py, .gitignore) plus `chore: llm cache`.
 
 ### Task 3: Fine-tune + rankers
 

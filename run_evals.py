@@ -1,4 +1,4 @@
-"""Usage: run_evals.py LOG -- <eval.py args>; stop on 2 GiB swap growth."""
+"""Usage: run_evals.py LOG -- <script.py> <args...>; stop on 2 GiB swap growth."""
 import os
 import re
 import signal
@@ -18,7 +18,7 @@ def run(args, log):
     initial = swap_bytes()
     with Path(log).open("w") as stream:
         process = subprocess.Popen(
-            ["../.gpu/gpu-run", "lens", ".venv/bin/python", "eval.py", *args],
+            ["../.gpu/gpu-run", "lens", ".venv/bin/python", *args],
             stdout=stream, stderr=subprocess.STDOUT, start_new_session=True,
         )
         try:
@@ -40,5 +40,5 @@ def run(args, log):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3 or sys.argv[2] != "--":
-        raise SystemExit("usage: run_evals.py LOG -- <eval.py args...>")
+        raise SystemExit("usage: run_evals.py LOG -- <script.py> <args...>")
     run(sys.argv[3:], sys.argv[1])
