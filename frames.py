@@ -7,6 +7,7 @@ import json
 import math
 from pathlib import Path
 import random
+import re
 import statistics as st
 import time
 import urllib.error
@@ -124,19 +125,33 @@ def fetch_page(url):
     if saved.exists():
         return json.loads(saved.read_text())
     parsed = urllib.parse.urlparse(url)
-    if parsed.scheme != 'https' or parsed.hostname != 'en.wikipedia.org' or not parsed.path.startswith('/wiki/'):
+    if parsed.scheme != 'https' or not re.fullmatch(r'[a-z0-9-]+(?:\.m)?\.wikipedia\.org', parsed.hostname or '') or not parsed.path.startswith('/wiki/'):
         raise ValueError(f'unsupported Wikipedia URL: {url}')
     title = urllib.parse.unquote(parsed.path[len('/wiki/'):])
     query = urllib.parse.urlencode({'action': 'query', 'format': 'json', 'formatversion': 2,
                                   'prop': 'extracts|revisions', 'explaintext': 1, 'rvprop': 'ids|timestamp',
                                   'redirects': 1, 'titles': title})
-    delay = max(0., 1.-(time.monotonic()-_last_request))
-    if delay: time.sleep(delay)
-    _last_request = time.monotonic()
-    request = urllib.request.Request('https://en.wikipedia.org/w/api.php?'+query,
+    api_host = parsed.hostname.replace('.m.wikipedia.org', '.wikipedia.org')
+    request = urllib.request.Request(f'https://{api_host}/w/api.php?'+query,
                                      headers={'User-Agent': USER_AGENT})
-    with urllib.request.urlopen(request, timeout=60) as response:
-        data = json.load(response)
+    for attempt in range(4):
+        delay = max(0., 1.-(time.monotonic()-_last_request))
+        if delay: time.sleep(delay)
+        _last_request = time.monotonic()
+        try:
+            with urllib.request.urlopen(request, timeout=60) as response:
+                data = json.load(response)
+            break
+        except urllib.error.HTTPError as exc:
+            if exc.code != 429 or attempt == 3:
+                raise
+            retry_after = exc.headers.get('Retry-After', '') if exc.headers else ''
+            try:
+                wait = max(1., float(retry_after))
+            except ValueError:
+                wait = 60. * (attempt + 1)
+            print(f'Wikipedia HTTP 429; retry {attempt+1}/3 in {wait:.0f}s: {url}', flush=True)
+            time.sleep(wait)
     page = data['query']['pages'][0]
     if page.get('missing') or not page.get('extract', '').strip():
         raise ValueError(f'no page extract: {url}')
@@ -173,9 +188,6 @@ def prep():
             except (urllib.error.URLError, ValueError, KeyError) as exc:
                 replacements.append({'id': q['id'], 'reason': str(exc)})
                 (ROOT/'replacements.json').write_text(json.dumps(replacements, indent=2))
-                # A denied API cannot provide a valid snapshot by replacing questions.
-                if isinstance(exc, urllib.error.HTTPError) and exc.code in (401, 403, 429):
-                    raise RuntimeError(f'Wikipedia API access blocked ({exc.code}); snapshot prep stopped') from exc
                 index = next(reserve)
                 continue
             selected.append(q)
@@ -189,6 +201,7 @@ def prep():
     stats = {'questions': len(selected), 'pages': len(cached), 'median_tokens': st.median(tokens),
              'max_tokens': max(tokens), 'replacements': replacements,
              'snapshot_date_range': [min(timestamps), max(timestamps)]}
+    (ROOT/'replacements.json').write_text(json.dumps(replacements, indent=2))
     (ROOT/'snapshot.json').write_text(json.dumps(stats, indent=2))
     print(json.dumps(stats, indent=2), flush=True)
 

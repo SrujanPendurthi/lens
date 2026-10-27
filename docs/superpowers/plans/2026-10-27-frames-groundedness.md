@@ -184,10 +184,10 @@
     - `reported rerank vs rag: …`.
   - `--judge-sample` writes 30 claims, seeded from all claims of the first 10 questions, as `{"id", "question", "page_titles", "claim", "sonnet_label", "opus_label": null, "final_label": null}`.
 - [x] **Step 4: Run all tests.** Expected: PASS.
-- [ ] **Step 5: Prep.**
+- [x] **Step 5: Prep.**
   - Run `.venv/bin/python frames.py --prep`. Expected: 100 questions and their pages saved.
   - Print the page count, the median and max tokens per question, the replacements, and the snapshot date range.
-- [ ] **Step 6: Commit** `feat: FRAMES groundedness harness` and push.
+- [x] **Step 6: Commit** `feat: FRAMES groundedness harness` and push.
 
 ### Task 4: Dry run + judge sample, then STOP
 

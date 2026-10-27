@@ -32,6 +32,38 @@ class FramesTests(unittest.TestCase):
                                   {arm: 'I could not find this.' for arm in frames.ARMS})
         self.assertTrue(all(r['abstained'] and r['claims'] == [] and r['verdict'] == 'ABSTAINED' for r in result.values()))
 
+    def test_fetch_accepts_listed_mobile_and_simple_wikipedia(self):
+        import io
+        import tempfile
+        from pathlib import Path
+        payload = {'query': {'pages': [{'title': 'Page', 'extract': 'text',
+                                       'revisions': [{'revid': 1, 'timestamp': '2026-10-27T00:00:00Z'}]}]}}
+        for host, api_host in [('en.m.wikipedia.org', 'en.wikipedia.org'), ('simple.wikipedia.org', 'simple.wikipedia.org')]:
+            with tempfile.TemporaryDirectory() as d, patch.object(frames, 'ROOT', Path(d)), \
+                 patch('frames.urllib.request.urlopen', return_value=io.StringIO(json.dumps(payload))) as request, \
+                 patch('frames.time.sleep'):
+                frames.fetch_page(f'https://{host}/wiki/Page')
+                self.assertTrue(request.call_args.args[0].full_url.startswith(f'https://{api_host}/w/api.php?'))
+
+    def test_page_rate_limit_retries_same_url(self):
+        import io
+        import tempfile
+        import urllib.error
+        from pathlib import Path
+        payload = {'query': {'pages': [{'title': 'Page', 'extract': 'Source text.',
+                                       'revisions': [{'revid': 123, 'timestamp': '2026-10-27T00:00:00Z'}]}]}}
+        limited = urllib.error.HTTPError('https://en.wikipedia.org/w/api.php', 429, 'Too Many Requests',
+                                         {'Retry-After': '60'}, None)
+        with tempfile.TemporaryDirectory() as directory, patch.object(frames, 'ROOT', Path(directory)), \
+             patch('frames.urllib.request.urlopen', side_effect=[limited, io.StringIO(json.dumps(payload))]) as request, \
+             patch('frames.time.sleep') as sleep:
+            result = frames.fetch_page('https://en.wikipedia.org/wiki/Page')
+            self.assertEqual(result['revid'], 123)
+            self.assertEqual(request.call_count, 2)
+            self.assertEqual(request.call_args_list[0].args[0].full_url, request.call_args_list[1].args[0].full_url)
+            sleep.assert_any_call(60.)
+            self.assertTrue(frames.page_path(result['url']).exists())
+
     def test_d19_gate(self):
         rows = []
         for i in range(20):
