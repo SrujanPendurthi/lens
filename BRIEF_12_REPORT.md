@@ -1,37 +1,60 @@
-STATUS: Task 3 complete; next = Task 4 dry run, then hard STOP for labels.
+STATUS: waiting for judge labels (Task 4)
 
-# Brief 12: FRAMES groundedness test
+# Brief 12: FRAMES groundedness dry run
 
-Task 1 complete. Added optional ranker length overrides, with model caching per (name, length). Defaults remain single 128, ColBERT query/document 32/64, cross 128. Added shared _claude(model, system, text, timeout=120); pick retains its exact CLI flags, system prompt and cache key. Failed CLI responses still raise and are not cached.
+Judge sample ready: `frames_judge_check.jsonl`. It has 30 seeded claims from the first ten questions; all opus_label and final_label fields are null. Judge-check agreement is **not yet measured**. Task 5 has not started and must not start until the planner labels all rows, disagreements have final_label values, and agreement is at least 85%.
 
-TDD: the new length-cap test initially failed with TypeError for _model(single, 256), then passed. Validation: 22 unittest tests passed, including unchanged Haiku and cache-key tests, plus test_nodes.py and test_maxsim.py. git diff --check passed.
+## Snapshot
 
-Task 2 complete: lens/evidence.py implements raw, rag, lens and rerank evidence with tokenizer-based budgets. Tokenizer is loaded once from the already-populated bge cache; token counting excludes special tokens. Chunks slice original text using offsets, preserving case. Packing skips oversized units and continues to smaller ones; Lens merges selected adjacent sentences, counting the rendered result against the budget. Raw defaults to its registered 150,000-token cap and prefers whole-page truncation before cutting a single oversized page.
+100 questions in the exact `random.Random(0).sample(range(824), 100)` order, 339 unique referenced pages, **0 replacements**. Median full source tokens per question: 12,870.5; maximum: 81,381. Recorded revision timestamp range: 2021-06-18T06:17:18Z to 2026-10-27T21:47:09Z. Page JSON stores URL, title, revision ID, revision timestamp and plaintext. Partial/extra pages from earlier attempts remain locally but are not referenced by the final manifest.
 
-TDD: evidence tests failed on the missing module, then passed. All 27 eval/train/evidence tests, node extraction and MaxSim checks passed. Rankers are mocked in evidence-arm tests; no FRAMES answer/judge calls or inference runs have occurred. The tokenizer warning for text longer than its model maximum is expected: counting/chunking intentionally tokenizes full pages without running them through the encoder.
+## Dry run
 
-Stopped at the next task boundary under the plan's low-usage handoff instructions. No FRAMES data downloaded or harness implemented. Replacements, judge agreement, arm metrics and D19 outcomes are not yet measured.
+10/10 questions completed, all four arms answered and judged. All rag/lens/rerank evidence is at most 2,000 tokens; raw at most 150,000. All abstentions have zero claims. Actual sample order matches the prepared manifest. Raw truncation: 0/10. All model work ran through run_evals.py/shared lock/swap watchdog, with LENS_DEVICE=cpu. Watchdog stderr is empty.
 
-Next: Task 3 Step 1, write the FRAMES harness tests. Preserve Task 4's hard STOP for planner labels; do not start Task 5 without those labels and the required agreement.
+Verbatim `frames.py --summarize results_frames.jsonl` output:
 
-Deviations: none in Task 1.
+```text
+questions=10
+arm claims unsupported unsupported% abstain% accuracy% evidence_tokens prompt_tokens prompt_minus203 retrieval_ms
+raw 25 0 0.00 30.0 60.0 10455 17490 17288 35.03
+rag 14 1 7.14 60.0 30.0 1953 3910 3708 809.52
+lens 20 0 0.00 40.0 50.0 1999 3892 3689 2655.54
+rerank 20 0 0.00 40.0 60.0 1952 3912 3710 1201.95
+D19 lens vs rag: wins 1, losses 0, net +1, p=0.500 → FAIL (net, significance, speed)
+D19 product edge lens vs rerank: wins 0, losses 0, net +0, p=1.000 → FAIL (net, significance, unsupported rate, speed)
+reported rerank vs rag: wins 1, losses 0, net +1, p=0.500 → FAIL (net, significance, speed)
+raw truncated: 0/10
+```
 
+These are ten-question, uncalibrated judge results, not the final 100-question D19 outcome.
 
-## Task 3: harness and snapshot attempt
+| Arm | Claims | Unsupported | Abstain | Accuracy | Median retrieval ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| raw | 25 | 0 | 30.0% | 60.0% | 35.03 |
+| rag | 14 | 1 | 60.0% | 30.0% | 809.52 |
+| lens | 20 | 0 | 40.0% | 50.0% | 2655.54 |
+| rerank | 20 | 0 | 40.0% | 60.0% | 1201.95 |
 
-Implemented frames.py and test_frames.py. TDD initially failed with ModuleNotFoundError: frames; all 30 tests plus node extraction and MaxSim checks now pass. Tests cover shuffled judge IDs over three seeds, forced zero-claim abstentions, and every prescribed gate fixture (12 wins/4 losses, speed failure, abstention failure). Prompts, model IDs, budgets and the D19 rule are unchanged. Answer/judge output validation happens before caching.
+Prompt counts are the Claude CLI's real input usage. The summary separately reports median prompt tokens and median prompt tokens minus the registered 203-token overhead; each column is rounded independently.
 
-HF test.tsv downloaded: 824 rows with Prompt, Answer and Python-literal wiki_links. Snapshot prep used random.Random(0).sample for the initial 100, the prescribed Wikipedia API/plaintext extract parameters, exact User-Agent and no more than one request per second. Ten page JSON files were saved with revision IDs and timestamps; three questions completed before the API returned HTTP Error 429: Too Many Requests for question 41. Prep exited nonzero with RuntimeError: Wikipedia API access blocked (429); snapshot prep stopped. No completed 100-question manifest or snapshot statistics exist yet.
+## Implementation and validation
 
-No Haiku answers or Sonnet judge calls have been made. No judge sample is ready. Tasks 4 and 5 have not started. Resume the same prep command after API access recovers; successful page snapshots will be reused. Do not alter the sample, endpoint, User-Agent, budgets or gate to work around the error.
+Task 1: ranker length overrides cache per (name, length); defaults remain 128/64/128, with ColBERT query length 32. Shared _claude preserves picker flags, exact system prompt and cache key. The new cap test failed before implementation; unchanged Haiku/cache tests passed. Commit: `2579051`.
 
-Deviation: global API access errors (401/403/429) stop snapshot preparation instead of consuming replacement questions against an unavailable API. The failed attempt is recorded in data/frames/replacements.json; it does not constitute a completed replacement sample. Task 3 Step 5 remains unchecked. Partial snapshots and logs are retained locally and not staged.
+Task 2: raw, rag, lens and rerank evidence arms; tokenizer counting without special tokens, original-text offset chunks, greedy rendered-budget checks, adjacency merging and top-50 reranking. Missing-module tests failed before implementation; all five evidence tests passed afterward. Commit: `1176598`.
 
+Task 3: cached API pages, deterministic FRAMES prep, exact answer/judge prompts, answer anonymization/mapping, validated judge JSON before caching, abstention normalization, binomial gate, summaries and judge-sample CLI. The three initial harness tests failed with missing frames; all passed after implementation. Initial commit: `a7ff631`; completed snapshot fixes/checklist: `95199a4`.
 
-## Snapshot completed after retry fixes
+Latest verification: all 32 eval/train/evidence/frames tests plus node extraction and MaxSim checks pass. Snapshot and dry-run assertions passed: 100 original IDs, required page metadata, 10 judged result rows, every budget, and 30 unlabeled claims. No Mind2Web inference or training was rerun.
 
-Snapshot: 100 questions in the exact original random.Random(0).sample order; 339 unique referenced pages; replacements 0. Median/full maximum source tokens: 12,870.5 / 81,381. Revision timestamp range: 2021-06-18T06:17:18Z to 2026-10-27T21:47:09Z. Every referenced page has url/title/text/revid/timestamp. Extra cached pages from the earlier provisional replacement attempt are retained but are not referenced by the final manifest.
+## Deviations and corrections
 
-HTTP 429 handling now retries the same page up to three times, respecting numeric Retry-After (fallback backoff if absent). The one-request-per-second ceiling remains. A new test failed before implementation and passed after. A second regression test caught the too-narrow English-only URL validator: valid en.m.wikipedia.org URLs now use the canonical English API, and Simple English URLs use their own Wikipedia API. The final snapshot restored both originally sampled questions that had been rejected by that validator. No question replacement was needed. Successful prep overwrites the replacement log, clearing obsolete failed-attempt entries.
+- Wikipedia returned HTTP 429 after the first ten cached pages and again on retry. Added a failing-then-passing test and bounded retries for the same page, honoring numeric Retry-After (observed 49–50 s; fallback backoff when absent). The one-request-per-second ceiling, User-Agent and Wikipedia APIs stayed as prescribed.
+- The initial English-only URL check incorrectly rejected the dataset's mobile-English and Simple English links. Added a regression test and support for their appropriate Wikipedia APIs, then rebuilt the manifest from the original seeded 100 using cached pages. Both provisional replacements disappeared; the final replacement count is zero. No answer calls occurred before that correction.
+- Successful prep overwrites replacements.json to remove obsolete failed-attempt entries. All final page selections are defined by questions.jsonl/snapshot.json.
+- Launcher stderr is retained in /tmp/ for exact error reporting. Cached pages, TSV and logs remain under ignored data/ and are not staged.
 
-All 32 tests plus node extraction/MaxSim checks pass. Task 3 is complete; earlier blocked-status notes above are historical. No answer/judge calls have yet run. Next is the ten-question dry run and judge sample; Task 5 remains prohibited until planner labels and agreement check are supplied.
+## Handoff
+
+Task 4 ends here with a hard STOP. The planner labels the sample; this assistant did not fill Opus or final labels. No Task 5 run or final PLAN.md D19 outcome was produced. Dry-run results, report, judge sample and checklist are committed together; new LLM cache entries receive a separate chore commit. Push target: origin/main.

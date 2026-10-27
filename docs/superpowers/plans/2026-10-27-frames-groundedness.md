@@ -194,10 +194,10 @@
 **Files:**
 - Create: `frames_judge_check.jsonl`, `BRIEF_12_REPORT.md` (status + dry-run notes)
 
-- [ ] **Step 1: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/frames_dry.log -- frames.py --run --n 10 --output results_frames.jsonl`. Expected: 10 rows with all 4 arms judged, and evidence tokens ≤ 2000 for rag/lens/rerank.
-- [ ] **Step 2: Run** `.venv/bin/python frames.py --judge-sample results_frames.jsonl`. Writes `frames_judge_check.jsonl` with 30 claims.
-- [ ] **Step 3:** Write `BRIEF_12_REPORT.md` with `STATUS: waiting for judge labels (Task 4)`, the dry-run `--summarize` output, and the retrieval ms per arm. Commit `docs: FRAMES dry run + judge sample` + `chore: llm cache`, and push.
-- [ ] **Step 4: STOP.** Final message: "Judge sample ready: frames_judge_check.jsonl". Do not start Task 5.
+- [x] **Step 1: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/frames_dry.log -- frames.py --run --n 10 --output results_frames.jsonl`. Expected: 10 rows with all 4 arms judged, and evidence tokens ≤ 2000 for rag/lens/rerank.
+- [x] **Step 2: Run** `.venv/bin/python frames.py --judge-sample results_frames.jsonl`. Writes `frames_judge_check.jsonl` with 30 claims.
+- [x] **Step 3:** Write `BRIEF_12_REPORT.md` with `STATUS: waiting for judge labels (Task 4)`, the dry-run `--summarize` output, and the retrieval ms per arm. Commit `docs: FRAMES dry run + judge sample` + `chore: llm cache`, and push.
+- [x] **Step 4: STOP.** Final message: "Judge sample ready: frames_judge_check.jsonl". Do not start Task 5.
 
 ### Task 5: Gated run (only after labels)
 
