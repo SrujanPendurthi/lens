@@ -86,20 +86,25 @@ def parse_claude_json(stdout):
             "ttft": data["duration_api_ms"] / 1000}
 
 
+def _claude(model: str, system: str, text: str, timeout: int = 120) -> dict:
+    """Call the headless Claude CLI; failures are never cached by callers."""
+    response = subprocess.run([
+        "claude", "-p", "--model", model, "--tools", "", "--strict-mcp-config",
+        "--setting-sources", "", "--no-session-persistence", "--safe-mode",
+        "--disable-slash-commands", "--output-format", "json",
+        "--system-prompt", system,
+    ], input=text, capture_output=True, text=True, timeout=timeout, cwd="/private/tmp")
+    if response.returncode:
+        raise RuntimeError(response.stderr[-500:])
+    return parse_claude_json(response.stdout)
+
+
 def pick(text):
     """Return a cached Haiku element choice for one prompt."""
-    key = pick_key(text)
-
     def generate():
-        response = subprocess.run([
-            "claude", "-p", "--model", HAIKU, "--tools", "", "--strict-mcp-config",
-            "--setting-sources", "", "--no-session-persistence", "--safe-mode",
-            "--disable-slash-commands", "--output-format", "json",
-            "--system-prompt", "You pick one web page element. Reply with only its number in brackets, e.g. [123], or [none].",
-        ], input=text, capture_output=True, text=True, timeout=120, cwd="/private/tmp")
-        if response.returncode:
-            raise RuntimeError(response.stderr[-500:])
-        row = parse_claude_json(response.stdout)
+        row = _claude(HAIKU,
+                      "You pick one web page element. Reply with only its number in brackets, e.g. [123], or [none].",
+                      text)
         return row | {"ref": parse_ref(row["out"])}
 
-    return _cached(key, generate)
+    return _cached(pick_key(text), generate)

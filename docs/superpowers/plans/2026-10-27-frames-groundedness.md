@@ -97,14 +97,14 @@
   - `rank(name, query, texts, length=None)`. `length` overrides the cap (single `max_seq_length`, ColBERT `document_length`, cross `max_length`). `None` keeps 128/64/128 exactly. `_model` caches per `(name, length)`.
   - `_claude(model: str, system: str, text: str, timeout: int = 120) -> dict`, returning `parse_claude_json` output. `pick()` uses it with unchanged flags, system prompt and cache key.
 
-- [ ] **Step 1: Write the failing test** `test_rank_length_default_unchanged`.
+- [x] **Step 1: Write the failing test** `test_rank_length_default_unchanged`.
   - Patch `sentence_transformers.SentenceTransformer` and `sentence_transformers.CrossEncoder`; clear `_model`'s cache.
   - `_model("single").max_seq_length == 128` and `_model("single", 256).max_seq_length == 256`.
   - `CrossEncoder` is called with `max_length=512` for `_model("cross", 512)`.
-- [ ] **Step 2: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v`. Expected: the new test FAILS.
-- [ ] **Step 3: Implement both interfaces.**
-- [ ] **Step 4: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval test_train -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS, with `HaikuTests` and `test_haiku_pick_key_unchanged` unchanged.
-- [ ] **Step 5: Commit** `refactor: ranker length caps; shared claude -p helper` and push.
+- [x] **Step 2: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v`. Expected: the new test FAILS.
+- [x] **Step 3: Implement both interfaces.**
+- [x] **Step 4: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval test_train -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS, with `HaikuTests` and `test_haiku_pick_key_unchanged` unchanged.
+- [x] **Step 5: Commit** `refactor: ranker length caps; shared claude -p helper` and push.
 
 ### Task 2: `lens/evidence.py`
 

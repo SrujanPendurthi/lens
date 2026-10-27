@@ -36,6 +36,24 @@ class PrepTests(unittest.TestCase):
                 self.assertNotIn("page", result)
 
 class FineTunedModelTests(unittest.TestCase):
+    def test_rank_length_default_unchanged(self):
+        import lens.rank as ranker
+        ranker._model.cache_clear()
+        try:
+            with patch.object(ranker, "DEVICE", "cpu"), \
+                 patch("sentence_transformers.SentenceTransformer") as single, \
+                 patch("sentence_transformers.CrossEncoder") as cross, \
+                 patch("pylate.models.ColBERT") as colbert:
+                self.assertEqual(ranker._model("single").max_seq_length, 128)
+                self.assertEqual(ranker._model("single", 256).max_seq_length, 256)
+                self.assertEqual(single.call_count, 2)
+                ranker._model("cross", 512)
+                cross.assert_called_once_with("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cpu", max_length=512)
+                ranker._model("maxsim", 128)
+                colbert.assert_called_once_with("answerdotai/answerai-colbert-small-v1", device="cpu", query_length=32, document_length=128)
+        finally:
+            ranker._model.cache_clear()
+
     def test_ft_models_keep_zero_shot_caps(self):
         import lens.rank as ranker
         ranker._model.cache_clear()
