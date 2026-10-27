@@ -11,3 +11,10 @@ assert "outer-only" not in node.context  # smallest qualifying ancestor
 long = '<div>' + ' '.join(f'word{i}' for i in range(60)) + '<button backend_node_id="1">Buy Now</button></div>'
 assert len(extract(long, ["1"])[0].context.split()) == 40
 print("context extraction ok")
+
+from lens.nodes import page_words
+html = '<html><body>Flights <div backend_node_id="1">noon <a backend_node_id="2"><span>View details</span></a></div> after</body></html>'
+w = page_words(html, ["1", "2"])
+assert w == [("Flights", None), ("noon", "1"), ("View", "2"), ("details", "2"), ("after", None)], w
+w2 = page_words('<html><body><button backend_node_id="3" aria_label="Close"/></body></html>', ["3"])
+assert w2 == [("Close", "3")], w2

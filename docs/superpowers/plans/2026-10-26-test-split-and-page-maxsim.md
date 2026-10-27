@@ -1,6 +1,6 @@
 # Test Split + Whole-Page Contextual MaxSim (Vision Piece 1) Implementation Plan
 
-> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order (there are no sub-skills or subagents). Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [ ]` → `- [x]` in this file as you finish it, and commit the ticks with that task's commit, so another agent can resume exactly where you stop. Read **Codex execution notes** below before starting.
+> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order (there are no sub-skills or subagents). Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [x]` → `- [x]` in this file as you finish it, and commit the ticks with that task's commit, so another agent can resume exactly where you stop. Read **Codex execution notes** below before starting.
 
 **Goal:** Move the eval to the official Multimodal-Mind2Web `test_task` split (saving screenshots for vision piece 2), re-measure the four rankers there, then test whether whole-page contextual MaxSim beats single-vector recall@10 by ≥ 5 points (gate D12).
 
@@ -55,7 +55,7 @@
 **Interfaces:**
 - Produces: `page_words(cleaned_html: str, refs: list[str]) -> list[tuple[str, str | None]]`. It returns whitespace-split words of the page's visible text in document order, so each element's `.text` and `.tail` sit in their correct positions. Each word is tagged with the ref of its innermost ancestor-or-self element whose `backend_node_id` is in `refs`, otherwise `None`. Attribute text (`aria_label`, `placeholder`, `value`, `alt`, `title`) of a candidate is emitted as words at that element's position, tagged with its ref, so attribute-only nodes still get tokens.
 
-- [ ] **Step 1: Write the failing tests** (append to `test_nodes.py`, assert style):
+- [x] **Step 1: Write the failing tests** (append to `test_nodes.py`, assert style):
 
 ```python
 from lens.nodes import page_words
@@ -66,10 +66,10 @@ w2 = page_words('<html><body><button backend_node_id="3" aria_label="Close"/></b
 assert w2 == [("Close", "3")], w2
 ```
 
-- [ ] **Step 2: Run it.** `.venv/bin/python test_nodes.py`. Expected: FAIL (`ImportError: page_words`).
-- [ ] **Step 3: Implement it** with lxml `iter()` plus `.text`/`.tail` handling and an ancestor walk (or a ref stack during a recursive walk).
-- [ ] **Step 4: Run all tests** (`.venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`). Expected: PASS.
-- [ ] **Step 5: Commit** with `feat: page_words maps page tokens to innermost candidate`.
+- [x] **Step 2: Run it.** `.venv/bin/python test_nodes.py`. Expected: FAIL (`ImportError: page_words`).
+- [x] **Step 3: Implement it** with lxml `iter()` plus `.text`/`.tail` handling and an ancestor walk (or a ref stack during a recursive walk).
+- [x] **Step 4: Run all tests** (`.venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`). Expected: PASS.
+- [x] **Step 5: Commit** with `feat: page_words maps page tokens to innermost candidate`.
 
 ### Task 2: Prep the Multimodal-Mind2Web test split
 
