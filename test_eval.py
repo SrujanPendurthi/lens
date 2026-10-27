@@ -1,5 +1,6 @@
 import contextlib
 import io
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -12,33 +13,11 @@ from eval import main, summarize
 from lens.rank import RANKERS
 
 
-
-class CleanupTests(unittest.TestCase):
-
-    def test_missing_screenshot_does_not_crash_prep(self):
-        import pyarrow as pa
-        import pyarrow.parquet as pq
-        from eval import prep_mm
-        row = {"operation": {"op": "CLICK"}, "pos_candidates": [{"backend_node_id": "7"}],
-               "neg_candidates": [], "cleaned_html": '<button backend_node_id="7">Go</button>',
-               "action_reprs": [], "target_action_index": "0", "action_uid": "missing",
-               "confirmed_task": "Go", "screenshot": {"bytes": None, "path": "nope.png"}}
-        with tempfile.TemporaryDirectory() as d:
-            path = Path(d)
-            pq.write_table(pa.Table.from_pylist([row]), path / "in.parquet")
-            prep_mm(d, str(path / "out.jsonl"), str(path / "shots"))
-            rows = [json.loads(line) for line in (path / "out.jsonl").read_text().splitlines()]
-            self.assertEqual(len(rows), 1)
-            self.assertNotIn("page", rows[0])
-
-
 class PrepTests(unittest.TestCase):
     def test_prep_parses_json_string_fields(self):
-        import base64
         import pyarrow as pa
         import pyarrow.parquet as pq
         import eval as evaluator
-        png = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=")
         for strings in (True, False):
             with self.subTest(strings=strings), tempfile.TemporaryDirectory() as d:
                 path = Path(d)
@@ -46,26 +25,15 @@ class PrepTests(unittest.TestCase):
                 row = {k: json.dumps(v) if strings else v for k, v in fields.items()}
                 row.update(cleaned_html='<html><body><button backend_node_id="7">Go</button></body></html>',
                            action_reprs=["a", "b", "c", "d"], target_action_index="2", action_uid="example",
-                           confirmed_task="Go", screenshot={"bytes": png})
+                           confirmed_task="Go")
                 pq.write_table(pa.Table.from_pylist([row]), path / "input.parquet")
-                out, shots = path / "out.jsonl", path / "shots"
-                evaluator.prep_mm(d, str(out), str(shots))
+                out = path / "out.jsonl"
+                evaluator.prep_mm(d, str(out))
                 result = json.loads(out.read_text())
                 self.assertEqual(result["gold"], ["7"])
                 self.assertEqual(result["prev"], ["a", "b"])
                 self.assertEqual(result["op"]["op"], "CLICK")
-                self.assertEqual((shots / f'{result["uid"]}.png').read_bytes(), png)
                 self.assertNotIn("page", result)
-                row["screenshot"] = None
-                pq.write_table(pa.Table.from_pylist([row]), path / "input.parquet")
-                evaluator.prep_mm(d, str(out), str(path / "missing-shots"))
-                self.assertEqual(json.loads(out.read_text())["gold"], ["7"])
-                self.assertEqual(list((path / "missing-shots").iterdir()), [])
-
-
-
-
-
 
 class MarginTests(unittest.TestCase):
     def d12(self, hits, single_hits, n=200):
@@ -80,16 +48,10 @@ class MarginTests(unittest.TestCase):
     def test_d12_margin_boundary(self):
         self.assertIn("D12 maxsim: R@10 = 63/200, single = 53/200, margin = +5.0 pts → PASS", self.d12(63, 53))
         self.assertIn("margin = +4.5 pts → FAIL", self.d12(62, 53))
-        self.assertNotIn("GATE:", self.d12(63, 53))
-
-    def test_haiku_pick_key_unchanged(self):
-        import hashlib
-        from lens.pick import pick_key
-        self.assertEqual(pick_key("x"), hashlib.sha1(b"pick-v2\nclaude-haiku-5-5\nx").hexdigest())
 
 
 class QueryTests(unittest.TestCase):
-    def run_eval(self, mode, llm, extra=(), ref="1"):
+    def run_eval(self, llm, extra=(), ref="1"):
         import torch
         step = {"task": "Book a trip", "prev": ["typed Boston"],
                 "gold": ["1"], "op": {"op": "CLICK", "value": ""},
@@ -112,37 +74,31 @@ class QueryTests(unittest.TestCase):
                 self.assertTrue(all("Boston trip details" not in call.args[0] for call in pick_mock.call_args_list))
             return json.loads(output.read_text()), rank_mock, goal_mock
 
-
-
     def test_subgoal_without_picker_still_generates_query(self):
-        row, rank_mock, goal_mock = self.run_eval("subgoal", False)
+        row, rank_mock, goal_mock = self.run_eval(False)
         goal_mock.assert_called_once_with("Book a trip", ["typed Boston"])
         self.assertEqual(rank_mock.call_args.args[1], "click Search")
         self.assertEqual(row["subgoal_tokens"], 80)
         self.assertNotIn("baseline", row)
 
     def test_subgoal_cost_added_to_rankers_only(self):
-        row, _, _ = self.run_eval("subgoal", True)
+        row, _, _ = self.run_eval(True)
         self.assertEqual(row["baseline"]["tokens"], 100)
         for name in RANKERS:
             self.assertEqual(row[f"{name}@10"]["tokens"], 180)
 
-
-
     def test_hallucinated_ref(self):
-        row, _, _ = self.run_eval("subgoal", True, ref="999", extra=["--ks", "10"])
+        row, _, _ = self.run_eval(True, ref="999", extra=["--ks", "10"])
         self.assertFalse(row["single@10"]["ok"])
         self.assertTrue(row["single@10"]["hallucinated"])
 
     def test_multi_k_arms_and_subset(self):
-        row, _, _ = self.run_eval("subgoal", True, extra=["--ks", "10,50", "--rankers", "single"])
+        row, _, _ = self.run_eval(True, extra=["--ks", "10,50", "--rankers", "single"])
         self.assertIn("single@10", row)
         self.assertIn("single@50", row)
         self.assertNotIn("cross", row)
         self.assertEqual(row["single@50"]["shown"], 1)
         self.assertTrue(row["single@50"]["gold_shown"])
-
-
 
     def test_unlabeled_actions_do_not_lower_extraction_coverage(self):
         import torch
@@ -161,7 +117,6 @@ class QueryTests(unittest.TestCase):
 
 
 class SubgoalTests(unittest.TestCase):
-
     def test_token_accounting_cleanup_and_disk_cache(self):
         import lens.pick as picker
         response = SimpleNamespace(text=' "click Search" \n', prompt_tokens=50, generation_tokens=4)
@@ -182,6 +137,10 @@ class SubgoalTests(unittest.TestCase):
 
 
 class CacheTests(unittest.TestCase):
+    def test_haiku_pick_key_unchanged(self):
+        from lens.pick import pick_key
+        self.assertEqual(pick_key("x"), hashlib.sha1(b"pick-v2\nclaude-haiku-5-5\nx").hexdigest())
+
     def test_cached_calls_once_and_persists(self):
         import lens.pick as picker
         calls = []
@@ -191,7 +150,6 @@ class CacheTests(unittest.TestCase):
             picker._memo.clear()
             self.assertEqual(picker._cached("k", fn), {"v": 1, "key": "k"})
             self.assertEqual(len(calls), 1)
-
 
     def test_subgoal_miss_is_transient(self):
         import lens.pick as picker
@@ -227,16 +185,6 @@ class IncrementalTests(unittest.TestCase):
                 main()
             self.assertIn("steps=1", out.getvalue())
             self.assertIn("D12 ", out.getvalue())
-
-    def test_summarize_preserves_saved_query_mode(self):
-        row={"query_mode":"oracle","n_nodes":1,"textless_gold":False}
-        row.update({n:{"gold_rank":0,"ms":1} for n in RANKERS})
-        with tempfile.TemporaryDirectory() as d:
-            path=Path(d)/"rows.jsonl"; path.write_text(json.dumps(row)+"\n")
-            out=io.StringIO()
-            with patch("sys.argv",["eval.py","--summarize",str(path)]), contextlib.redirect_stdout(out):
-                main()
-            self.assertIn("query=oracle",out.getvalue())
 
 
 class HaikuTests(unittest.TestCase):

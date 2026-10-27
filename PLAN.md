@@ -1,7 +1,5 @@
 # TokenLens v1: offline MaxSim-perception eval on Mind2Web
 
-
-
 ## Context
 lens/ is an empty git repo with three docs (the PRD is truncated after FR-2.2). The docs describe four projects at once: an encoder plus compression, a CUDA/PLAID index, a yield-and-inspect protocol, and RL. The grilling cut this down to one falsifiable question:
 **Does token-level late interaction (ColBERT MaxSim) over DOM nodes let a small LLM pick the right element with far fewer prompt tokens than the full DOM list, without losing accuracy?**
@@ -39,7 +37,9 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
   - Train-split results (briefs 1-6) predate the iframe-parsing fix and the gold-survival filter, so they are not bit-reproducible. That's accepted; they stay recorded here.
   - Next: piece 2, ColPali screenshot patches, via native `transformers` ColPali (`vidore/colpali-v1.3-hf`), no new dependency. Same gate: R@10 ≥ single + 5 pts (≥ 31.5%) on the same 200 steps.
 
-- D14 (2026-10-27, after brief 8) **D12 piece 2 first run is INCONCLUSIVE, not FAIL.** ColPali R@10 1.5% (3/200) vs single 26.5%, but a ranker that just picks the smallest box gets 6.0%. Median gold-rank percentile is 32% (random is 50%), so the scorer has signal but its top ranks are taken by large boxes. Cause: the box score Σ_q max over the box's patches never decreases with box size, because a container covers every patch its child does. Fix: mean-pool over the box's patches; that is pre-registered as the only variant. Rerun on cached tile embeddings, after a visual box-alignment check. Same gate (≥ 63/200). Plan: docs/superpowers/plans/2026-10-27-colpali-fix-and-audit.md.
+- D14 (2026-10-27, after brief 8) **D12 piece 2 FAILS** (mean-pooled ColPali 39/200 vs single 53/200; the first run was size-biased). ColPali R@10 1.5% (3/200) vs single 26.5%, but a ranker that just picks the smallest box gets 6.0%. Median gold-rank percentile is 32% (random is 50%), so the scorer has signal but its top ranks are taken by large boxes. Cause: the box score Σ_q max over the box's patches never decreases with box size, because a container covers every patch its child does. Fix: mean-pool over the box's patches; that is pre-registered as the only variant. Rerun on cached tile embeddings, after a visual box-alignment check. Same gate (≥ 63/200). Plan: docs/superpowers/plans/2026-10-27-colpali-fix-and-audit.md.
+
+  - Alignment 4/5; even if all 39 hits came from the aligned 80% and the rest scored equally, the ceiling is ~49/200 < 63, so FAIL stands.
 
   - Outcome: FAIL, colpali-mean R@10 = 39/200 vs single 53/200 (margin -7.0 pts).
 

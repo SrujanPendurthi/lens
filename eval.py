@@ -9,22 +9,19 @@ import random
 import statistics as st
 import time
 
-from pathlib import Path
-
 from lens.nodes import Node, extract
 from lens.rank import ALLOWED_RANKERS, RANKERS, rank
 
 STEPS = "data/steps_test.jsonl"
 
 
-def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") -> None:
+def prep_mm(parquet_dir: str, steps_path: str) -> None:
+    from pathlib import Path
     import pyarrow.parquet as pq
 
     def parsed(value):
         return json.loads(value) if isinstance(value, str) else value
 
-    shots = Path(shots_dir)
-    shots.mkdir(parents=True, exist_ok=True)
     with open(steps_path, "w") as out:
         for path in sorted(Path(parquet_dir).rglob("*.parquet")):
             for batch in pq.ParquetFile(path).iter_batches(batch_size=1):
@@ -36,19 +33,10 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     gold = sorted({str(c["backend_node_id"]) for c in pos})
                     refs = list(dict.fromkeys(str(c["backend_node_id"]) for c in pos + neg))
                     nodes = extract(action["cleaned_html"], refs)
-                    uid = action["action_uid"]
-                    shot = shots / f"{uid}.png"
-                    if not shot.exists():
-                        screenshot = action["screenshot"] or {}
-                        data = screenshot.get("bytes")
-                        if data is not None:
-                            shot.write_bytes(data)
-                        else:
-                            print(f"missing screenshot {uid}", flush=True)
                     row = {"task": action["confirmed_task"],
                            "prev": action["action_reprs"][:int(action["target_action_index"])][-3:],
                            "op": parsed(action["operation"]), "gold": gold,
-                           "nodes": [n.__dict__ for n in nodes], "uid": uid}
+                           "nodes": [n.__dict__ for n in nodes]}
                     out.write(json.dumps(row) + "\n")
 
 
@@ -60,7 +48,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prep-mm")
     ap.add_argument("--n", type=int, default=200)
-    ap.add_argument("--ks", default="10", help="comma-separated picker cutoffs")
+    ap.add_argument("--ks", type=lambda s: sorted({int(k) for k in s.split(",")}), default=[10], help="comma-separated picker cutoffs")
     ap.add_argument("--rankers", default=",".join(RANKERS))
     ap.add_argument("--no-llm", action="store_true")
     ap.add_argument("--output")
@@ -72,21 +60,13 @@ def main():
             rows = [json.loads(line) for line in f if line.strip()]
         if not rows:
             ap.error("no result rows to summarize")
-        return summarize(rows, "baseline" in rows[0], rows[0].get("query_mode", "unknown"))
+        return summarize(rows, "baseline" in rows[0])
     if a.prep_mm:
         return prep_mm(a.prep_mm, a.steps)
-    try:
-        ks = list(dict.fromkeys(int(k) for k in a.ks.split(",")))
-    except ValueError:
-        ap.error("--ks must be comma-separated positive integers")
+    ks = a.ks
     rankers = list(dict.fromkeys(a.rankers.split(",")))
     if not rankers or any(name not in ALLOWED_RANKERS for name in rankers):
         ap.error("--rankers must contain names from " + ",".join(ALLOWED_RANKERS))
-    if not ks or min(ks) < 1:
-        ap.error("--ks must be positive")
-    if a.n < 1:
-        ap.error("--n must be positive")
-
     with open(a.steps) as f:
         steps = [json.loads(l) for l in f]
     if not steps:
@@ -95,13 +75,12 @@ def main():
     if not labeled:
         ap.error("no labeled steps to evaluate")
     print(f"Prepared actions: {len(steps)}; unlabeled: {len(steps) - len(labeled)}", flush=True)
-    survival = {id(s): has_gold(s) for s in steps}
-    coverage = sum(survival[id(s)] for s in labeled) / len(labeled)
+    coverage = sum(has_gold(s) for s in labeled) / len(labeled)
     print(f"Gold extraction coverage: {coverage:.2%} ({len(labeled)} steps)", flush=True)
     if coverage < 0.98:
         ap.error("gold extraction coverage is below 98%; fix extraction before evaluating")
     random.Random(0).shuffle(steps)  # one shard holds whole tasks; shuffle so n steps span many sites
-    steps = [s for s in steps if survival[id(s)]]
+    steps = [s for s in steps if has_gold(s)]
     rows = []
     misses = 0
     with open(a.output or "results_subgoal.jsonl", "w") as f:
@@ -113,7 +92,7 @@ def main():
             goal = subgoal(s["task"], s["prev"])
             misses += bool(goal.get("miss"))
             query = goal["text"]
-            row = {"task": s["task"], "op": s["op"]["op"], "query_mode": "subgoal", "query": query,
+            row = {"task": s["task"], "op": s["op"]["op"], "query": query,
                    "subgoal_tokens": goal["tokens"], "subgoal_ms": goal["ms"],
                    "n_nodes": len(nodes), "textless_gold": not any(n.text for n in nodes if n.ref in gold)}
             def pick_nodes(shown_nodes, cost):
@@ -142,16 +121,13 @@ def main():
             f.flush()
             print(len(rows), {k: row[k].get("gold_rank", row[k].get("ok")) for k in ("baseline",) + ALLOWED_RANKERS if k in row}, flush=True)
     print(f"subgoal cache misses: {misses}")
-    summarize(rows, not a.no_llm, "subgoal")
+    summarize(rows, not a.no_llm)
 
 
-def summarize(rows, llm, query="subgoal"):
-    if not rows:
-        raise ValueError("no result rows to summarize")
+def summarize(rows, llm):
     n = len(rows)
     rankers = [name for name in ALLOWED_RANKERS if all(name in r for r in rows)]
     rec = lambda name, kk: sum(r[name]["gold_rank"] < kk for r in rows) / n
-    print(f"\nquery={query}")
     print(f"steps={n}  median nodes={st.median(r['n_nodes'] for r in rows)}  textless gold={sum(r['textless_gold'] for r in rows) / n:.1%}")
     if all("subgoal_tokens" in r for r in rows):
         print(f"subgoal median tokens={st.median(r['subgoal_tokens'] for r in rows):.0f}  ms={st.median(r['subgoal_ms'] for r in rows):.2f}")

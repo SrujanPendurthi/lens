@@ -1,6 +1,6 @@
 # Cleanup + Fine-Tuned ColBERT vs Single-Vector (Vision Piece 3) Implementation Plan
 
-> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [ ]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** before starting.
+> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [x]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** before starting.
 
 **Goal:** Apply the brief 9 review and audit cuts, then test D12 piece 3, the last one. When both models are fine-tuned on the same Mind2Web train triplets, does ColBERT MaxSim beat single-vector recall@10 by ≥ 5 pts on the same 200 test steps?
 
@@ -67,28 +67,28 @@
   - `has_gold(step) -> bool`.
 - `ALLOWED_RANKERS` **stays**: Task 3 extends it.
 
-- [ ] **Step 1: Cuts in `eval.py`:**
+- [x] **Step 1: Cuts in `eval.py`:**
   - Delete screenshot saving in `prep_mm`: the `shots_dir` param, mkdir, bytes write, the `missing screenshot` print, and the `uid` row field.
   - Delete the `query_mode` row field, the `query` param of `summarize`, and the `query=` print.
   - `--ks`: `type=lambda s: sorted({int(k) for k in s.split(",")}), default=[10]`. Delete the try/except, the `min(ks) < 1` guard and the `a.n < 1` guard.
   - Replace the `survival = {id(s): ...}` dict with direct `has_gold(s)` calls.
   - Delete the `raise ValueError` empty check inside `summarize`; the `--summarize` `ap.error` stays.
-- [ ] **Step 2: Cuts in `test_eval.py`:**
+- [x] **Step 2: Cuts in `test_eval.py`:**
   - Delete `CleanupTests` and the png assertion in `test_prep_parses_json_string_fields`.
   - Delete `test_summarize_preserves_saved_query_mode`.
   - Drop the `mode` param of `run_eval` and its `"subgoal"` args.
   - Delete `assertNotIn("GATE:", ...)`.
   - Move `test_haiku_pick_key_unchanged` into `CacheTests`, with `import hashlib` at the top of the file.
   - Collapse blank-line runs to 2 between classes and 1 between methods.
-- [ ] **Step 3: `PLAN.md`:**
+- [x] **Step 3: `PLAN.md`:**
   - Rewrite the D14 headline to `**D12 piece 2 FAILS** (mean-pooled ColPali 39/200 vs single 53/200; the first run was size-biased).`
   - Add to D14: `Alignment 4/5; even if all 39 hits came from the aligned 80% and the rest scored equally, the ceiling is ~49/200 < 63, so FAIL stands.`
   - Collapse the blank lines at the top.
-- [ ] **Step 4: Verify:**
+- [x] **Step 4: Verify:**
   - Run `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS.
   - Run `.venv/bin/python eval.py --summarize results_test_200.jsonl`. The R@5/10/20 rows for bm25/single/maxsim/cross must match `BRIEF_7_REPORT.md:24-29`.
   - Run `wc -l eval.py test_eval.py` and record it; expected about -90 lines combined.
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
   - `refactor: brief 9 review and audit cuts` (code, tests, PLAN.md, the deleted plan doc).
   - Then `chore: llm cache` (`data/llm_cache.jsonl` only).
   - Push.
