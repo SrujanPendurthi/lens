@@ -154,11 +154,11 @@
 - Create: `results_test_colpali_mean.jsonl`, `BRIEF_9_REPORT.md`
 - Modify: `PLAN.md` (D14 outcome and a Brief 9 results line)
 
-- [ ] **Step 1: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/colpali_mean.log -- --n 200 --no-llm --rankers single,colpali --output results_test_colpali_mean.jsonl`.
+- [x] **Step 1: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/colpali_mean.log -- --n 200 --no-llm --rankers single,colpali --output results_test_colpali_mean.jsonl`.
   - Expected: 200 rows, `subgoal cache misses: 0`, every colpali row has `cache_hit: true`, and single R@10 = 53/200.
   - If any of these is off, STOP and report.
-- [ ] **Step 2:** Run `.venv/bin/python eval.py --summarize results_test_colpali_mean.jsonl` and paste the output verbatim into the report.
-- [ ] **Step 3: Write `BRIEF_9_REPORT.md`:**
+- [x] **Step 2:** Run `.venv/bin/python eval.py --summarize results_test_colpali_mean.jsonl` and paste the output verbatim into the report.
+- [x] **Step 3: Write `BRIEF_9_REPORT.md`:**
   - Task 2 alignment table.
   - The verbatim summary.
   - R@5/10/20/50/100 for single, colpali-max (from `results_test_colpali.jsonl`) and colpali-mean.
@@ -166,10 +166,10 @@
   - Colpali-mean R@10 split by op (CLICK/TYPE/SELECT) and by `textless_gold`.
   - Median gold-rank percentile (`gold_rank / n_nodes`) for colpali-max (0.324) vs colpali-mean.
   - Deviations.
-- [ ] **Step 4: `PLAN.md`:**
+- [x] **Step 4: `PLAN.md`:**
   - Under D14, add `Outcome: PASS|FAIL, colpali-mean R@10 = a/200 vs single 53/200 (margin m pts)`.
   - Add `- Brief 9 (...)` to Results.
-- [ ] **Step 5: Commit** `docs: brief 9 results (ColPali mean-pooled gate)` and push `origin main`.
+- [x] **Step 5: Commit** `docs: brief 9 results (ColPali mean-pooled gate)` and push `origin main`.
 
 ### Task 5: Remove ColPali, only if Task 4 = FAIL
 
