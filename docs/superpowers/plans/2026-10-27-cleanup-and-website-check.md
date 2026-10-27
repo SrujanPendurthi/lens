@@ -7,7 +7,7 @@
 2. Measure whether fine-tuning's recall gain holds on **unseen websites** (`test_website` split). This is the one open fact the thesis re-grill (D12: all three pieces failed) needs.
 
 **Architecture:**
-- **Cleanup:** removes spent tests, redundant code and dead data.
+- **Cleanup:** removes spent tests and redundant code. Untracked data is kept (user decision, 2026-10-27).
 - **Unseen-website check:** reuses the existing prep, the cached Qwen sub-goals and the four existing rankers on a new split. It adds no new code paths.
 
 **Tech Stack:** Python `.venv`, existing `eval.py` / `lens/` / `train.py`; `huggingface_hub` for the download.
@@ -45,8 +45,7 @@
 1. **Zero-shot rankers getting D12 verdicts against `single_ft`:** no comparison like that was pre-registered. When the base is `single_ft`, only `_ft` rankers print D12 lines. Pinned: Task 1 `test_d12_lines_only_for_ft_when_base_is_ft`.
 2. **Website leakage:** a `test_website` site that also appears in train would turn "unseen" into "seen". Expected: 0 shared websites. If not 0, STOP. Pinned: Task 2 Step 2.
 3. **Gold coverage on a new split under 98%:** `eval.py` already refuses to run; report the number instead of lowering the bar. Pinned: the existing guard, checked in Task 2 Step 3.
-4. **Deleting data that something still reads:** before deleting, `grep -rn` every path in the delete list against `*.py`; any hit means STOP. Pinned: Task 1 Step 4.
-5. **The `_ft` checkpoint-path shrink must load the same dirs:** pinned by the existing `test_ft_models_keep_zero_shot_caps`, which must still pass unchanged.
+4. **The `_ft` checkpoint-path shrink must load the same dirs:** pinned by the existing `test_ft_models_keep_zero_shot_caps`, which must still pass unchanged.
 
 ---
 
@@ -90,15 +89,10 @@
   - `test_train.py`: delete `FitTests`. `TripletTests` stays.
   - `PLAN.md`, append to the D15 outcome: `Tie is real: 51 shared hits, 9 unique each; median gold rank 43.5 vs 45.5. Final train losses 3.09/3.25 vs ln 64 ≈ 4.16 chance, so both models learned only modestly in 224 steps; the FAIL holds for this budget only.`
   - Delete the two files listed under Files.
-- [ ] **Step 4: Dead data (untracked, about 3.5 GB; disk is 95% full).**
-  - First run `grep -rn "data/shots\|data/colpali\|train_0.json\|steps.jsonl\|steps_ctx\|mm_test_task" --include=*.py .`. Expected: no hits besides `--prep-mm` usage text. Any code hit means STOP.
-  - Then `rm -rf data/shots data/colpali data/mm_test_task data/train_0.json data/steps.jsonl data/steps_ctx.jsonl`.
-  - Keep `data/steps_test.jsonl`, `data/steps_train.jsonl`, `data/triplets_train.jsonl` and `data/llm_cache.jsonl`.
-  - Record `df -h .` before and after in the report.
-- [ ] **Step 5: Verify:**
+- [ ] **Step 4: Verify:**
   - Run `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval test_train -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS, including the unchanged `test_ft_models_keep_zero_shot_caps`.
   - Run `.venv/bin/python eval.py --summarize results_test_ft.jsonl`. The R@ rows must match the verbatim summary in `BRIEF_10_REPORT.md`, with only the `maxsim_ft` D12 line.
-- [ ] **Step 6: Commit** `refactor: brief 10 review and audit cuts` and push.
+- [ ] **Step 5: Commit** `refactor: brief 10 review and audit cuts` and push.
 
 ### Task 2: Unseen-website recall check
 
@@ -123,7 +117,6 @@
   - R@5/10/20/50/100 for all four rankers;
   - a lift table (ft − zero-shot, in hits and pts) for **both** splits, with `test_task` taken from `results_test_ft.jsonl`;
   - the D16 verdict line: `D16: single_ft − single on test_website = <h> hits → GENERALIZES | MEMORIZATION`;
-  - Task 1 `df -h` before/after;
   - deviations.
 - [ ] **Step 5: `PLAN.md`:**
   - Add `Outcome: GENERALIZES|MEMORIZATION (single lift <h> hits; maxsim lift <h> hits)` under D16.
