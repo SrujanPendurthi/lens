@@ -5,6 +5,7 @@ usage: python eval.py --prep-mm data/mm_test_task
 """
 import argparse
 import json
+import math
 import random
 import statistics as st
 import time
@@ -35,6 +36,15 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     pos, neg = [parsed(c) for c in pos], [parsed(c) for c in neg]
                     gold = sorted({str(c["backend_node_id"]) for c in pos})
                     refs = list(dict.fromkeys(str(c["backend_node_id"]) for c in pos + neg))
+                    boxes = {}
+                    for candidate in pos + neg:
+                        try:
+                            attrs = parsed(candidate.get("attributes") or {})
+                            rect = [float(v) for v in attrs["bounding_box_rect"].split(",")]
+                            if len(rect) == 4 and all(math.isfinite(v) for v in rect):
+                                boxes[str(candidate["backend_node_id"])] = rect
+                        except (KeyError, ValueError, TypeError, AttributeError):
+                            continue
                     nodes = extract(action["cleaned_html"], refs)
                     uid = action["action_uid"]
                     shot = shots / f"{uid}.png"
@@ -51,7 +61,7 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     row = {"task": action["confirmed_task"],
                            "prev": action["action_reprs"][:int(action["target_action_index"])][-3:],
                            "op": parsed(action["operation"]), "gold": gold,
-                           "nodes": [n.__dict__ for n in nodes], "uid": uid}
+                           "nodes": [n.__dict__ for n in nodes], "uid": uid, "boxes": boxes}
                     out.write(json.dumps(row) + "\n")
 
 

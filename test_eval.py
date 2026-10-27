@@ -48,7 +48,7 @@ class PrepTests(unittest.TestCase):
         for strings in (True, False):
             with self.subTest(strings=strings), tempfile.TemporaryDirectory() as d:
                 path = Path(d)
-                fields = {"operation": {"op": "CLICK"}, "pos_candidates": [{"backend_node_id": "7"}], "neg_candidates": []}
+                fields = {"operation": {"op": "CLICK"}, "pos_candidates": [{"backend_node_id": "7", "attributes": json.dumps({"bounding_box_rect": "534,45,151,22"})}], "neg_candidates": [{"backend_node_id": "8"}]}
                 row = {k: json.dumps(v) if strings else v for k, v in fields.items()}
                 row.update(cleaned_html='<html><body><button backend_node_id="7">Go</button></body></html>',
                            action_reprs=["a", "b", "c", "d"], target_action_index="2", action_uid="example",
@@ -57,6 +57,7 @@ class PrepTests(unittest.TestCase):
                 out, shots = path / "out.jsonl", path / "shots"
                 evaluator.prep_mm(d, str(out), str(shots))
                 result = json.loads(out.read_text())
+                self.assertEqual(result["boxes"], {"7": [534.0, 45.0, 151.0, 22.0]})
                 self.assertEqual(result["gold"], ["7"])
                 self.assertEqual(result["prev"], ["a", "b"])
                 self.assertEqual(result["op"]["op"], "CLICK")

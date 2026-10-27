@@ -104,22 +104,22 @@ def test_missing_screenshot_does_not_crash_prep(self):
 **Interfaces:**
 - Produces: each steps row has a `boxes: dict[str, list[float]]` key. `data/steps_test.jsonl` is regenerated.
 
-- [ ] **Step 1: Write the failing test.** Extend the 1-row prep fixture: the gold candidate's `attributes` has `"bounding_box_rect": "534,45,151,22"`, and a neg candidate has no rect.
+- [x] **Step 1: Write the failing test.** Extend the 1-row prep fixture: the gold candidate's `attributes` has `"bounding_box_rect": "534,45,151,22"`, and a neg candidate has no rect.
 
 ```python
 self.assertEqual(rows[0]["boxes"], {"7": [534.0, 45.0, 151.0, 22.0]})
 ```
 
-- [ ] **Step 2: Run it.** Expected: FAIL (`KeyError: 'boxes'`).
-- [ ] **Step 3: Implement it.** The attributes may be a JSON string (as candidates are, per brief 7's deviations).
-- [ ] **Step 4: Re-prep and check for regressions:**
+- [x] **Step 2: Run it.** Expected: FAIL (`KeyError: 'boxes'`).
+- [x] **Step 3: Implement it.** The attributes may be a JSON string (as candidates are, per brief 7's deviations).
+- [x] **Step 4: Re-prep and check for regressions:**
   - `.venv/bin/python eval.py --prep-mm data/mm_test_task --steps data/steps_test.jsonl`
   - then `LENS_DEVICE=cpu .venv/bin/python eval.py --n 20 --no-llm --rankers bm25,single,maxsim,cross --output /tmp/reg.jsonl`
   - Expected:
     - 0 sub-goal cache misses;
     - all 80 `gold_rank`s and all 20 `query`s identical to the first 20 rows of `results_test_200.jsonl`;
     - the share of the 200 sampled steps whose gold has a box is reported (it must be ≥ 95%, else stop and report).
-- [ ] **Step 5: Run all tests** (Task 1 Step 4 command), then commit with `feat: store candidate bounding boxes in test-split prep`.
+- [x] **Step 5: Run all tests** (Task 1 Step 4 command), then commit with `feat: store candidate bounding boxes in test-split prep`.
 
 ### Task 3: ColPali ranker
 
