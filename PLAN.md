@@ -43,6 +43,8 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
 
   - Outcome: FAIL, colpali-mean R@10 = 39/200 vs single 53/200 (margin -7.0 pts).
 
+- D15 (2026-10-27, after brief 9) **Piece 3 setup (pre-registered).** Fine-tune both `bge-small` (single) and `answerai-colbert-small` (MaxSim) on identical Multimodal-Mind2Web `train` triplets: (cached Qwen sub-goal, gold own-text, seeded same-page hard negative). The `train` split is cross-task with `test_task`; the shared-task count must be 0. Same hyperparameters for both: seed 0, 1 epoch, lr 2e-5, batch 32, warmup 0.1, CPU, zero-shot length caps. No tuning and no reruns. Gate: maxsim_ft R@10 ≥ single_ft R@10 + 5 pts on the same 200 test steps. PASS → build the deferred infrastructure around fine-tuned ColBERT. FAIL → all three D12 pieces failed; re-grill the thesis. Plan: docs/superpowers/plans/2026-10-27-cleanup-and-finetune.md.
+
 ## Results
 - Run 1 (recall-only, Q = task + prev, n=200, median 457 nodes): R@10 bm25 13.0, single 14.0, maxsim 4.5, cross 16.5; R@100 51/50/40/55. Gate formally KILL, but **invalid**: even the cross-encoder ceiling fails, because gold is the next step and the query is the whole task (e.g. gold `button "submit Search"` after typing "Ballet"). Superseded by D6′.
 - Brief 2 (recall-only, n=200): oracle R@10 bm25 11.5, single 15.5, maxsim 8.5, cross 10.5. Sub-goal R@10 17.5/24.0/15.5/21.0, R@100 41.5/57.0/47.5/55.0. Sub-goal cost: median 112 tokens, 713 ms. Caveats: the oracle query is weak for CLICK (it carries no target name); the sub-goal can't see the page, so it hallucinates details or skips steps; the query_length change from 64 to 32 is confounded with the query-mode change. Full report: BRIEF_2_REPORT.md.
