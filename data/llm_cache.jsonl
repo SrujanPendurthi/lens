@@ -463,3 +463,574 @@
 {"key": "d7ad5863b3db7c77299abd49e46d62fb32af242c", "ref": "14205", "out": "[14205]", "prompt_tokens": 281, "ttft": 1.4469124999995984, "truncated": false, "visible_refs": null}
 {"key": "dcb4dc061c03fd06e6e69ef5b4cfe4d1a8daf255", "ref": "14207", "out": "[14207]", "prompt_tokens": 392, "ttft": 1.9205582080003298, "truncated": false, "visible_refs": null}
 {"key": "8ffeeb0d45de01f7870aeb693ea4229df500ce5e", "ref": "14242", "out": "[14242]", "prompt_tokens": 212, "ttft": 0.9946757090001483, "truncated": false, "visible_refs": null}
+{"out": "[11043]", "prompt_tokens": 14904, "ttft": 1.331, "ref": "11043", "truncated": false, "visible_refs": null, "key": "a92cad6d17ad6df28723df68308773cbd552f328"}
+{"out": "[11043]", "prompt_tokens": 825, "ttft": 0.927, "ref": "11043", "truncated": false, "visible_refs": null, "key": "cf78a814648dd1d831d39903c6a6532f45cd8c3c"}
+{"out": "[11043]", "prompt_tokens": 1536, "ttft": 1.646, "ref": "11043", "truncated": false, "visible_refs": null, "key": "307da054509912f01ba66a9a5b9e5885dc55e2b4"}
+{"out": "[11043]", "prompt_tokens": 947, "ttft": 1.2, "ref": "11043", "truncated": false, "visible_refs": null, "key": "3c402cb10ae01dad2be8265d1ac0ad79cad0ceff"}
+{"out": "[11043]", "prompt_tokens": 1416, "ttft": 1.26, "ref": "11043", "truncated": false, "visible_refs": null, "key": "f20f9701070b2e13adaab533c51dda13fbc576b4"}
+{"out": "[43]", "prompt_tokens": 967, "ttft": 0.939, "ref": "43", "truncated": false, "visible_refs": null, "key": "26bac2d4898602dccd42e425402f5751b1eb5996"}
+{"out": "[11043]", "prompt_tokens": 3128, "ttft": 1.33, "ref": "11043", "truncated": false, "visible_refs": null, "key": "f0a6c5b40b4e971d7dc088cc05d5310415252837"}
+{"out": "[21333]", "prompt_tokens": 134591, "ttft": 4.322, "ref": "21333", "truncated": false, "visible_refs": null, "key": "890856b2d90d777e44542be9936692d00c5769ea"}
+{"out": "[none]", "prompt_tokens": 979, "ttft": 1.864, "ref": "none", "truncated": false, "visible_refs": null, "key": "12972a16d37261c996eac1b2dfeb0e60318f09fb"}
+{"out": "[24222]", "prompt_tokens": 2736, "ttft": 4.114, "ref": "24222", "truncated": false, "visible_refs": null, "key": "89da9deafd406602a1a77c3de6c36c4dc51fce06"}
+{"out": "[none]", "prompt_tokens": 1275, "ttft": 2.283, "ref": "none", "truncated": false, "visible_refs": null, "key": "86611216f922f5746c598809e78b08086fb56eab"}
+{"out": "[24388]", "prompt_tokens": 2159, "ttft": 2.5, "ref": "24388", "truncated": false, "visible_refs": null, "key": "04f3dee33a092074115569af9e21e0278f3bcf02"}
+{"out": "[none]", "prompt_tokens": 1311, "ttft": 2.173, "ref": "none", "truncated": false, "visible_refs": null, "key": "01050f811f47c90a68248a0a5cf7f10b895e4f0b"}
+{"out": "[25460]", "prompt_tokens": 2951, "ttft": 3.151, "ref": "25460", "truncated": false, "visible_refs": null, "key": "2dac923df7dfbfb371bca484b74391055c708cc6"}
+{"out": "[40898]", "prompt_tokens": 18167, "ttft": 1.802, "ref": "40898", "truncated": false, "visible_refs": null, "key": "b3c77d7c8b79144bbd39aa5184dafb6f9ed23a66"}
+{"out": "[40483]", "prompt_tokens": 1238, "ttft": 3.074, "ref": "40483", "truncated": false, "visible_refs": null, "key": "79a75b7922ff428c1d0817463ba0c27aec196536"}
+{"out": "[40478]", "prompt_tokens": 5475, "ttft": 1.892, "ref": "40478", "truncated": false, "visible_refs": null, "key": "72b3617f4ded631fdadede8219efbe3ad830b41c"}
+{"out": "[41596]", "prompt_tokens": 808, "ttft": 2.243, "ref": "41596", "truncated": false, "visible_refs": null, "key": "1763891b959f01918be33f0b4e63c784f26cfb1f"}
+{"out": "[40898]", "prompt_tokens": 2249, "ttft": 2.283, "ref": "40898", "truncated": false, "visible_refs": null, "key": "3b6f8ad56cba32ae3b913f853e2cd1f24d7b56b4"}
+{"out": "[40470]", "prompt_tokens": 1892, "ttft": 2.248, "ref": "40470", "truncated": false, "visible_refs": null, "key": "77221f64cb13b05b921cc17c0270e0995f3cd624"}
+{"out": "[40478]", "prompt_tokens": 4443, "ttft": 2.233, "ref": "40478", "truncated": false, "visible_refs": null, "key": "def1e5ed99049547d58d033c9d2eb3d00954f478"}
+{"out": "[68292]", "prompt_tokens": 20831, "ttft": 3.789, "ref": "68292", "truncated": false, "visible_refs": null, "key": "62d02ffc164eecd25aaaab4b6b74470bee7faa42"}
+{"out": "[68171]", "prompt_tokens": 930, "ttft": 2.629, "ref": "68171", "truncated": false, "visible_refs": null, "key": "c0e92d225ac2a0fd2287114d0fcbd5f34550cc32"}
+{"out": "[68171]", "prompt_tokens": 1450, "ttft": 1.942, "ref": "68171", "truncated": false, "visible_refs": null, "key": "f5736feee509aba7992bb55a9facdc501049d657"}
+{"out": "[none]", "prompt_tokens": 811, "ttft": 2.586, "ref": "none", "truncated": false, "visible_refs": null, "key": "4fde306054f84af4dbce9b125a7e15519c904fbf"}
+{"out": "[69822]", "prompt_tokens": 1251, "ttft": 1.99, "ref": "69822", "truncated": false, "visible_refs": null, "key": "5a8246a42119f92c3ad554d1e88cc7cdc7204bad"}
+{"out": "[68171]", "prompt_tokens": 1424, "ttft": 3.044, "ref": "68171", "truncated": false, "visible_refs": null, "key": "892b8792c2ff82508e68837067e8726b0f136dbd"}
+{"out": "[68216]", "prompt_tokens": 4251, "ttft": 2.778, "ref": "68216", "truncated": false, "visible_refs": null, "key": "3bb696447fa44ef4be06218f2454b2d3ac59bb17"}
+{"out": "[16843]", "prompt_tokens": 36350, "ttft": 2.694, "ref": "16843", "truncated": false, "visible_refs": null, "key": "b79ead8d74edbc3a5e405448eaee34192051524d"}
+{"out": "[none]", "prompt_tokens": 892, "ttft": 1.873, "ref": "none", "truncated": false, "visible_refs": null, "key": "9320619104510ca8e514197d3e36541e3529feff"}
+{"out": "[13917]", "prompt_tokens": 1677, "ttft": 1.886, "ref": "13917", "truncated": false, "visible_refs": null, "key": "b1fdb7c4422f182e8577535f0e7ec48ab74124cc"}
+{"out": "[12869]", "prompt_tokens": 794, "ttft": 1.612, "ref": "12869", "truncated": false, "visible_refs": null, "key": "e57964798635c147c6060ef7d62de081bcbf924d"}
+{"out": "[13917]", "prompt_tokens": 1281, "ttft": 1.663, "ref": "13917", "truncated": false, "visible_refs": null, "key": "7ade11e33e4002c9202cc89bcf0729dbb17c1a08"}
+{"out": "[14703]", "prompt_tokens": 1051, "ttft": 1.807, "ref": "14703", "truncated": false, "visible_refs": null, "key": "514de3182cb11619fec810ced774b24a77efa4de"}
+{"out": "[14703]", "prompt_tokens": 3615, "ttft": 1.616, "ref": "14703", "truncated": false, "visible_refs": null, "key": "fae8556543e4ef6cb258ddc80bd48b66c279afd1"}
+{"out": "[356]", "prompt_tokens": 27848, "ttft": 7.933, "ref": "356", "truncated": false, "visible_refs": null, "key": "ad4f887cbbd66b1cd43b10fb47ec95ca3e75de15"}
+{"out": "[356]", "prompt_tokens": 954, "ttft": 1.241, "ref": "356", "truncated": false, "visible_refs": null, "key": "346328e3f3d6bb11d3fff4157eaa7ad1546525aa"}
+{"out": "[356]", "prompt_tokens": 2068, "ttft": 1.061, "ref": "356", "truncated": false, "visible_refs": null, "key": "77e6effc247d2777bceabb5b7094216f9ad4450b"}
+{"out": "[none]", "prompt_tokens": 1215, "ttft": 0.838, "ref": "none", "truncated": false, "visible_refs": null, "key": "57dcdc8770cfc440634c57779ee5e1796fef9ee6"}
+{"out": "[356]", "prompt_tokens": 2380, "ttft": 1.355, "ref": "356", "truncated": false, "visible_refs": null, "key": "67589d4a91cd79c759209ae8d92c1f3d763e2b50"}
+{"out": "[none]", "prompt_tokens": 1631, "ttft": 1.578, "ref": "none", "truncated": false, "visible_refs": null, "key": "4316066159cc523dbfce9dd299c9ab854f94e1fc"}
+{"out": "[325]", "prompt_tokens": 4403, "ttft": 2.203, "ref": "325", "truncated": false, "visible_refs": null, "key": "add164cbb40d7663356574e27618f802296e2162"}
+{"out": "[31270]", "prompt_tokens": 29401, "ttft": 2.483, "ref": "31270", "truncated": false, "visible_refs": null, "key": "ab4694d1f152a40301da092617d9371148ad7e7d"}
+{"out": "[28995]", "prompt_tokens": 1108, "ttft": 1.786, "ref": "28995", "truncated": false, "visible_refs": null, "key": "a6a4352a22a1e69f46302714867e6286fb164748"}
+{"out": "[28995]", "prompt_tokens": 3422, "ttft": 3.434, "ref": "28995", "truncated": false, "visible_refs": null, "key": "ce6a2445479457e9bb3cc066f986c80888d4fd6a"}
+{"out": "[28995]", "prompt_tokens": 787, "ttft": 1.867, "ref": "28995", "truncated": false, "visible_refs": null, "key": "a577d8b2a8f11c7c0a0f8bf9673b654b45a6fd3e"}
+{"out": "[30715]", "prompt_tokens": 1162, "ttft": 1.639, "ref": "30715", "truncated": false, "visible_refs": null, "key": "283f09cd0996dcf149a7346f3035b3b13c895c6a"}
+{"out": "[28995]", "prompt_tokens": 1894, "ttft": 2.182, "ref": "28995", "truncated": false, "visible_refs": null, "key": "e769d23c62602ccef9179bfb651771b789b7134b"}
+{"out": "[31162]", "prompt_tokens": 5797, "ttft": 2.491, "ref": "31162", "truncated": false, "visible_refs": null, "key": "589748aa4e4c19a1cf94dbe0514f620d373269ab"}
+{"out": "[311]", "prompt_tokens": 17573, "ttft": 1.559, "ref": "311", "truncated": false, "visible_refs": null, "key": "bc51f0f88037a09947d8d3189e6941d0b676218e"}
+{"out": "[436]", "prompt_tokens": 754, "ttft": 1.767, "ref": "436", "truncated": false, "visible_refs": null, "key": "f0c763de9008dc1789289a42a6c5294e9f96132d"}
+{"out": "[436]", "prompt_tokens": 1304, "ttft": 1.137, "ref": "436", "truncated": false, "visible_refs": null, "key": "45018fae8e734cb799e7294f36e71a6bfa894860"}
+{"out": "[484]", "prompt_tokens": 711, "ttft": 0.92, "ref": "484", "truncated": false, "visible_refs": null, "key": "466a99e91a934cdb2b598ff0ce1ec851717df3c8"}
+{"out": "[436]", "prompt_tokens": 1133, "ttft": 1.304, "ref": "436", "truncated": false, "visible_refs": null, "key": "546f7a89fd1d0ff674baa9e097e517e8f5ce6d40"}
+{"out": "[436]", "prompt_tokens": 961, "ttft": 0.628, "ref": "436", "truncated": false, "visible_refs": null, "key": "10404b2b618ec9b6951758a889ac79c17922d2cf"}
+{"out": "[311]", "prompt_tokens": 1691, "ttft": 1.043, "ref": "311", "truncated": false, "visible_refs": null, "key": "8503109fc4493022ac392797d8f5738deee5a618"}
+{"out": "[10366]", "prompt_tokens": 8221, "ttft": 1.908, "ref": "10366", "truncated": false, "visible_refs": null, "key": "96c06915dd444d060744842b37ff1548d82ae3a4"}
+{"out": "[10349]", "prompt_tokens": 806, "ttft": 1.345, "ref": "10349", "truncated": false, "visible_refs": null, "key": "1a427515bcf4fb6e683a3c2171623ad3136e28aa"}
+{"out": "[10349]", "prompt_tokens": 1573, "ttft": 1.281, "ref": "10349", "truncated": false, "visible_refs": null, "key": "451677bd21325939b296678d00b222be3bdaaaa8"}
+{"out": "[9753]", "prompt_tokens": 801, "ttft": 1.751, "ref": "9753", "truncated": false, "visible_refs": null, "key": "81239925a129d405a0de33610c979405eb77d123"}
+{"out": "[10349]", "prompt_tokens": 1523, "ttft": 1.16, "ref": "10349", "truncated": false, "visible_refs": null, "key": "2f71313e61ad14b4cc31ff530cbca1fb63a66939"}
+{"out": "[10349]", "prompt_tokens": 1055, "ttft": 1.052, "ref": "10349", "truncated": false, "visible_refs": null, "key": "bd94d9266fed9fd52d7953154aac09008e5986ba"}
+{"out": "[10321]", "prompt_tokens": 1985, "ttft": 1.592, "ref": "10321", "truncated": false, "visible_refs": null, "key": "866a0852053c5f4835390d3c547c16c7c3151f26"}
+{"out": "[258016]", "prompt_tokens": 53284, "ttft": 4.032, "ref": "258016", "truncated": false, "visible_refs": null, "key": "9dbd95a667949376999d9c8618b2d517ed92e9be"}
+{"out": "[266019]", "prompt_tokens": 886, "ttft": 2.329, "ref": "266019", "truncated": false, "visible_refs": null, "key": "cf30fcb58d509dcf03ced36104c3f7db1df91081"}
+{"out": "[266019]", "prompt_tokens": 3483, "ttft": 1.594, "ref": "266019", "truncated": false, "visible_refs": null, "key": "469dd9c1c25f36c259414f59040649be5b78d830"}
+{"out": "[266019]", "prompt_tokens": 985, "ttft": 1.737, "ref": "266019", "truncated": false, "visible_refs": null, "key": "9f4c40aff4599b3bbcf062881acf41ef75d01ee9"}
+{"out": "[266019]", "prompt_tokens": 4428, "ttft": 1.991, "ref": "266019", "truncated": false, "visible_refs": null, "key": "80198f622ea42837a687fc20e53f6ead35ab6ec4"}
+{"out": "[266019]", "prompt_tokens": 1128, "ttft": 1.647, "ref": "266019", "truncated": false, "visible_refs": null, "key": "900df15a5c3f0a5563dbb4351716f332522ccc27"}
+{"out": "[266019]", "prompt_tokens": 4474, "ttft": 1.684, "ref": "266019", "truncated": false, "visible_refs": null, "key": "452d05b732a554a1dd94aded9c53fe0c67aa45be"}
+{"out": "[61280]", "prompt_tokens": 16205, "ttft": 1.74, "ref": "61280", "truncated": false, "visible_refs": null, "key": "27e46ec29675d0bf4ed0d316055dcbc9ca21b216"}
+{"out": "[62713]", "prompt_tokens": 1209, "ttft": 1.802, "ref": "62713", "truncated": false, "visible_refs": null, "key": "eb90da6087bd8e874d134963b4c84dbf7cf2c595"}
+{"out": "[61280]", "prompt_tokens": 2602, "ttft": 1.574, "ref": "61280", "truncated": false, "visible_refs": null, "key": "fa3668312be91f70e8908dfe7118f1f5b3d2bc8c"}
+{"out": "[none]", "prompt_tokens": 1145, "ttft": 3.003, "ref": "none", "truncated": false, "visible_refs": null, "key": "941c8cc6aae65f9231ba9751605cabb4eb04b39e"}
+{"out": "[61280]", "prompt_tokens": 2297, "ttft": 1.605, "ref": "61280", "truncated": false, "visible_refs": null, "key": "abe2355185ec8684f9c61cc99d0279e07b98c3d1"}
+{"out": "[62716]", "prompt_tokens": 1519, "ttft": 1.929, "ref": "62716", "truncated": false, "visible_refs": null, "key": "729ed59bc2c2b196ecfb6e8fcd1181519585184b"}
+{"out": "[61280]", "prompt_tokens": 3683, "ttft": 1.959, "ref": "61280", "truncated": false, "visible_refs": null, "key": "c692d07083334162bf0c522dfe09eef039cdee82"}
+{"out": "[28706]", "prompt_tokens": 4762, "ttft": 1.454, "ref": "28706", "truncated": false, "visible_refs": null, "key": "767449aeb12beb969897ed75872fe56250e1bc6a"}
+{"out": "[29066]", "prompt_tokens": 913, "ttft": 1.969, "ref": "29066", "truncated": false, "visible_refs": null, "key": "b92d0861a711b863a3c1a00b375d8a1d049bc176"}
+{"out": "[28706]", "prompt_tokens": 2170, "ttft": 1.916, "ref": "28706", "truncated": false, "visible_refs": null, "key": "13499f4dfc8d50bb3dc44548a83065c49382301e"}
+{"out": "[29070]", "prompt_tokens": 881, "ttft": 2.287, "ref": "29070", "truncated": false, "visible_refs": null, "key": "b5da6a057377c0e5f70d05ff35838947fb210e32"}
+{"out": "[28706]", "prompt_tokens": 1311, "ttft": 1.115, "ref": "28706", "truncated": false, "visible_refs": null, "key": "ac1dad23a78d5311c0d7f80a6838f4403b13f463"}
+{"out": "[29068]", "prompt_tokens": 1130, "ttft": 3.137, "ref": "29068", "truncated": false, "visible_refs": null, "key": "dadb25d07cada9d6e145de82fe08ca6e3edfcbba"}
+{"out": "[28706]", "prompt_tokens": 2086, "ttft": 1.526, "ref": "28706", "truncated": false, "visible_refs": null, "key": "c555e6ace2dfd32777a0daf600986b44abfa9f66"}
+{"out": "[108474]", "prompt_tokens": 9212, "ttft": 1.594, "ref": "108474", "truncated": false, "visible_refs": null, "key": "c00c8077b2501f8c212abf629a36c8fb65b280f9"}
+{"out": "[108474]", "prompt_tokens": 1015, "ttft": 0.921, "ref": "108474", "truncated": false, "visible_refs": null, "key": "42ee876546056302fff65c96904e712fe070ea06"}
+{"out": "[108474]", "prompt_tokens": 2376, "ttft": 1.596, "ref": "108474", "truncated": false, "visible_refs": null, "key": "6a23944a5e35f5628b7066a935560ad826026de3"}
+{"out": "[109071]", "prompt_tokens": 832, "ttft": 3.419, "ref": "109071", "truncated": false, "visible_refs": null, "key": "502aa9e2396c30a93b5e09f615023c1107f80020"}
+{"out": "[108469]", "prompt_tokens": 1253, "ttft": 1.688, "ref": "108469", "truncated": false, "visible_refs": null, "key": "972a5a48fbedb728270124f4de69a47da5e894b3"}
+{"out": "[none]", "prompt_tokens": 1530, "ttft": 2.944, "ref": "none", "truncated": false, "visible_refs": null, "key": "92dc07ca70b8e0f7dfffb17a8f9384a1182517af"}
+{"out": "[none]", "prompt_tokens": 3502, "ttft": 2.723, "ref": "none", "truncated": false, "visible_refs": null, "key": "a369e1da37c6408388b936f9eca6f068bec9f740"}
+{"out": "[10293]", "prompt_tokens": 17178, "ttft": 1.376, "ref": "10293", "truncated": false, "visible_refs": null, "key": "920f803e4f6eb2b78d99d828eeded2f9ae721f71"}
+{"out": "[10096]", "prompt_tokens": 821, "ttft": 1.305, "ref": "10096", "truncated": false, "visible_refs": null, "key": "1900d847e2ed77e13b0ad79eb013c0570b63e27b"}
+{"out": "[10096]", "prompt_tokens": 1458, "ttft": 2.242, "ref": "10096", "truncated": false, "visible_refs": null, "key": "6d6b2ae05db947cf21fe64223fa8cd64375ef5f0"}
+{"out": "[12085]", "prompt_tokens": 738, "ttft": 1.94, "ref": "12085", "truncated": false, "visible_refs": null, "key": "231162d1e7a44955fed9807475c73c355f5e4a6c"}
+{"out": "[12085]", "prompt_tokens": 1058, "ttft": 1.298, "ref": "12085", "truncated": false, "visible_refs": null, "key": "755f5d2b0afb70b2829a9c64f3f59a50dc36d4f2"}
+{"out": "[9941]", "prompt_tokens": 908, "ttft": 1.448, "ref": "9941", "truncated": false, "visible_refs": null, "key": "0e46486dc4788e11214acf14dd15e744bbf22b1e"}
+{"out": "[9950]", "prompt_tokens": 2065, "ttft": 1.63, "ref": "9950", "truncated": false, "visible_refs": null, "key": "18fbdcf6e96a4a147c21ded21a69f64a5dafdf10"}
+{"out": "[53878]", "prompt_tokens": 13167, "ttft": 1.622, "ref": "53878", "truncated": false, "visible_refs": null, "key": "9d3bd9c845e1a1fc26c55189e71434b48fd8a68a"}
+{"out": "[54549]", "prompt_tokens": 1485, "ttft": 2.506, "ref": "54549", "truncated": false, "visible_refs": null, "key": "662f117e4c40960dcee616a131d6843b914c5ccc"}
+{"out": "[56442]", "prompt_tokens": 2634, "ttft": 2.88, "ref": "56442", "truncated": false, "visible_refs": null, "key": "23e815b5c42d2323ffc3c9a11ed58af7f41c3494"}
+{"out": "[54549]", "prompt_tokens": 1456, "ttft": 1.97, "ref": "54549", "truncated": false, "visible_refs": null, "key": "e2a2bd1dbe7290a40e28f5b3bacb674725e571ff"}
+{"out": "[54549]", "prompt_tokens": 2623, "ttft": 1.542, "ref": "54549", "truncated": false, "visible_refs": null, "key": "1613157255b44650864cfd1d61b9f85bdfea06c0"}
+{"out": "[54451]", "prompt_tokens": 1536, "ttft": 2.308, "ref": "54451", "truncated": false, "visible_refs": null, "key": "cf6bf8803488aa32175262143b5328486c58d28a"}
+{"out": "[54549]", "prompt_tokens": 3431, "ttft": 1.711, "ref": "54549", "truncated": false, "visible_refs": null, "key": "5e240a98c6969d0a10fde843314896e1d327accf"}
+{"out": "[6015]", "prompt_tokens": 15904, "ttft": 1.752, "ref": "6015", "truncated": false, "visible_refs": null, "key": "ee588e6ccfcafe96c3889350da4f47f6a7ea4bd2"}
+{"out": "[6581]", "prompt_tokens": 923, "ttft": 1.855, "ref": "6581", "truncated": false, "visible_refs": null, "key": "b438d6429529cec9aaeac7441af91d699bddb0af"}
+{"out": "[none]", "prompt_tokens": 2894, "ttft": 2.39, "ref": "none", "truncated": false, "visible_refs": null, "key": "a35ba1eb53e82ff846bba3a865d8766680e3c0dc"}
+{"out": "[5895]", "prompt_tokens": 883, "ttft": 1.37, "ref": "5895", "truncated": false, "visible_refs": null, "key": "5e8c4741807e3de9e25e5f6f7d8f070fe4b96be1"}
+{"out": "[5895]", "prompt_tokens": 2554, "ttft": 1.755, "ref": "5895", "truncated": false, "visible_refs": null, "key": "edf76a025fcb820aa31149024b2e6d148fef84d4"}
+{"out": "[none]", "prompt_tokens": 976, "ttft": 2.062, "ref": "none", "truncated": false, "visible_refs": null, "key": "2a2edd3c3e19fba8ca899a39718e9fbeaa27d0be"}
+{"out": "[6898]", "prompt_tokens": 3361, "ttft": 2.182, "ref": "6898", "truncated": false, "visible_refs": null, "key": "df725ef2d987ac132af9a6b3b1b283585dedbef8"}
+{"out": "[6050]", "prompt_tokens": 4195, "ttft": 1.447, "ref": "6050", "truncated": false, "visible_refs": null, "key": "f768055f5739502b9bf6be6bc5c9925f0da28592"}
+{"out": "[none]", "prompt_tokens": 1059, "ttft": 1.848, "ref": "none", "truncated": false, "visible_refs": null, "key": "074473353ad72885dec9776010eca810806f91b3"}
+{"out": "[6050]", "prompt_tokens": 3061, "ttft": 1.422, "ref": "6050", "truncated": false, "visible_refs": null, "key": "83f6575bfdbaa372218bbc39a4e8e5311812569f"}
+{"out": "[5997]", "prompt_tokens": 1080, "ttft": 1.262, "ref": "5997", "truncated": false, "visible_refs": null, "key": "0ff0966432f7d6b3605b20dfa09a340f9d7b425d"}
+{"out": "[6050]", "prompt_tokens": 2489, "ttft": 1.251, "ref": "6050", "truncated": false, "visible_refs": null, "key": "1b648d2a923e654d7ac6b56d7d929aa28357791f"}
+{"out": "[none]", "prompt_tokens": 1230, "ttft": 1.624, "ref": "none", "truncated": false, "visible_refs": null, "key": "1fd2308a982f55803792ee51b9becd5bc67744d3"}
+{"out": "[5995]", "prompt_tokens": 3106, "ttft": 1.357, "ref": "5995", "truncated": false, "visible_refs": null, "key": "15268f562d95b891c0cbcc43da91cab298911692"}
+{"out": "[119332]", "prompt_tokens": 11601, "ttft": 3.26, "ref": "119332", "truncated": false, "visible_refs": null, "key": "f5e9c3fb14e315a46f8f23f028ba4ef93776c425"}
+{"out": "[116227]", "prompt_tokens": 1211, "ttft": 1.857, "ref": "116227", "truncated": false, "visible_refs": null, "key": "1243a62ea93f9404a251c1a276941ea29a5f475f"}
+{"out": "[118987]", "prompt_tokens": 2503, "ttft": 2.542, "ref": "118987", "truncated": false, "visible_refs": null, "key": "df86fd6d2a2e75403100a518d1dfef9c2037f0f4"}
+{"out": "[116227]", "prompt_tokens": 1189, "ttft": 2.163, "ref": "116227", "truncated": false, "visible_refs": null, "key": "26a7dbfd925df17dc6476217827a6a88f1049a74"}
+{"out": "[121140]", "prompt_tokens": 1678, "ttft": 2.147, "ref": "121140", "truncated": false, "visible_refs": null, "key": "caf1d057c533e164f5e3933929218d7ba8d4bb67"}
+{"out": "[none]", "prompt_tokens": 1427, "ttft": 2.174, "ref": "none", "truncated": false, "visible_refs": null, "key": "47f0dce8f050b508d06eb56fb028567cabe82b36"}
+{"out": "[118699]", "prompt_tokens": 2916, "ttft": 3.14, "ref": "118699", "truncated": false, "visible_refs": null, "key": "fa98ff2bebc1f7510e554bc742d061627b539cce"}
+{"out": "[612]", "prompt_tokens": 5650, "ttft": 1.73, "ref": "612", "truncated": false, "visible_refs": null, "key": "91278f0a25f0ce5f2503ca0b4a2a252e131b80f1"}
+{"out": "[638]", "prompt_tokens": 782, "ttft": 1.318, "ref": "638", "truncated": false, "visible_refs": null, "key": "5ac70243f3a2d7710938977be9cda74d5b25460a"}
+{"out": "[344]", "prompt_tokens": 1386, "ttft": 0.812, "ref": "344", "truncated": false, "visible_refs": null, "key": "cd5c9e0bd37a57fde1d2d6b022baa8db84c805ba"}
+{"out": "[968]", "prompt_tokens": 702, "ttft": 1.577, "ref": "968", "truncated": false, "visible_refs": null, "key": "b26079334d57567e463bbbffbf01d618d36b2eec"}
+{"out": "[610]", "prompt_tokens": 1114, "ttft": 1.473, "ref": "610", "truncated": false, "visible_refs": null, "key": "40e88efaf9cd5e86c9f56ccacb40564790224dae"}
+{"out": "[638]", "prompt_tokens": 1035, "ttft": 1.018, "ref": "638", "truncated": false, "visible_refs": null, "key": "cb932e41d7d58bf9840bbaba711f90c51dfddc99"}
+{"out": "[638]", "prompt_tokens": 2628, "ttft": 2.971, "ref": "638", "truncated": false, "visible_refs": null, "key": "26556772824bdfb4774f350bb13812fc5cd7da60"}
+{"out": "[8718]", "prompt_tokens": 15083, "ttft": 1.254, "ref": "8718", "truncated": false, "visible_refs": null, "key": "0498a61c6f0c9b2459a23ac5d3716dd3d84dbb09"}
+{"out": "[12228]", "prompt_tokens": 963, "ttft": 2.017, "ref": "12228", "truncated": false, "visible_refs": null, "key": "3eda4269aceffa61626a22dccda2de0584fbda4b"}
+{"out": "[12863]", "prompt_tokens": 2533, "ttft": 1.796, "ref": "12863", "truncated": false, "visible_refs": null, "key": "6a520da66b14bd8cdb684c2c6da21bc7896a94f2"}
+{"out": "[8718]", "prompt_tokens": 785, "ttft": 0.921, "ref": "8718", "truncated": false, "visible_refs": null, "key": "3b09c0aac723ab19704f554117a87afe40a6c10b"}
+{"out": "[8718]", "prompt_tokens": 1424, "ttft": 1.406, "ref": "8718", "truncated": false, "visible_refs": null, "key": "4b45ae25d45f4a5e6cd0bb3653f9e503c95b9f61"}
+{"out": "[9003]", "prompt_tokens": 1496, "ttft": 1.875, "ref": "9003", "truncated": false, "visible_refs": null, "key": "08946dbde8f517c75f533d8f8c14153d73deb050"}
+{"out": "[8718]", "prompt_tokens": 4020, "ttft": 1.009, "ref": "8718", "truncated": false, "visible_refs": null, "key": "4b46c95f2964c4a01c0af49b78e5dd1145d691e5"}
+{"out": "[16935]", "prompt_tokens": 16791, "ttft": 3.136, "ref": "16935", "truncated": false, "visible_refs": null, "key": "f8e983dc1dad41490af49ee4134604d8068b6966"}
+{"out": "[19833]", "prompt_tokens": 838, "ttft": 2.978, "ref": "19833", "truncated": false, "visible_refs": null, "key": "37d4cda9b9654176eed23d66dda2264e9fca66d1"}
+{"out": "[17081]", "prompt_tokens": 1590, "ttft": 1.659, "ref": "17081", "truncated": false, "visible_refs": null, "key": "ea048dcbfb0b857c76ac71717706d5f47569d2e7"}
+{"out": "[19481]", "prompt_tokens": 821, "ttft": 1.798, "ref": "19481", "truncated": false, "visible_refs": null, "key": "68bc32f69a15b17ea33e7c3b5b515d460ea25d59"}
+{"out": "[19481]", "prompt_tokens": 1153, "ttft": 2.309, "ref": "19481", "truncated": false, "visible_refs": null, "key": "2e6f1a3f9226d0e93f4355550fb91f0a814bdb4b"}
+{"out": "[19833]", "prompt_tokens": 831, "ttft": 2.614, "ref": "19833", "truncated": false, "visible_refs": null, "key": "b389291ecb1fbca43a5af0ab5aa53239c744fcb0"}
+{"out": "[17080]", "prompt_tokens": 2451, "ttft": 2.041, "ref": "17080", "truncated": false, "visible_refs": null, "key": "bdf32a726e4839f25eb6db3570395ca7d28a8ea6"}
+{"out": "[35391]", "prompt_tokens": 18450, "ttft": 2.513, "ref": "35391", "truncated": false, "visible_refs": null, "key": "9d2acae8037f6840cf581230148ff67764aefbe5"}
+{"out": "[34994]", "prompt_tokens": 800, "ttft": 2.303, "ref": "34994", "truncated": false, "visible_refs": null, "key": "5469d216bf831a9c48ca8492ffe217b324d1117e"}
+{"out": "[34994]", "prompt_tokens": 1365, "ttft": 2.519, "ref": "34994", "truncated": false, "visible_refs": null, "key": "04b04a48f0d56e1957ac5a2e5604181b3ff40669"}
+{"out": "[34994]", "prompt_tokens": 776, "ttft": 2.408, "ref": "34994", "truncated": false, "visible_refs": null, "key": "4a5ff70f5f049bb71934d3c12a65db55c7efe344"}
+{"out": "[35206]", "prompt_tokens": 1223, "ttft": 1.842, "ref": "35206", "truncated": false, "visible_refs": null, "key": "08a010bec83609bc99f5ef5d1426d27260263845"}
+{"out": "[34994]", "prompt_tokens": 1078, "ttft": 2.445, "ref": "34994", "truncated": false, "visible_refs": null, "key": "7cab07304e47596297079984710a7ab07075f1a3"}
+{"out": "[34994]", "prompt_tokens": 1776, "ttft": 2.336, "ref": "34994", "truncated": false, "visible_refs": null, "key": "b6852bef4cc117c2e527bb8aaf3e08c1db18f478"}
+{"out": "[25351]", "prompt_tokens": 13345, "ttft": 2.544, "ref": "25351", "truncated": false, "visible_refs": null, "key": "8bb244743aa41b4e51ed84fc44bb7d589fd58a1a"}
+{"out": "[25351]", "prompt_tokens": 852, "ttft": 1.827, "ref": "25351", "truncated": false, "visible_refs": null, "key": "437961a070faa2b9f2d977b31db7c6312b7c96b6"}
+{"out": "[25351]", "prompt_tokens": 2362, "ttft": 1.626, "ref": "25351", "truncated": false, "visible_refs": null, "key": "d0f97fe565eb405e0f3492e684d0966d936d775f"}
+{"out": "[25351]", "prompt_tokens": 933, "ttft": 1.774, "ref": "25351", "truncated": false, "visible_refs": null, "key": "f584e24aa6a8592b2718a67bfb86a5aa049d8133"}
+{"out": "[25351]", "prompt_tokens": 2091, "ttft": 2.208, "ref": "25351", "truncated": false, "visible_refs": null, "key": "37a34deb61ee5776f2fca260ba92d0ddca974c3e"}
+{"out": "[25351]", "prompt_tokens": 1063, "ttft": 2.445, "ref": "25351", "truncated": false, "visible_refs": null, "key": "9626bf16b99f3eae4adf7e70005cc0b7a91dd146"}
+{"out": "[26803]", "prompt_tokens": 3472, "ttft": 0.972, "ref": "26803", "truncated": false, "visible_refs": null, "key": "526a0db8b5fecbc1ae6fd8282765b4cdc595b7cd"}
+{"out": "[23842]", "prompt_tokens": 8929, "ttft": 2.377, "ref": "23842", "truncated": false, "visible_refs": null, "key": "cc19d0efd55d2ce06ea0aa1897bf35b1bece9cd0"}
+{"out": "[23566]", "prompt_tokens": 1043, "ttft": 1.155, "ref": "23566", "truncated": false, "visible_refs": null, "key": "b7b811928455c4edf0810c02aeff98cbc004484c"}
+{"out": "[23566]", "prompt_tokens": 3024, "ttft": 3.182, "ref": "23566", "truncated": false, "visible_refs": null, "key": "db508c3a118382f345c6abd58547e8b305d92845"}
+{"out": "[23384]", "prompt_tokens": 987, "ttft": 1.505, "ref": "23384", "truncated": false, "visible_refs": null, "key": "42b2432fa63e86240a36e7474dfcb33f9b552e9a"}
+{"out": "[23384]", "prompt_tokens": 2168, "ttft": 2.26, "ref": "23384", "truncated": false, "visible_refs": null, "key": "be2f870133230c75d7f4dfd9ca6396f9d6699a5e"}
+{"out": "[23566]", "prompt_tokens": 1188, "ttft": 1.18, "ref": "23566", "truncated": false, "visible_refs": null, "key": "c53890c45ce59736d303f074feeca850a06fb60b"}
+{"out": "[23342]", "prompt_tokens": 3563, "ttft": 2.934, "ref": "23342", "truncated": false, "visible_refs": null, "key": "dace3190d975b88e191aa985bbdbea2d162579b0"}
+{"out": "[17539]", "prompt_tokens": 5491, "ttft": 1.435, "ref": "17539", "truncated": false, "visible_refs": null, "key": "c2c730b55b0b70dbb928947734e8d99dfb91625d"}
+{"out": "[17211]", "prompt_tokens": 817, "ttft": 1.208, "ref": "17211", "truncated": false, "visible_refs": null, "key": "d3f9f0e7190793f3bc2db27cf442390512116eff"}
+{"out": "[17539]", "prompt_tokens": 1540, "ttft": 1.244, "ref": "17539", "truncated": false, "visible_refs": null, "key": "8238ae0e37fcaf724780116739bfd354ac290779"}
+{"out": "[17213]", "prompt_tokens": 763, "ttft": 1.896, "ref": "17213", "truncated": false, "visible_refs": null, "key": "3ad306cbc7ba98251cee5f9ff18fd6db3dc03a1e"}
+{"out": "[17539]", "prompt_tokens": 1297, "ttft": 1.742, "ref": "17539", "truncated": false, "visible_refs": null, "key": "8b131baed9f4ecb96e6489904d8ca790221ad4d9"}
+{"out": "[17211]", "prompt_tokens": 817, "ttft": 1.189, "ref": "17211", "truncated": false, "visible_refs": null, "key": "ca8c58b4592420b7396747c286d013db1d1aa7ad"}
+{"out": "[17213]", "prompt_tokens": 2347, "ttft": 1.073, "ref": "17213", "truncated": false, "visible_refs": null, "key": "fbfb7b4b8a5c8f34acdfa22842c223fda3b1f265"}
+{"out": "[307]", "prompt_tokens": 3332, "ttft": 1.566, "ref": "307", "truncated": false, "visible_refs": null, "key": "f68b5b172127c1bed4330a158ddf1f7004cfff7d"}
+{"out": "[512]", "prompt_tokens": 843, "ttft": 1.823, "ref": "512", "truncated": false, "visible_refs": null, "key": "1494d5d6b24903a3c23bca1c79c9457d66e51b3a"}
+{"out": "[171]", "prompt_tokens": 1870, "ttft": 2.643, "ref": "171", "truncated": false, "visible_refs": null, "key": "e9d0d89d241c2ced14bdde3bb96afb4dcd6c84a7"}
+{"out": "[none]", "prompt_tokens": 720, "ttft": 2.534, "ref": "none", "truncated": false, "visible_refs": null, "key": "25ca8c83f1fd76f2eb88a729b17b1c9dfc70a7b8"}
+{"out": "[156]", "prompt_tokens": 1135, "ttft": 2.658, "ref": "156", "truncated": false, "visible_refs": null, "key": "c533e9103200d5919bd8ec9b8e14e309d4f1dbaf"}
+{"out": "[268]", "prompt_tokens": 1196, "ttft": 1.55, "ref": "268", "truncated": false, "visible_refs": null, "key": "ef3526d0a11be06e97d820d00855e6bcf0cefd04"}
+{"out": "[303]", "prompt_tokens": 2251, "ttft": 1.565, "ref": "303", "truncated": false, "visible_refs": null, "key": "8d28845105b478eac3c04d198c0aec9f22881009"}
+{"out": "[8522]", "prompt_tokens": 28732, "ttft": 1.963, "ref": "8522", "truncated": false, "visible_refs": null, "key": "7719011789b3822a6319933e658aca28701119a5"}
+{"out": "[8630]", "prompt_tokens": 847, "ttft": 1.87, "ref": "8630", "truncated": false, "visible_refs": null, "key": "5eb6578053ec2d48284919247d080f6bf12f6dde"}
+{"out": "[9305]", "prompt_tokens": 1774, "ttft": 1.996, "ref": "9305", "truncated": false, "visible_refs": null, "key": "bd3ca72f083f097c3cfdb49ae14504d33da28603"}
+{"out": "[8631]", "prompt_tokens": 729, "ttft": 0.912, "ref": "8631", "truncated": false, "visible_refs": null, "key": "0093220d2f9300bd988d606dc3e262dbd0331c0d"}
+{"out": "[8868]", "prompt_tokens": 1070, "ttft": 1.508, "ref": "8868", "truncated": false, "visible_refs": null, "key": "6d58b12e0de68a63315639ddd24c5889481e7404"}
+{"out": "[8833]", "prompt_tokens": 997, "ttft": 1.666, "ref": "8833", "truncated": false, "visible_refs": null, "key": "89cf8cbadee3afb10b1ff1194bb7845c85304904"}
+{"out": "[8833]", "prompt_tokens": 2495, "ttft": 2.107, "ref": "8833", "truncated": false, "visible_refs": null, "key": "cd449bbce4ddf8261619a01bbaf9e195201190ec"}
+{"out": "[116676]", "prompt_tokens": 23662, "ttft": 1.995, "ref": "116676", "truncated": false, "visible_refs": null, "key": "4f4178d0d4d0db1faf2f346620b90371d00e3722"}
+{"out": "[none]", "prompt_tokens": 910, "ttft": 2.534, "ref": "none", "truncated": false, "visible_refs": null, "key": "1424b01997164ed8430b444591a4f75cd9489f3e"}
+{"out": "[116804]", "prompt_tokens": 2439, "ttft": 1.62, "ref": "116804", "truncated": false, "visible_refs": null, "key": "b9785fd1f8d8819a91eeede3e2bdec96d787d1b9"}
+{"out": "[121343]", "prompt_tokens": 909, "ttft": 1.96, "ref": "121343", "truncated": false, "visible_refs": null, "key": "23f06eee2bf7a0aaf3953c67275d0dfea7e0f7ee"}
+{"out": "[116676]", "prompt_tokens": 2332, "ttft": 1.107, "ref": "116676", "truncated": false, "visible_refs": null, "key": "5cfc52db81a55cbcbe908a196e8cf71587fe2eaf"}
+{"out": "[118533]", "prompt_tokens": 1528, "ttft": 4.044, "ref": "118533", "truncated": false, "visible_refs": null, "key": "607d724d5b3b6e19307b5a670117c03654c0e29d"}
+{"out": "[116804]", "prompt_tokens": 3773, "ttft": 1.843, "ref": "116804", "truncated": false, "visible_refs": null, "key": "7e33b36bc019a0b287f9e930c7a0d67afb55dceb"}
+{"out": "[78888]", "prompt_tokens": 74928, "ttft": 2.357, "ref": "78888", "truncated": false, "visible_refs": null, "key": "b4a0449304217ab6c6c66eeb44df01e7832d62b7"}
+{"out": "[81120]", "prompt_tokens": 1088, "ttft": 1.747, "ref": "81120", "truncated": false, "visible_refs": null, "key": "10b5098fb53e782043a3f64fe1a38ce6fcd5659a"}
+{"out": "[78962]", "prompt_tokens": 2629, "ttft": 1.564, "ref": "78962", "truncated": false, "visible_refs": null, "key": "e3d0a08c435048897013c4c71f67874fb0d80216"}
+{"out": "[81120]", "prompt_tokens": 1258, "ttft": 2.046, "ref": "81120", "truncated": false, "visible_refs": null, "key": "5b96170aad5e207c5d8808b38631c151409e948c"}
+{"out": "[78962]", "prompt_tokens": 2621, "ttft": 1.608, "ref": "78962", "truncated": false, "visible_refs": null, "key": "cd9254b634743c8d2ff324c291eb5f270a76a146"}
+{"out": "[92580]", "prompt_tokens": 1323, "ttft": 1.658, "ref": "92580", "truncated": false, "visible_refs": null, "key": "7122a3e427e7d915ad67bf1e9c68374827f55b89"}
+{"out": "[78962]", "prompt_tokens": 3591, "ttft": 2.016, "ref": "78962", "truncated": false, "visible_refs": null, "key": "ef6455586180c793dc25d6d3bfbeafd7ab090b24"}
+{"out": "[37807]", "prompt_tokens": 32917, "ttft": 1.677, "ref": "37807", "truncated": false, "visible_refs": null, "key": "57ced51dd6fb155f2052b02545d33241f8d309b0"}
+{"out": "[33444]", "prompt_tokens": 1066, "ttft": 2.607, "ref": "33444", "truncated": false, "visible_refs": null, "key": "48adfe3213d39d92f5203ea6f3d4ccbc357e008b"}
+{"out": "[39037]", "prompt_tokens": 2821, "ttft": 1.505, "ref": "39037", "truncated": false, "visible_refs": null, "key": "8e85d6cc684aa511d44f305529e1cf7643286e59"}
+{"out": "[38061]", "prompt_tokens": 1511, "ttft": 2.083, "ref": "38061", "truncated": false, "visible_refs": null, "key": "f432316229f99e3547e9514d7193033b7a338d74"}
+{"out": "[39037]", "prompt_tokens": 3490, "ttft": 1.722, "ref": "39037", "truncated": false, "visible_refs": null, "key": "8bea2f149dc56ac356039ad532aff40c53e9d8e8"}
+{"out": "[39799]", "prompt_tokens": 1509, "ttft": 1.875, "ref": "39799", "truncated": false, "visible_refs": null, "key": "6a232fd6b2aae7aaa2bb21e5726f3f75284d1073"}
+{"out": "[39037]", "prompt_tokens": 3982, "ttft": 1.576, "ref": "39037", "truncated": false, "visible_refs": null, "key": "588baee65fcb321f6918a9c654e5902a74e17747"}
+{"out": "[655]", "prompt_tokens": 5872, "ttft": 1.418, "ref": "655", "truncated": false, "visible_refs": null, "key": "f0287abcf589e4343d20036d0d6efdea0872ffa4"}
+{"out": "[663]", "prompt_tokens": 891, "ttft": 1.955, "ref": "663", "truncated": false, "visible_refs": null, "key": "74ff28f1e15b00b23f6ef5a5c6a7a4ffc41b23d1"}
+{"out": "[650]", "prompt_tokens": 1502, "ttft": 1.479, "ref": "650", "truncated": false, "visible_refs": null, "key": "271ec31be579ce6b5fa5cf5b4279bdad2ba38fda"}
+{"out": "[1313]", "prompt_tokens": 814, "ttft": 1.283, "ref": "1313", "truncated": false, "visible_refs": null, "key": "79ed8abb6fbe5557619e264817c11bfd98e8f6cc"}
+{"out": "[1313]", "prompt_tokens": 1215, "ttft": 1.635, "ref": "1313", "truncated": false, "visible_refs": null, "key": "b4ec262426e2106f670b164d41132cf392f4ca7a"}
+{"out": "[648]", "prompt_tokens": 1407, "ttft": 2.089, "ref": "648", "truncated": false, "visible_refs": null, "key": "664799e1c264d16c726f9479b49d7667ae2f7a77"}
+{"out": "[865]", "prompt_tokens": 2798, "ttft": 1.345, "ref": "865", "truncated": false, "visible_refs": null, "key": "ef1ac5adfdd345bbc2d0917e9ac94d6187334b6a"}
+{"out": "[12029]", "prompt_tokens": 8490, "ttft": 1.8, "ref": "12029", "truncated": false, "visible_refs": null, "key": "325d95986e2092e5700492dde4cab85a1be2e190"}
+{"out": "[12029]", "prompt_tokens": 956, "ttft": 1.112, "ref": "12029", "truncated": false, "visible_refs": null, "key": "84a0b5f510bfedd802be5c94f8b45f51b3ba6021"}
+{"out": "[12029]", "prompt_tokens": 2315, "ttft": 0.944, "ref": "12029", "truncated": false, "visible_refs": null, "key": "a4863ca64feab16fe1aac483ad84d9469db25c22"}
+{"out": "[none]", "prompt_tokens": 808, "ttft": 2.121, "ref": "none", "truncated": false, "visible_refs": null, "key": "24e68bb274ca31b270e92dd9be0a28e4c03dc910"}
+{"out": "[12660]", "prompt_tokens": 1236, "ttft": 2.36, "ref": "12660", "truncated": false, "visible_refs": null, "key": "a035c6a05b84cc8893fcfec22c5ada35299cef43"}
+{"out": "[12029]", "prompt_tokens": 1242, "ttft": 1.398, "ref": "12029", "truncated": false, "visible_refs": null, "key": "22dbb9b9ca1eff17e1be282fab541bf4b756da89"}
+{"out": "[12029]", "prompt_tokens": 3006, "ttft": 1.211, "ref": "12029", "truncated": false, "visible_refs": null, "key": "5ffee7503fd94177252cbb9a0783e1634f4b53bc"}
+{"out": "[5667]", "prompt_tokens": 13956, "ttft": 1.611, "ref": "5667", "truncated": false, "visible_refs": null, "key": "795e572c33ac2f83a95354df85578621049c08be"}
+{"out": "[4085]", "prompt_tokens": 860, "ttft": 1.202, "ref": "4085", "truncated": false, "visible_refs": null, "key": "79a1bd374077d9fb4ad70b698dc001e11fdcaaea"}
+{"out": "[5667]", "prompt_tokens": 1788, "ttft": 1.315, "ref": "5667", "truncated": false, "visible_refs": null, "key": "482ace424b02228612fcf6e7a82983ff127d29ed"}
+{"out": "[4085]", "prompt_tokens": 835, "ttft": 1.592, "ref": "4085", "truncated": false, "visible_refs": null, "key": "db39c0b7ddfe40272ae871830ab56af1009c1995"}
+{"out": "[4085]", "prompt_tokens": 1566, "ttft": 1.808, "ref": "4085", "truncated": false, "visible_refs": null, "key": "f4ed1a74215185a3669b6310a8c136e594b1eb2f"}
+{"out": "[7220]", "prompt_tokens": 1044, "ttft": 2.033, "ref": "7220", "truncated": false, "visible_refs": null, "key": "204506c48452fe4b767dacf71f61e1bc36f80b9f"}
+{"out": "[4085]", "prompt_tokens": 3515, "ttft": 2.692, "ref": "4085", "truncated": false, "visible_refs": null, "key": "2429301bf9443fdc29a9467d79c8b0b3431a1a6b"}
+{"out": "[6689]", "prompt_tokens": 7066, "ttft": 2.223, "ref": "6689", "truncated": false, "visible_refs": null, "key": "29cee32c35ec03b7bbe165f2f95d34d3d1c132d2"}
+{"out": "[6068]", "prompt_tokens": 828, "ttft": 2.431, "ref": "6068", "truncated": false, "visible_refs": null, "key": "e3b8a9b250c902ac649153bc211b3aa827d9056b"}
+{"out": "[6068]", "prompt_tokens": 1846, "ttft": 1.876, "ref": "6068", "truncated": false, "visible_refs": null, "key": "468a327330b6da7e404b0faad0d8089b6c540e3f"}
+{"out": "[6691]", "prompt_tokens": 781, "ttft": 1.321, "ref": "6691", "truncated": false, "visible_refs": null, "key": "1496e868c98fa884562ad4ad14052a032d6d84eb"}
+{"out": "[6691]", "prompt_tokens": 1893, "ttft": 1.827, "ref": "6691", "truncated": false, "visible_refs": null, "key": "35860a8c6e08c8449a7506810c9ea3bbcb12b0e7"}
+{"out": "[6691]", "prompt_tokens": 1302, "ttft": 1.178, "ref": "6691", "truncated": false, "visible_refs": null, "key": "f807db3596894e3a575664a3991586fc9ea85928"}
+{"out": "[6068]", "prompt_tokens": 3060, "ttft": 1.825, "ref": "6068", "truncated": false, "visible_refs": null, "key": "acd40335fed37d5523837ccd3dcceb8e678e72cc"}
+{"out": "[102310]", "prompt_tokens": 10453, "ttft": 3.381, "ref": "102310", "truncated": false, "visible_refs": null, "key": "3e67b575cb185114dce1f05c16e1df37d65380b3"}
+{"out": "[102310]", "prompt_tokens": 935, "ttft": 1.051, "ref": "102310", "truncated": false, "visible_refs": null, "key": "b56065c41f3508340c5d289c4c42395890ee2379"}
+{"out": "[102310]", "prompt_tokens": 2459, "ttft": 2.012, "ref": "102310", "truncated": false, "visible_refs": null, "key": "63ab39e6833acdfa781ba07e4d71d581c61ba6ad"}
+{"out": "[102305]", "prompt_tokens": 820, "ttft": 2.357, "ref": "102305", "truncated": false, "visible_refs": null, "key": "1b66f212f6521406db9e8440fc48d2c67ec63fcd"}
+{"out": "[102630]", "prompt_tokens": 1238, "ttft": 1.994, "ref": "102630", "truncated": false, "visible_refs": null, "key": "542352f0157101a4d378888496f68241e3e3c3eb"}
+{"out": "[102310]", "prompt_tokens": 1375, "ttft": 1.162, "ref": "102310", "truncated": false, "visible_refs": null, "key": "76a42c3401292c626dbd023636ff2172413cf8f2"}
+{"out": "[102310]", "prompt_tokens": 3342, "ttft": 1.32, "ref": "102310", "truncated": false, "visible_refs": null, "key": "44fb4e59fe6ebce9edc962405869213de391a977"}
+{"out": "[44554]", "prompt_tokens": 15402, "ttft": 1.341, "ref": "44554", "truncated": false, "visible_refs": null, "key": "abb794894cd3c54fd763d071e3a7fac9cc1d3831"}
+{"out": "[43635]", "prompt_tokens": 834, "ttft": 1.746, "ref": "43635", "truncated": false, "visible_refs": null, "key": "532955ecb9d224399a3c65021ba955194334e314"}
+{"out": "[44548]", "prompt_tokens": 1396, "ttft": 0.911, "ref": "44548", "truncated": false, "visible_refs": null, "key": "c2fcd692cfda74a1c0c5fd6f1a0ae682e58be599"}
+{"out": "[43611]", "prompt_tokens": 818, "ttft": 1.417, "ref": "43611", "truncated": false, "visible_refs": null, "key": "e70058aca32fa7efb7fb8cb28c9a20092252f536"}
+{"out": "[43611]", "prompt_tokens": 1305, "ttft": 1.915, "ref": "43611", "truncated": false, "visible_refs": null, "key": "e229ba102b809ab95d5dfb4162afca3febac40f4"}
+{"out": "[43611]", "prompt_tokens": 833, "ttft": 1.541, "ref": "43611", "truncated": false, "visible_refs": null, "key": "08b2cafd2e2c440d062ebab1828f21154c5acf57"}
+{"out": "[none]", "prompt_tokens": 2718, "ttft": 2.946, "ref": "none", "truncated": false, "visible_refs": null, "key": "51e0dfb3e2ee8449cd06f54f9a41282b9574218f"}
+{"out": "[1014]", "prompt_tokens": 16859, "ttft": 2.842, "ref": "1014", "truncated": false, "visible_refs": null, "key": "302f94caa7df93ebee92683023029705720edf36"}
+{"out": "[954]", "prompt_tokens": 822, "ttft": 2.498, "ref": "954", "truncated": false, "visible_refs": null, "key": "8a694a64707300f9e2bb8e6dacac87eef772e7da"}
+{"out": "[1277]", "prompt_tokens": 2119, "ttft": 1.707, "ref": "1277", "truncated": false, "visible_refs": null, "key": "61d0df1f132c78bd35d6661a1a67496674405ecb"}
+{"out": "[1277]", "prompt_tokens": 722, "ttft": 1.004, "ref": "1277", "truncated": false, "visible_refs": null, "key": "edb6941ad9d77dfbc9e04876daf9b1a4b5979b25"}
+{"out": "[1277]", "prompt_tokens": 1042, "ttft": 0.928, "ref": "1277", "truncated": false, "visible_refs": null, "key": "66cdf33f0871246c1a8dfb5340ccd99df591cbdb"}
+{"out": "[1277]", "prompt_tokens": 1620, "ttft": 1.193, "ref": "1277", "truncated": false, "visible_refs": null, "key": "78f4be76de1a755657b8f45eb501cf16ad97d742"}
+{"out": "[1277]", "prompt_tokens": 3268, "ttft": 2.567, "ref": "1277", "truncated": false, "visible_refs": null, "key": "49696c4906ac1e97d92b901231c3fe710ca914c0"}
+{"out": "[26588]", "prompt_tokens": 26828, "ttft": 2.001, "ref": "26588", "truncated": false, "visible_refs": null, "key": "14b9a95e99e4cc1e886f2a55f18bb03b8af8c46d"}
+{"out": "[26865]", "prompt_tokens": 867, "ttft": 1.183, "ref": "26865", "truncated": false, "visible_refs": null, "key": "8ebb5ff1b8b56505811fab55e0ad3ffcf33439ff"}
+{"out": "[27714]", "prompt_tokens": 1667, "ttft": 1.901, "ref": "27714", "truncated": false, "visible_refs": null, "key": "c9e182330d93486b3615a1a8f8fb330a6d1e9684"}
+{"out": "[26865]", "prompt_tokens": 796, "ttft": 1.074, "ref": "26865", "truncated": false, "visible_refs": null, "key": "dca3939f965fb2d5d5381c288ec58bd26a275f0b"}
+{"out": "[26588]", "prompt_tokens": 1282, "ttft": 1.24, "ref": "26588", "truncated": false, "visible_refs": null, "key": "5530dcdf19d3d335aa98e731cc03b8427e241b53"}
+{"out": "[26865]", "prompt_tokens": 1028, "ttft": 1.4, "ref": "26865", "truncated": false, "visible_refs": null, "key": "e898c2c49d3695645fb6f60c9a4bd7de2d49a744"}
+{"out": "[26865]", "prompt_tokens": 1601, "ttft": 1.486, "ref": "26865", "truncated": false, "visible_refs": null, "key": "ec77b791060d0f73fbb54b64ad4133cbff218394"}
+{"out": "[40754]", "prompt_tokens": 16143, "ttft": 4.399, "ref": "40754", "truncated": false, "visible_refs": null, "key": "e0f98e7d8939dcd87a992d6d4c02754dc5df65fb"}
+{"out": "[none]", "prompt_tokens": 1352, "ttft": 3.187, "ref": "none", "truncated": false, "visible_refs": null, "key": "5a637be215ac62c0c00d917da229b3910e69f233"}
+{"out": "[40720]", "prompt_tokens": 2529, "ttft": 1.784, "ref": "40720", "truncated": false, "visible_refs": null, "key": "4df6f0d50041c274870f188bd734eac5b9934663"}
+{"out": "[40608]", "prompt_tokens": 1423, "ttft": 3.846, "ref": "40608", "truncated": false, "visible_refs": null, "key": "2e92b5f5339b671084c9ed96c12a749b87c27289"}
+{"out": "[40706]", "prompt_tokens": 2209, "ttft": 3.177, "ref": "40706", "truncated": false, "visible_refs": null, "key": "72a5650f37022365a486f095f68cf20655b3ee5c"}
+{"out": "[none]", "prompt_tokens": 1380, "ttft": 2.702, "ref": "none", "truncated": false, "visible_refs": null, "key": "ed09db9a3941a53e4e81370dd3cd4b2488e364c3"}
+{"out": "[40754]", "prompt_tokens": 3224, "ttft": 2.027, "ref": "40754", "truncated": false, "visible_refs": null, "key": "4fd2f5501b8494992171c21557c42af6f3279f5e"}
+{"out": "[112455]", "prompt_tokens": 18307, "ttft": 2.019, "ref": "112455", "truncated": false, "visible_refs": null, "key": "f206790f3aaa3ebb61f32a4828ded79fd89679a1"}
+{"out": "[113636]", "prompt_tokens": 1002, "ttft": 1.139, "ref": "113636", "truncated": false, "visible_refs": null, "key": "4155b664f6e7f00fba410cfce9b5fac0e7ab4fad"}
+{"out": "[113636]", "prompt_tokens": 3351, "ttft": 1.071, "ref": "113636", "truncated": false, "visible_refs": null, "key": "bc1195c20c9530c9fbcae64ab059cffcaf57c916"}
+{"out": "[118597]", "prompt_tokens": 1125, "ttft": 1.787, "ref": "118597", "truncated": false, "visible_refs": null, "key": "2b340fdd5734c64aa49a137f51f67748362531af"}
+{"out": "[118597]", "prompt_tokens": 2697, "ttft": 1.33, "ref": "118597", "truncated": false, "visible_refs": null, "key": "213c9884247cc414ab054d5f7035356ef071cb42"}
+{"out": "[118597]", "prompt_tokens": 1163, "ttft": 1.614, "ref": "118597", "truncated": false, "visible_refs": null, "key": "c7dadd56510738bc92a459fb3b801691baae9451"}
+{"out": "[118597]", "prompt_tokens": 3723, "ttft": 1.963, "ref": "118597", "truncated": false, "visible_refs": null, "key": "7b2e163cae5938f5c93a40af115043f185288e0a"}
+{"out": "[2013]", "prompt_tokens": 17118, "ttft": 1.43, "ref": "2013", "truncated": false, "visible_refs": null, "key": "a04b27a448c7eeff64cd30aa4f4a5cb2f556a491"}
+{"out": "[2013]", "prompt_tokens": 1252, "ttft": 1.252, "ref": "2013", "truncated": false, "visible_refs": null, "key": "9647004a068b1bd6ea9cf3d35923ce1006cf8ce3"}
+{"out": "[2013]", "prompt_tokens": 3207, "ttft": 1.405, "ref": "2013", "truncated": false, "visible_refs": null, "key": "f78daf65c94ef4a60aab2307c70ff484125c65ab"}
+{"out": "[2013]", "prompt_tokens": 1281, "ttft": 1.041, "ref": "2013", "truncated": false, "visible_refs": null, "key": "832268af6024d9c3c82fbf6f8dd0beb054d5dff6"}
+{"out": "[2013]", "prompt_tokens": 1615, "ttft": 1.069, "ref": "2013", "truncated": false, "visible_refs": null, "key": "b92722a30d63cab755d2ab45c32fd3bac75deeb1"}
+{"out": "[2013]", "prompt_tokens": 1563, "ttft": 1.504, "ref": "2013", "truncated": false, "visible_refs": null, "key": "ae7899a85270f60fd356372017939960c6291fad"}
+{"out": "[2013]", "prompt_tokens": 3818, "ttft": 1.299, "ref": "2013", "truncated": false, "visible_refs": null, "key": "24011d804d3eb80dd2519475244be605dcd71f7d"}
+{"out": "[60900]", "prompt_tokens": 29362, "ttft": 2.561, "ref": "60900", "truncated": false, "visible_refs": null, "key": "d027e19680e0b36fa736a98e1a0a9f784798fb21"}
+{"out": "[59769]", "prompt_tokens": 859, "ttft": 1.618, "ref": "59769", "truncated": false, "visible_refs": null, "key": "8267c59bf4131ccdae20301661d1472b35b3c75b"}
+{"out": "[60900]", "prompt_tokens": 1608, "ttft": 2.122, "ref": "60900", "truncated": false, "visible_refs": null, "key": "545d0f3a201f861affdf6d268866e1f3c8bc6158"}
+{"out": "[59769]", "prompt_tokens": 788, "ttft": 1.298, "ref": "59769", "truncated": false, "visible_refs": null, "key": "9a837892e0a22d4add7e926c495b987e1ec63115"}
+{"out": "[60738]", "prompt_tokens": 1147, "ttft": 4.385, "ref": "60738", "truncated": false, "visible_refs": null, "key": "b22ea2127856eb962f03a6db4ca589bbd1e54df5"}
+{"out": "[59769]", "prompt_tokens": 1254, "ttft": 2.062, "ref": "59769", "truncated": false, "visible_refs": null, "key": "9980f039ae40457930284d69b16e675574e9af42"}
+{"out": "[60900]", "prompt_tokens": 2743, "ttft": 1.823, "ref": "60900", "truncated": false, "visible_refs": null, "key": "6f331d5ca8fc27eaff982f91495d2f6579684154"}
+{"out": "[14714]", "prompt_tokens": 10016, "ttft": 1.309, "ref": "14714", "truncated": false, "visible_refs": null, "key": "e85fe9512ce9b7a7a662e61827d087cb9846e3fa"}
+{"out": "[14714]", "prompt_tokens": 932, "ttft": 1.234, "ref": "14714", "truncated": false, "visible_refs": null, "key": "2fca9241b41423db19b5a25c4feda40df0b3e15e"}
+{"out": "[14714]", "prompt_tokens": 2549, "ttft": 1.731, "ref": "14714", "truncated": false, "visible_refs": null, "key": "bb1c0b287b75411afbfa147e8b70c8d42abc1313"}
+{"out": "[16338]", "prompt_tokens": 850, "ttft": 1.929, "ref": "16338", "truncated": false, "visible_refs": null, "key": "99f8b873dd6e9508c57fb270f2b278735f2a8835"}
+{"out": "[14714]", "prompt_tokens": 1529, "ttft": 1.426, "ref": "14714", "truncated": false, "visible_refs": null, "key": "51dae386a6919e47f727914fb1e771160ba02ba9"}
+{"out": "[14714]", "prompt_tokens": 1177, "ttft": 1.687, "ref": "14714", "truncated": false, "visible_refs": null, "key": "9eb3f9f4d42a1235f9e118fa5c34190863eb2ea2"}
+{"out": "[14714]", "prompt_tokens": 3245, "ttft": 0.964, "ref": "14714", "truncated": false, "visible_refs": null, "key": "f23d02f3e0166ab3c9964a2f7e7a4bf6e034bf3a"}
+{"out": "[43938]", "prompt_tokens": 8752, "ttft": 2.619, "ref": "43938", "truncated": false, "visible_refs": null, "key": "d393c15db717295f9643c790a3269211fc828c48"}
+{"out": "[43942]", "prompt_tokens": 1088, "ttft": 1.227, "ref": "43942", "truncated": false, "visible_refs": null, "key": "50913745ce9830f14d59a48ed2848c20125cd658"}
+{"out": "[43938]", "prompt_tokens": 3156, "ttft": 2.347, "ref": "43938", "truncated": false, "visible_refs": null, "key": "b3dde66bd13a64b578008b39de51f412afd44c45"}
+{"out": "[43895]", "prompt_tokens": 1009, "ttft": 2.004, "ref": "43895", "truncated": false, "visible_refs": null, "key": "0ea58c3c9947471ff03b8d4971eadb560f71bf19"}
+{"out": "[43938]", "prompt_tokens": 2078, "ttft": 1.951, "ref": "43938", "truncated": false, "visible_refs": null, "key": "f67ac6e407cce42ac50ff17c3b891328ed1c44c5"}
+{"out": "[43891]", "prompt_tokens": 1607, "ttft": 1.671, "ref": "43891", "truncated": false, "visible_refs": null, "key": "e978cd5fa77cf96a2aa135ca028927bdddbd414e"}
+{"out": "[43938]", "prompt_tokens": 4022, "ttft": 1.668, "ref": "43938", "truncated": false, "visible_refs": null, "key": "b8c69360b5307797c12454b8c913b672b676607f"}
+{"out": "[20162]", "prompt_tokens": 16393, "ttft": 3.161, "ref": "20162", "truncated": false, "visible_refs": null, "key": "1e0e08a009301d51c4317b70eb61301e4f1a9ca6"}
+{"out": "[19254]", "prompt_tokens": 1434, "ttft": 1.908, "ref": "19254", "truncated": false, "visible_refs": null, "key": "aab18f3657a8cf8547fda0e3b596aa18eb8706b1"}
+{"out": "[19282]", "prompt_tokens": 2943, "ttft": 4.087, "ref": "19282", "truncated": false, "visible_refs": null, "key": "c010597d55d833b7da3d0ef6a27941f88a86e6b7"}
+{"out": "[19107]", "prompt_tokens": 908, "ttft": 2.7, "ref": "19107", "truncated": false, "visible_refs": null, "key": "5faab2cf5ff4b5bfc853c4cf14b707da2c1777bd"}
+{"out": "[20162]", "prompt_tokens": 1674, "ttft": 1.785, "ref": "20162", "truncated": false, "visible_refs": null, "key": "6798f80c6fc251330fb7e85abc8f81b107ae6bf6"}
+{"out": "[none]", "prompt_tokens": 1274, "ttft": 2.129, "ref": "none", "truncated": false, "visible_refs": null, "key": "d046f88e7f8a4f041691dc713b71a465abbf2930"}
+{"out": "[19270]", "prompt_tokens": 3797, "ttft": 3.893, "ref": "19270", "truncated": false, "visible_refs": null, "key": "25e93e8e4adda8b805c22a6a85e7683a638a119a"}
+{"out": "[306]", "prompt_tokens": 3358, "ttft": 1.572, "ref": "306", "truncated": false, "visible_refs": null, "key": "ff85336385882f09693344afe8e0f41f898eb9f4"}
+{"out": "[306]", "prompt_tokens": 881, "ttft": 0.927, "ref": "306", "truncated": false, "visible_refs": null, "key": "a976118ba603d37534d1621447f341e33a13d956"}
+{"out": "[306]", "prompt_tokens": 1596, "ttft": 0.971, "ref": "306", "truncated": false, "visible_refs": null, "key": "5968626f6a33af688a25024d133e3c7f1497e54c"}
+{"out": "[306]", "prompt_tokens": 943, "ttft": 1.662, "ref": "306", "truncated": false, "visible_refs": null, "key": "fc72de9780ae258101f057040a32e218f7160326"}
+{"out": "[306]", "prompt_tokens": 1367, "ttft": 1.422, "ref": "306", "truncated": false, "visible_refs": null, "key": "c4af58f52600a397d074e89949f7dd47e380a468"}
+{"out": "[306]", "prompt_tokens": 996, "ttft": 1.249, "ref": "306", "truncated": false, "visible_refs": null, "key": "e918cc8f3382701da7b204e7d2361f6c35ef84d0"}
+{"out": "[306]", "prompt_tokens": 2200, "ttft": 1.448, "ref": "306", "truncated": false, "visible_refs": null, "key": "03b3cbf31d0237579f915e16533e3ce91e7899af"}
+{"out": "[9061]", "prompt_tokens": 15290, "ttft": 1.542, "ref": "9061", "truncated": false, "visible_refs": null, "key": "0a2126846aba1cdc2fdada7bc9d550c8cc9ddb30"}
+{"out": "[9061]", "prompt_tokens": 943, "ttft": 2.036, "ref": "9061", "truncated": false, "visible_refs": null, "key": "88a9d77d7aeaf47916250f0ee5f627b6d0f260aa"}
+{"out": "[9061]", "prompt_tokens": 2423, "ttft": 1.499, "ref": "9061", "truncated": false, "visible_refs": null, "key": "900a59d7bfa0a1fa61e7a19780e24d4a0f94cf2a"}
+{"out": "[9061]", "prompt_tokens": 877, "ttft": 1.14, "ref": "9061", "truncated": false, "visible_refs": null, "key": "cb133f1025187a16b2404ec311e7ee89116eaa84"}
+{"out": "[9061]", "prompt_tokens": 1856, "ttft": 1.138, "ref": "9061", "truncated": false, "visible_refs": null, "key": "0441a682f38127eda308124f7eb245cef856db79"}
+{"out": "[9061]", "prompt_tokens": 1225, "ttft": 1.185, "ref": "9061", "truncated": false, "visible_refs": null, "key": "83e107cb7d797af22ff0653e8d8c26a722031683"}
+{"out": "[9061]", "prompt_tokens": 2915, "ttft": 0.772, "ref": "9061", "truncated": false, "visible_refs": null, "key": "6d51576eb5e1fa2c35220b23a1018691ed11102b"}
+{"out": "[2273]", "prompt_tokens": 21521, "ttft": 2.206, "ref": "2273", "truncated": false, "visible_refs": null, "key": "ab281584b366621e6cc65a914dcb61348e01f446"}
+{"out": "[2266]", "prompt_tokens": 1049, "ttft": 1.966, "ref": "2266", "truncated": false, "visible_refs": null, "key": "4b909d3933ea46a0bc2d2bcc8c7615b425924cf4"}
+{"out": "[2273]", "prompt_tokens": 2635, "ttft": 1.417, "ref": "2273", "truncated": false, "visible_refs": null, "key": "2546ca965745293758a61b91a3e1a478491dd71c"}
+{"out": "[2273]", "prompt_tokens": 1025, "ttft": 1.287, "ref": "2273", "truncated": false, "visible_refs": null, "key": "1e8d39dd26e3acb81e55fbe229b326c8537700fa"}
+{"out": "[2273]", "prompt_tokens": 1650, "ttft": 1.394, "ref": "2273", "truncated": false, "visible_refs": null, "key": "4c1fdbbbe99ced29409c333d83cdb22117cbd738"}
+{"out": "[2266]", "prompt_tokens": 1264, "ttft": 2.049, "ref": "2266", "truncated": false, "visible_refs": null, "key": "2d85bb458babdee0bd9046d4d76fcf19176c4b53"}
+{"out": "[2273]", "prompt_tokens": 3554, "ttft": 1.775, "ref": "2273", "truncated": false, "visible_refs": null, "key": "fd40c94d1f5e9671809033bfefa70be086f61268"}
+{"out": "[52609]", "prompt_tokens": 2967, "ttft": 2.176, "ref": "52609", "truncated": false, "visible_refs": null, "key": "cf27f9adb83662740291e3a5d7058c6f6b595b09"}
+{"out": "[52609]", "prompt_tokens": 1011, "ttft": 2.531, "ref": "52609", "truncated": false, "visible_refs": null, "key": "16a58774210eca163a5b82f4a37d96a1fa90d3f9"}
+{"out": "[52609]", "prompt_tokens": 2151, "ttft": 3.017, "ref": "52609", "truncated": false, "visible_refs": null, "key": "40d9fccc18bcf1deb1205780aac9afd24ee7057f"}
+{"out": "[52607]", "prompt_tokens": 820, "ttft": 1.37, "ref": "52607", "truncated": false, "visible_refs": null, "key": "88ac152d5584ff40fb79e7498b11ce8d1de48ca8"}
+{"out": "[52607]", "prompt_tokens": 1473, "ttft": 1.766, "ref": "52607", "truncated": false, "visible_refs": null, "key": "889d3f21138194ac5ce34481690cfc515587b3b9"}
+{"out": "[52603]", "prompt_tokens": 1121, "ttft": 1.962, "ref": "52603", "truncated": false, "visible_refs": null, "key": "6ca4bca8625a945a58cc9895d1637bb9a8324afa"}
+{"out": "[52609]", "prompt_tokens": 2265, "ttft": 2.742, "ref": "52609", "truncated": false, "visible_refs": null, "key": "9dd6f2b8ee7fe12df8bf270f444831eaf83d428b"}
+{"out": "[57831]", "prompt_tokens": 16154, "ttft": 1.732, "ref": "57831", "truncated": false, "visible_refs": null, "key": "7b390347433af136bb7977541117f4121c0c008e"}
+{"out": "[54343]", "prompt_tokens": 948, "ttft": 1.775, "ref": "54343", "truncated": false, "visible_refs": null, "key": "2326d49ecfeed307e62c3bba9e1a0144a9d9ee7e"}
+{"out": "[54343]", "prompt_tokens": 1736, "ttft": 2.38, "ref": "54343", "truncated": false, "visible_refs": null, "key": "4d09582ffde434088373062020b6320c2554e866"}
+{"out": "[58369]", "prompt_tokens": 837, "ttft": 1.488, "ref": "58369", "truncated": false, "visible_refs": null, "key": "050b1a3ef5018a4a577d446d8b2021932565ab5f"}
+{"out": "[54343]", "prompt_tokens": 1349, "ttft": 1.51, "ref": "54343", "truncated": false, "visible_refs": null, "key": "2bbc990680c4f8828768c9dd2cde517632421dda"}
+{"out": "[58369]", "prompt_tokens": 1428, "ttft": 1.726, "ref": "58369", "truncated": false, "visible_refs": null, "key": "02a08bc4c234d60ced475cf0ce32e1e808521743"}
+{"out": "[58369]", "prompt_tokens": 2777, "ttft": 2.107, "ref": "58369", "truncated": false, "visible_refs": null, "key": "4db9a3d0090ffa2babb284aa8aff67891f2c1de5"}
+{"out": "[973]", "prompt_tokens": 10457, "ttft": 1.295, "ref": "973", "truncated": false, "visible_refs": null, "key": "ee90b7f12f2590c4bd195e6664b5d66ba5a9ecd9"}
+{"out": "[1048]", "prompt_tokens": 772, "ttft": 1.461, "ref": "1048", "truncated": false, "visible_refs": null, "key": "3cca967e5e8d0dd7bc2116f288d709542a74dc80"}
+{"out": "[378]", "prompt_tokens": 1770, "ttft": 1.696, "ref": "378", "truncated": false, "visible_refs": null, "key": "8e4e53c0c520e123e36ef668647363ae914bbcc9"}
+{"out": "[1049]", "prompt_tokens": 772, "ttft": 1.616, "ref": "1049", "truncated": false, "visible_refs": null, "key": "f7680dfdfeeb718c2f98ce4c90c7c46a132fedca"}
+{"out": "[378]", "prompt_tokens": 2020, "ttft": 1.453, "ref": "378", "truncated": false, "visible_refs": null, "key": "e89a86dc23fd30c0e7cfc1adf1fa8ee526ce02fe"}
+{"out": "[1050]", "prompt_tokens": 1029, "ttft": 2.264, "ref": "1050", "truncated": false, "visible_refs": null, "key": "bf1fbbca819d1f13952a362a339806dccf2008ea"}
+{"out": "[973]", "prompt_tokens": 3333, "ttft": 1.462, "ref": "973", "truncated": false, "visible_refs": null, "key": "cb8a9c8d834c50cabcde9704882a27d11ccc23f7"}
+{"out": "[60020]", "prompt_tokens": 9209, "ttft": 1.738, "ref": "60020", "truncated": false, "visible_refs": null, "key": "8144ccb769734bef349adcce3ee1102dd6ba88a6"}
+{"out": "[60020]", "prompt_tokens": 927, "ttft": 1.404, "ref": "60020", "truncated": false, "visible_refs": null, "key": "4f114bb367bf28a43fd491b419e989a1295edebe"}
+{"out": "[60020]", "prompt_tokens": 2266, "ttft": 1.634, "ref": "60020", "truncated": false, "visible_refs": null, "key": "5014edab06a462d5ef0e9fd1fa708e609c9d4836"}
+{"out": "[60042]", "prompt_tokens": 908, "ttft": 3.058, "ref": "60042", "truncated": false, "visible_refs": null, "key": "9bee8a08e3fa08c8ace550bc267f1a8d18b992f0"}
+{"out": "[60015]", "prompt_tokens": 1321, "ttft": 3.203, "ref": "60015", "truncated": false, "visible_refs": null, "key": "5f697dc22042c0e6c3f3972ffa8f3de97d37a9bc"}
+{"out": "[60042]", "prompt_tokens": 1459, "ttft": 2.419, "ref": "60042", "truncated": false, "visible_refs": null, "key": "c2232fd9b6adecbbfd99e5403679b5ae41546f30"}
+{"out": "[59395]", "prompt_tokens": 3397, "ttft": 2.74, "ref": "59395", "truncated": false, "visible_refs": null, "key": "37a997668f172914387846df2afc0f725ffe995e"}
+{"out": "[14212]", "prompt_tokens": 4369, "ttft": 1.115, "ref": "14212", "truncated": false, "visible_refs": null, "key": "aa3997c19e5f76fbafba9910a1bbe294cff86450"}
+{"out": "[14212]", "prompt_tokens": 952, "ttft": 1.141, "ref": "14212", "truncated": false, "visible_refs": null, "key": "9306996b56f04901fadf5e4a410e7f3a65b7b3bd"}
+{"out": "[14212]", "prompt_tokens": 1817, "ttft": 1.243, "ref": "14212", "truncated": false, "visible_refs": null, "key": "ed1b12b28071fb40b2ab2bf4eed1e716943179d2"}
+{"out": "[14212]", "prompt_tokens": 825, "ttft": 1.326, "ref": "14212", "truncated": false, "visible_refs": null, "key": "bff4749e6337a3e05c2eaa10ac65bf9c18ac830a"}
+{"out": "[14212]", "prompt_tokens": 2225, "ttft": 1.948, "ref": "14212", "truncated": false, "visible_refs": null, "key": "f55f0b0915fbf6c946102b26820703165765d0b2"}
+{"out": "[14212]", "prompt_tokens": 1133, "ttft": 1.176, "ref": "14212", "truncated": false, "visible_refs": null, "key": "f8c05399477990d96131870fa7b9a9fd18d1f470"}
+{"out": "[14212]", "prompt_tokens": 2493, "ttft": 2.032, "ref": "14212", "truncated": false, "visible_refs": null, "key": "7a419ab1749db0681eb4ef65b092acd6197efe15"}
+{"key": "8167558af0ccf8720fa8edf3a708683f35eed6a3", "text": "View the product details of the top three rated bedroom nightstands", "tokens": 115, "ms": 844.2741659964668}
+{"key": "8a58cd662e5e56a776e383bdfcbd3c784f328a8b", "text": "Enter \"jame_jones@hotmail.com\" into the email field", "tokens": 148, "ms": 958.0677090052632}
+{"key": "c44360e6c0be563607059894e26b9cf57513cac1", "text": "click the Spiking Track number 1 element", "tokens": 79, "ms": 725.8748329986702}
+{"key": "3124ff97f386e89f6766ccfd8e9decff3970abf3", "text": "Select the pickup date and time: June 2, 11:00 AM", "tokens": 157, "ms": 1042.0422079987475}
+{"key": "b55a4eee170edb617432df4bd53237945f707a64", "text": "Click the \"Size\" filter and select \"Small", "tokens": 114, "ms": 841.6580409975722}
+{"key": "2ae007d2c41ab604d7a5158da9bfd56dd721a9cb", "text": "Filter by Salary -> SELECT \"Above 100k", "tokens": 130, "ms": 888.1847500015283}
+{"key": "85331ed5dfc04871835825b733ad5da5eed69f90", "text": "scroll down to view the event listings", "tokens": 119, "ms": 774.293000002217}
+{"key": "90d188960891bb43c77ae855a80d967d9f116942", "text": "Select \"Enterprise\" and \"Avis\" from the car provider checkboxes", "tokens": 152, "ms": 992.9466670000693}
+{"key": "975e5f5669289e2fb436734589246429f5e89473", "text": "Enter \"two adults and a child under one\" in the guest details box", "tokens": 141, "ms": 940.0057919992832}
+{"key": "344a11e96a51fecf472af3422e7c222a81a757f6", "text": "Enter \"2 adults and 1 child\" in the guest details box", "tokens": 125, "ms": 907.5634170003468}
+{"key": "bb74ef8b3e7772e4bce25c996a37305b1c093a29", "text": "Type \"luxury\" into the hotel category filter", "tokens": 92, "ms": 721.227624999301}
+{"key": "8dc9edcb401a3ae33b88c83fae86a67e6a6d34ca", "text": "Review the release submission guidelines section.", "tokens": 82, "ms": 628.5522499965737}
+{"key": "033801c42e972f3eb85e4300bc6d068d1047baaa", "text": "Select the date picker and choose April 17", "tokens": 142, "ms": 838.7371249991702}
+{"key": "f8ed7a50e9f56f7086e5dc00077d48b56937cdaa", "text": "Click the \"Check travel restrictions\" button", "tokens": 98, "ms": 679.9815839985968}
+{"key": "53ab885451eecb026bb1cfc7bc6fab4bab937f09", "text": "Enter \"Myrtle Beach\" into the location box", "tokens": 113, "ms": 800.3235419964767}
+{"key": "009fa11903b33ccbe0fe1f92a0848a31a39e0e51", "text": "Type \"summer\" into the travel dates box", "tokens": 111, "ms": 788.4682080039056}
+{"key": "6aff56e294c4ca80f0b08517c9d6aebb937a03ef", "text": "Type 08817 into the zip code box", "tokens": 165, "ms": 951.514042004419}
+{"key": "c024630445ab9c53b7b33df42da3fa5505c322ce", "text": "Select \"Air-conditioned car with collision damage coverage\" from the car type dropdown.", "tokens": 165, "ms": 1078.178958996432}
+{"key": "8ea5bbdddc553096a39b72fbbcb74c1e30090eda", "text": "Sort the results by price from lowest to highest", "tokens": 114, "ms": 766.4803750012652}
+{"key": "7a55aecff0926f1544355bc7713c9f0273ad402e", "text": "Filter by Salary -> SELECT \"Above 100k", "tokens": 126, "ms": 880.2408750052564}
+{"key": "e619a45b00f676105b4bcc647949d8fcb7a8eab9", "text": "Type 2023-04-20 into the date box and click the Search button", "tokens": 147, "ms": 1092.554332994041}
+{"key": "4b4a62351ce3e3145c7886fb054b8563415262da", "text": "Add Pro Display XDR with nano texture to bag", "tokens": 100, "ms": 722.1310839959187}
+{"key": "17a8344197093b09de4494dd501c1a5746c4d6bd", "text": "click the Search button", "tokens": 76, "ms": 651.0907080009929}
+{"key": "2f2beceacc58e875c8439e27eb01d0b000fb27b4", "text": "Enter gift card number 1234567 and pin 0001", "tokens": 119, "ms": 1072.4662909997278}
+{"key": "4a0e91a6bc040e29e881ff7e125084b6bb01d7d6", "text": "Enter \"luxury\" in the price filter", "tokens": 103, "ms": 648.5280830020201}
+{"key": "9eb0fde2584ca54244c1a8850f97254699566c83", "text": "Click the Search button", "tokens": 105, "ms": 669.2292500010808}
+{"key": "03f502752b7c6ae92f2c0067bbd219682d572302", "text": "Select the date range from Oct 5 to Oct 24, 2023", "tokens": 126, "ms": 1032.4991250017774}
+{"key": "ff534a1d2ffc5a380da787b7fd8705d454940c96", "text": "type Jun 5 into the pickup date box", "tokens": 118, "ms": 788.5164580002311}
+{"key": "ea5225bdc1a40656d46ee97d8d438a83859696c0", "text": "sort the spider-man toys by price", "tokens": 78, "ms": 696.281791999354}
+{"key": "328a0373a2b640d65ce36b8de38edd3c1265affb", "text": "Select the date range from Mar 28 to Apr 1 in the booking calendar.", "tokens": 94, "ms": 929.3867919986951}
+{"key": "ce8df5166544a3f8c8045e739d5f1f199a4fd22e", "text": "Type Dublin into the location box", "tokens": 89, "ms": 650.7894579990534}
+{"key": "62b696b5a880fea72c1059bc4a649b79b7727490", "text": "Filter the results by price to find the cheapest flight.", "tokens": 112, "ms": 768.464667002263}
+{"key": "38931d5549a773871d023848bb3b03ba645ab60e", "text": "Enter gift card number 1234567 and pin 0001 in the respective fields and", "tokens": 110, "ms": 1123.6544999992475}
+{"key": "9058cd5563b2707e5f2fa8ffe84fd0791f20b2d6", "text": "Enter group size \"4\" in the Group size field", "tokens": 125, "ms": 833.790709002642}
+{"key": "56fad314d532d98e33a7a0910260ad317ea534bb", "text": "Type Seattle into the origin box and New York into the destination box", "tokens": 93, "ms": 810.5406660033623}
+{"key": "0cecb13f663c627b2e2cf9775c6258950a5cd707", "text": "follow the Aliyah profile", "tokens": 102, "ms": 588.5248340055114}
+{"key": "0db82d449357cc6bd67ee81b2591a41f4b896a6b", "text": "Scroll down to find the internship job listing in City of Industry, California.", "tokens": 113, "ms": 844.1737499961164}
+{"key": "da0b35af5ea8c8941fef617cae3bb5a5d1c8adea", "text": "Click the Search button", "tokens": 120, "ms": 669.8831250032526}
+{"key": "b9e573236643cdbd110f977f0c54e75dfdb7fbf5", "text": "Select the red color option", "tokens": 107, "ms": 660.2158329988015}
+{"key": "59bb9637b00d3ed975e67c84bd566971457154bd", "text": "Click the \"Most Reviewed\" button", "tokens": 114, "ms": 728.6260420005419}
+{"key": "d6acb1cb4b289dba8c6353bbac76f1fcc3917d4c", "text": "Type \"Formula 1\" into the search box", "tokens": 101, "ms": 758.5894160001772}
+{"key": "e2e87de9c6d1dfcb17484def8505b5c31ffebc82", "text": "Set \"Mr. Brightside\" as current obsession", "tokens": 119, "ms": 862.6315000001341}
+{"key": "71247efcf93e50521672589d97c773ed76bb632e", "text": "click the first comment with 'Kiss Chords' in the results", "tokens": 107, "ms": 920.9417500023847}
+{"key": "25a0a57e0ff5059b9367378c43eccf2e5d03e57d", "text": "Click the Search button", "tokens": 144, "ms": 787.7940000034869}
+{"key": "2f253358147d13bcf998975a2af5f26eac76d82a", "text": "Scroll down to view all job listings by department", "tokens": 105, "ms": 735.4991249958402}
+{"key": "75c5d7495bd942c5bafed3191bf54b9851c21e64", "text": "Select the cheapest free SUV upgrade deal with a pay-later option", "tokens": 162, "ms": 978.2008330003009}
+{"key": "0b0d7a5c2c71ec5309a7c5bf6397fb1c2f619336", "text": "Click the swivel vacuum product card", "tokens": 119, "ms": 725.7627919971128}
+{"key": "a48e988f37bef465f55a5fcf5da00c3e9fd2d23c", "text": "Type \"Human Resources\" into the job title box", "tokens": 93, "ms": 712.2908329984057}
+{"key": "c9ae5397b6a324a1120bdef3c23491b2632d16a5", "text": "Click the \"Add to Watchlist\" button", "tokens": 97, "ms": 657.4844999995548}
+{"key": "85d55e083605c0431c25fe8d72f374074c82b415", "text": "Type Best Wishes into the message box", "tokens": 135, "ms": 742.1409580056206}
+{"key": "05ffe127fe89caf000fd007dd1b861234a647595", "text": "Type \"Japan to Iran\" into the flight search box", "tokens": 91, "ms": 748.9569169993047}
+{"key": "75a7cec8156b5c8f1a1a89ca3cb2dfd7287110cd", "text": "Type \"4 adults, June 13 to 16, near city center\" into the search box", "tokens": 128, "ms": 1124.041875002149}
+{"key": "0ee2506197ad0de352ea2b8d280b354960d306d5", "text": "Select the morning sport option for adults and children in Portugal on May 2", "tokens": 116, "ms": 885.1402500004042}
+{"key": "7fa0bc38bd09888b62bd9806f7022a01635cad42", "text": "search for 'morning sports activities for adults and children' in Porto, Portugal on May 2", "tokens": 100, "ms": 1037.0534169996972}
+{"key": "7df91d2d24f3e7dcb19e713bcfe462b3c7731de0", "text": "Filter the results by \"Spanish cuisine", "tokens": 121, "ms": 903.3940830049687}
+{"key": "1208e77e67082e89815547f59058c1d076d3f6d3", "text": "Type \"Patong Beach, Phuket\" into the location box", "tokens": 106, "ms": 886.7025420040591}
+{"key": "3328c16e4d940e6b132888cfe1b2c55ce447a004", "text": "Type New York into the destination box", "tokens": 113, "ms": 745.6330830027582}
+{"key": "df02c6a923a0cc04d35277aff05c6fa90f1635f6", "text": "Sort by: Seats (Descending)", "tokens": 120, "ms": 756.7899579953519}
+{"key": "cd4cd9480586a0e57a292930d9c46da89e18e10e", "text": "Filter the job listings by salary above 100k per annum", "tokens": 115, "ms": 878.4636659984244}
+{"key": "02bb60b6fe57c5ca64ed6b5cb19284853e789cc3", "text": "Add two Maryla & Park all-season go-cart passes and choose the digital ticket option.", "tokens": 124, "ms": 990.7186249984079}
+{"key": "a05d5a5614c41789f9ddc471c60c470136e53268", "text": "Type Mumbai into the origin box", "tokens": 118, "ms": 694.4024999975227}
+{"key": "50cad877f2d60af713bc15448ce756b2d2a9c11f", "text": "Type \"Mayank\" into the First Name box", "tokens": 159, "ms": 889.6185830017203}
+{"key": "bcef56e7a97f63639cc9cd3ea71e2e19d08e15d8", "text": "Type Guangzhou into the location box", "tokens": 117, "ms": 727.2985000017798}
+{"key": "976f59635c46c01ca2dae0d969dc48a5a14c31ad", "text": "Type JFK Airport into the arrival location box", "tokens": 123, "ms": 753.4871669995482}
+{"key": "536aa9a51df7e00f5ff4fb64de51b2251aec6c25", "text": "Sort the results by highest price", "tokens": 116, "ms": 702.8494999976829}
+{"key": "ec2cdd3df01332928ef49b8a1036e22d137647d6", "text": "Enter \"Sacramento\" into the origin box and \"Houston\" into the destination box.", "tokens": 120, "ms": 981.411125001614}
+{"key": "ab0ce05687cbce51cc2ebb92fc06847aba2527b7", "text": "Type Banglore into the from location box.", "tokens": 93, "ms": 715.5408329999773}
+{"key": "0ac1853ad767222089257fb7cb8d4a44f8a1554d", "text": "Enter \"Seoul\" into the destination box", "tokens": 128, "ms": 840.8381670014933}
+{"key": "3fbf04d22e853439af0be4ad4163d6c45b5365c6", "text": "Type \"food and drink\" into the search bar", "tokens": 111, "ms": 799.8064170024008}
+{"key": "43680645c449d9c41f895e07b2aec820e8886688", "text": "View the displayed schedules for the Blue Water route on Wednesdays.", "tokens": 108, "ms": 833.2309999968857}
+{"key": "a2f820984dc4032eada1223caea7ee53899a10bd", "text": "click the Search button", "tokens": 85, "ms": 670.1272499994957}
+{"key": "4f88c953d0b6f9545fd81ab391b61c16c141f5c6", "text": "Enter \"2 adults\" in the guest count field", "tokens": 110, "ms": 845.4024160018889}
+{"key": "a7f126d53824df3583ed9bb21d5245a5fc0a9c61", "text": "Scroll down to the AFC East division section and locate the team with the highest win count.", "tokens": 102, "ms": 950.2264589973493}
+{"key": "ec7c1b4316a9c7bc319aeb2b450b7bced6b06bc3", "text": "Filter the results by price, review score, and amenities.", "tokens": 132, "ms": 928.1334160041297}
+{"key": "4e0990b6ea95937191e3939bd94371f949789f1c", "text": "Type \"FamilyFriendly Event\" into the event search box", "tokens": 95, "ms": 724.145000000135}
+{"key": "5e32ce19ccb9441c87d8693d9bc9828bf1c8c20b", "text": "Type \"Indira Gandhi\" into the origin box and \"Los Cabos\" into the destination box.", "tokens": 107, "ms": 967.684957999154}
+{"key": "3fd1bbd9a9fca4c265fd516206c62a7aa617277e", "text": "Click the Search button", "tokens": 104, "ms": 632.0059159988887}
+{"key": "8cdcf9f3b6d872f95d83f6968eb2b966cdc82969", "text": "Click the Search button", "tokens": 128, "ms": 683.4009579979465}
+{"key": "f3b032b932403d34047738e01b01b1f948ad5b7e", "text": "Click the Search button", "tokens": 99, "ms": 538.4333339970908}
+{"key": "e77ce002294d7c79939dcf3d2544f954b0b42fca", "text": "Type your AARP member number into the member number box", "tokens": 150, "ms": 961.4391659997636}
+{"key": "936997d1a959077d0ab5f1783e554caaa1453c89", "text": "Select \"Dubai Marriott\" or \"Dubai Sheraton\" from the hotel dropdown menu", "tokens": 129, "ms": 1067.9214999981923}
+{"key": "9cef8a3c964186c62a35d639943e12af52835a03", "text": "Click the Search button", "tokens": 104, "ms": 662.2490000008838}
+{"key": "2a2e648439a57821f5a4b37c9eef86fbc5739764", "text": "type \"May 5, 11:30 am\" into the pick-up date and time box", "tokens": 138, "ms": 1107.7473330005887}
+{"key": "f91f49801078ad60c2e471e3705a74197cc9fddc", "text": "Enter phone number in the phone field", "tokens": 106, "ms": 788.721416000044}
+{"key": "673ff630ab3434b50f7904f29170dd87efd4edb3", "text": "Select Minimum Year -> SELECT: 2012", "tokens": 140, "ms": 802.6725000017905}
+{"key": "21bc0a06bb1f155a3a646f489e404e5932815662", "text": "Type D145 into the flight search bar", "tokens": 87, "ms": 708.8414160025422}
+{"key": "c4738d972875a330d9a04a5184e6961d3a972afc", "text": "Join the group membership form", "tokens": 100, "ms": 549.8687919971417}
+{"key": "4e4654ca48cedab46bdd26b4ad1b92f97cae661f", "text": "Select the return date: April 16", "tokens": 136, "ms": 734.8588330060011}
+{"key": "fc379e7242dc3325e925eb1fdab4aedf4a99e9d4", "text": "Select \"Terrace\" from the seating preference dropdown.", "tokens": 136, "ms": 862.0855420012958}
+{"key": "d3a262ca634d88d9eccdeae962682005cf211fa9", "text": "Click the Search button", "tokens": 90, "ms": 565.3737910033669}
+{"key": "c55dd50aeade0419d8cf9177215f3d6c28560d6e", "text": "Enter \"10001\" into the pickup location box", "tokens": 128, "ms": 891.4015000045765}
+{"key": "b27434479b8fb2b5f620a699a7ca9892f505fb63", "text": "click the Search button", "tokens": 81, "ms": 615.2022080059396}
+{"key": "81da8a4957711012c3e9dad4ae1fcadb4cccd2de", "text": "Type \"Patong Beach\" into the location box", "tokens": 120, "ms": 802.1122909995029}
+{"key": "bc4e88847ea802c098332b35b43e81d415b3aaf6", "text": "Type Bangalore in the from box and Goa in the to box.", "tokens": 120, "ms": 892.0442079979694}
+{"key": "a66930c02a2e72436a987a5ccebf0606ceb47811", "text": "Select the travel dates: November 2024 (check-in: Nov 2024, check-out", "tokens": 166, "ms": 1202.1636669960571}
+{"key": "697f7a854a56ec0d7f028e171455303d0bb38abc", "text": "Select the wireless headphones with active noise-cancelling and a price of $100 or less.", "tokens": 108, "ms": 937.3357079966809}
+{"key": "3cd38907ac73fd95cba319504a068e728bcf24a5", "text": "Enter \"Harlem\" into the location box", "tokens": 134, "ms": 747.0450840046396}
+{"key": "2dadbdfaf5770293c456c5538688777966bf817e", "text": "Enter \"10001\" into the pickup location field", "tokens": 123, "ms": 878.5006249963772}
+{"key": "08a0fc8d2a3cf69268354415a25d2223e4cbc53e", "text": "Enter \"Lorton to Sanford\" in the route box", "tokens": 129, "ms": 806.2589170003776}
+{"key": "08d5ba8e5cb48fc8c1d573ac9abab23882fc3b5b", "text": "Type \"Bangalore\" into the from box and \"Goa\" into the to box.", "tokens": 117, "ms": 926.3749579986325}
+{"key": "8f6c047ef13bd8a4e45292b47553771a134c7b7c", "text": "Select the \"FamilyFriendly Event\" from the event list", "tokens": 121, "ms": 828.5157499994966}
+{"key": "1a2524a6231442ad4fd4237a5e64e90dc93c639f", "text": "click the Search button", "tokens": 77, "ms": 584.13579199987}
+{"key": "0a4ef128fca553eba610fae87932335925700a8d", "text": "Click the \"The Shawshank Redemption\" movie card to add it to the wishlist.", "tokens": 89, "ms": 885.0367499981076}
+{"key": "684c3f8f6265765e229e79d4e94299257374cc60", "text": "Type anywhere into the To field box", "tokens": 104, "ms": 616.8520420033019}
+{"key": "fed400e7d22f70f262fae882ff52177de0bc145b", "text": "Click the Search button", "tokens": 115, "ms": 561.8837499932852}
+{"key": "de5dc62a962d3013c903fc341f314ddeb2e58435", "text": "Type Houston, TX, US (IAH) into the destination box", "tokens": 159, "ms": 1006.5246669983026}
+{"key": "c662bd1b80e29a3d4a2b2b9fa7308f8522cbc864", "text": "Type 49102 into the zip code box", "tokens": 143, "ms": 955.0746669992805}
+{"key": "d8fd4b04dcefb2b9fe5332474f0d560c6dfb802c", "text": "Select \"Roundtrip\" in the trip type dropdown menu", "tokens": 117, "ms": 843.7907920015277}
+{"key": "29c83008e97bd66ec7806015fea298894ba677db", "text": "type 5 into the BIRTHDAY Day box", "tokens": 133, "ms": 828.8388750006561}
+{"key": "f7840b3934d4e6a06c1ebfb2f9327e3dfa799e70", "text": "Select \"Single Room\" in the room type options", "tokens": 131, "ms": 823.7767500031623}
+{"key": "f1a15ccadf59574db0c1b650db54674e8ba984d4", "text": "Filter the results by price range $200\u2013$300", "tokens": 122, "ms": 947.288875002414}
+{"key": "a449644e881e1261a63d35b004ea800701f77c48", "text": "Select the duration option for the 10-day cruise", "tokens": 118, "ms": 834.1729160019895}
+{"key": "ba26121c4e8ae28c52f8073b33af983f9c0d8907", "text": "Click the \"Find Internships\" filter or similar button to display intern career listings.", "tokens": 135, "ms": 1029.1502499967464}
+{"key": "9b0945c146c442cf3a40d355ddbd2f76529d289f", "text": "Type 10005 into the zip code box", "tokens": 150, "ms": 974.8137499991572}
+{"key": "a6cce100e2d50e3062c2b6cc51b7ad5b21831bc4", "text": "Click the \"Apply Now\" button", "tokens": 82, "ms": 679.516958000022}
+{"key": "38c9d45e9363312144f40c604923854583d7a5b9", "text": "Search for free games with ING Plus rewards using the search bar.", "tokens": 86, "ms": 791.1850409946055}
+{"key": "11bb629d4917e47e2f94fd5a482c9a302951fa0d", "text": "View the weekly ad for the store closest to zip code 82718", "tokens": 121, "ms": 1005.6552919995738}
+{"key": "483c6c52e8f4810ba5f3191113c93e212431d164", "text": "View the upcoming game schedule", "tokens": 98, "ms": 619.0456249969429}
+{"key": "1b46e73a3454308515427c05b3837a4290958474", "text": "Add the highest rated activity in Amsterdam to your wish list", "tokens": 104, "ms": 773.6750829935772}
+{"key": "519341fe3e2ecc3cdb1c4fff5314a0fcdaa36fb9", "text": "Select the pickup date and time: June 2, 11:00 AM", "tokens": 148, "ms": 1009.3877499966766}
+{"key": "a6f7ebc28309337139e88233561f8bfc9319010c", "text": "Look for the \"ID and travel documents\" section in the travel preparation guide.", "tokens": 112, "ms": 927.2753330005798}
+{"key": "9c708069ab9debc6ba4be5d30f89ef0ea892b7d2", "text": "Click the Contact Support button", "tokens": 82, "ms": 604.6045000039157}
+{"key": "d9e9233a055ebdeb3795379d9977433219569b02", "text": "Select the \"Interior Room\" room type", "tokens": 113, "ms": 734.0723750021425}
+{"key": "2ebffb0e530630a39a2af9151c44a6b735efc814", "text": "Select the rental duration: May 5 at 11:30 AM to May 7 at 11", "tokens": 178, "ms": 1320.1623749991995}
+{"key": "456b9df4b6385cd2a612cc6a76aaca245e618289", "text": "Click the Jamaica Bus Depot Expansion project card", "tokens": 112, "ms": 822.2331659999327}
+{"key": "ce0b166090e8d0fa3aa05ee0fa13b3981b99ec7c", "text": "Click the \"Return Orders\" link in the navigation menu.", "tokens": 81, "ms": 753.8847090036143}
+{"key": "2a858685e2e7ae1fa2ff53cd7cc4c3d201d06ec7", "text": "Select the departure date: November 2024", "tokens": 143, "ms": 965.1737079984741}
+{"key": "245564cdd6c7264f85071e076c01fac35a7de1a0", "text": "Check availability for the Boston airport shuttle at 4 pm on April 16th", "tokens": 156, "ms": 1094.8336670044228}
+{"key": "29ff3bb97f1a94948f84b6e78bdf4ce7ce41f002", "text": "Scroll down to view the car listings and select the first car that appears to be a large car with the lowest price.", "tokens": 127, "ms": 1141.9362080050632}
+{"key": "1a55d53fd5b634298c32678ad8247efb775d4100", "text": "click the e-gift card button", "tokens": 127, "ms": 791.1022499974933}
+{"key": "56429e2634a47c1a9d09515d354f395ebe3699bb", "text": "Type \"New Delhi\" into the location box", "tokens": 82, "ms": 714.1461669962155}
+{"key": "4bd2996971a47b3d4995c14bacc449dff8750a17", "text": "Type 08817 into the zip code box", "tokens": 163, "ms": 991.0422910033958}
+{"key": "33f5144f7f72d88f6589f6d618db72702d8ef5e6", "text": "Type Miami into the location box", "tokens": 109, "ms": 742.4627500004135}
+{"key": "cc29eac1d2ffa804e1be2df2e7421eae81c11ae0", "text": "Add to cart button", "tokens": 123, "ms": 673.7395000018296}
+{"key": "ce9a81b8ae81a235562ec51a00f46494b148c584", "text": "Enter \"Paris\" into the departure city box", "tokens": 124, "ms": 792.8477919995203}
+{"key": "a74201ddff151a7f67b98e0826bdfd423b31f3ae", "text": "Create a build list for a gaming PC with Ryzen 9, RTX 6950 XT, and", "tokens": 118, "ms": 1061.3855000046897}
+{"key": "7f4234af9ea51391735f17b9fd11c4f2e1b43d3b", "text": "Type \"Florida Keys\" into the location box", "tokens": 85, "ms": 697.3587079992285}
+{"key": "099b0c2b5d704f8ec7e1fcf925e83a6bf49bfc4b", "text": "Click the \"Add Gift Card\" button", "tokens": 134, "ms": 801.2906250005472}
+{"key": "1049c9a69befdef1f0625aff9904a1c97969eb7f", "text": "Type \"4 adults\" into the guests box", "tokens": 140, "ms": 953.7367499942775}
+{"key": "b3bfc0e9f60268173e432c0ddb8990d73d169442", "text": "Select the \"Congrats\" E-Gift card and type \"Best Wishes\" in the message field.", "tokens": 158, "ms": 1224.8775830012164}
+{"key": "eb70c6dd422ed679927c06ba7eed9315968d63e3", "text": "Type 29 April into the departure date box", "tokens": 108, "ms": 736.1157499981346}
+{"key": "dca4cb191ef51e510e4952f52f89539818b31d23", "text": "click the Rent now button", "tokens": 111, "ms": 772.8460420039482}
+{"key": "4706eafa9c242d07b08234faa89d52e7a1a9ce85", "text": "Select \"Congrats\" E-Gift card from the available options", "tokens": 153, "ms": 1079.9600829996052}
+{"key": "06c70f04e22baf01d042405d287047722742e946", "text": "click the \"The Shawshank Redemption\" movie card", "tokens": 92, "ms": 780.9836250016815}
+{"key": "704cf3a6602243a755202d2efde56840e166bfc3", "text": "Type New York into the origin box and New Orleans into the destination box.", "tokens": 97, "ms": 904.0092080031172}
+{"key": "dab08bb390b64b5b4ee33269dc3c904be82898d4", "text": "Click the Wednesday schedule link", "tokens": 97, "ms": 621.378875002847}
+{"key": "c5e278225e5ec6453f1db74b0d12cf40d10ca33b", "text": "search for 'Donnie Darko' movie cast", "tokens": 82, "ms": 762.3347089975141}
+{"key": "130144f8b5771f216eafc52d0394a33f95320842", "text": "Select the car with the most seats in the search results.", "tokens": 128, "ms": 910.8208749967162}
+{"key": "f5d5154b49621bcf6c4dd4f800d4e5c0f4a0d880", "text": "Type 5 in the guest count box", "tokens": 121, "ms": 779.2419580000569}
+{"key": "351f34e3f204c7245420ab2f8a80f227132de728", "text": "Type \"Tallahassee\" into the location box", "tokens": 88, "ms": 730.7411250003497}
+{"key": "63a895e04a3a8e51764bf0cf350d6f617f7b570d", "text": "Type 0001 into the PIN Number field", "tokens": 128, "ms": 878.0092500019236}
+{"key": "d04e04963871c51632eab89c077c72dd2e8d6d60", "text": "Type Apr 30 into the Check-in box and Jun 5 into the Check-out box.", "tokens": 124, "ms": 1053.0343749996973}
+{"key": "05068fa7f909715ec5bd14cc26a196c36b8db6be", "text": "Add to cart", "tokens": 123, "ms": 701.2851250037784}
+{"key": "0714eeb3cf155ffd4a0724b14bd3ef5a92fce027", "text": "Type 10987654 into the confirmation number box", "tokens": 101, "ms": 842.7205000043614}
+{"key": "1445057db50ecedd8f22bf98b0cf13dbd1598aa0", "text": "click the Sort by: Lowest price option", "tokens": 107, "ms": 807.244791998528}
+{"key": "6d8e2865cf1b9a73a397b03cd423393771f11227", "text": "Enter your date of birth in the birth date field", "tokens": 89, "ms": 743.8462079953752}
+{"key": "be89cfc16ac90753ea44f4f532d884010b5db0e1", "text": "Type \"Lorton to Sanford\" into the origin and destination box.", "tokens": 160, "ms": 1054.2814579966944}
+{"key": "62cd953f34ce5ccdd25a927459da9cff2ea55e47", "text": "Search for Chevrolet trucks within 10 miles of zip 42701", "tokens": 116, "ms": 1008.631750002678}
+{"key": "f7da49aa693c135173cd6748580c4a87a476131b", "text": "Filter the results by \"active noise-cancelling\" and price $100 or less", "tokens": 125, "ms": 1059.6162090005237}
+{"key": "6899518849ed5c9bf1df427fc012a48443090d73", "text": "Click the first flight result", "tokens": 108, "ms": 759.0369580066181}
+{"key": "f1de900e5485890f10595292c350385aead71314", "text": "Click the Bluetooth vertical mouse with the most reviews", "tokens": 113, "ms": 838.426750000508}
+{"key": "12b5354ca1d9dee0da83aaa5417751afdf8a8038", "text": "Type \"Buenos Aires\" into the departure city box", "tokens": 96, "ms": 755.4854580012034}
+{"key": "4969ed51f60e2fc93a87363e25b709ef68cf9c5f", "text": "Select Spanish cuisine from the cuisine dropdown menu.", "tokens": 134, "ms": 827.9496250033844}
+{"key": "8a9b881ec2d0b310c55bacc89b2ac86802d0bc52", "text": "Select \"Sales\" from the job category dropdown.", "tokens": 109, "ms": 824.701040997752}
+{"key": "3ca7a60466d42de0d4cfd41b11db6684c6f7a6fd", "text": "Type \"hair salon\" into the location box", "tokens": 83, "ms": 727.6011249996372}
+{"key": "fb5d72f079631afa2e8b498db681795b49ee8889", "text": "Click the \"Schedule Test Drive\" button", "tokens": 136, "ms": 744.5593750016997}
+{"key": "f09b70c41b303dfcd048ee265bd6ca7cce9aca4a", "text": "View the filtered soccer events on the schedule page.", "tokens": 109, "ms": 863.8092080000206}
+{"key": "5aa346f8546cc10a1ced5854986fd7be7519e1d5", "text": "Click the Search button", "tokens": 111, "ms": 699.7324999974808}
+{"key": "b69163e92a1c031f986a02197a9064032f8d62a5", "text": "View the search results for PlayStation 5 digital edition", "tokens": 101, "ms": 779.9319999976433}
+{"key": "9063c4c66c6a583d518082f6450bb8a3bef4514f", "text": "Enter \"Apr 30 to Jun 5\" in the stay duration field.", "tokens": 120, "ms": 1025.7475410035113}
+{"key": "fd81ef284bab381f12ebe1a5e21ac4e09b2e8cc0", "text": "Type \"Spanish\" into the cuisine box", "tokens": 110, "ms": 802.4924580022343}
+{"key": "714e85632ef94ae4579830c386132892e1e0b7fd", "text": "Select the cruise date from the available options", "tokens": 138, "ms": 803.6851249999017}
+{"key": "c60a8af7135147c7875dc5334e17fc8a22e7948f", "text": "Select the 7:00 pm time slot", "tokens": 133, "ms": 850.4849589953665}
+{"key": "14ddc4d8795e25308f13184d0a1b8dc410c560ef", "text": "Type New York into the destination box", "tokens": 100, "ms": 695.499708999705}
+{"key": "f2740297aec6f65726f0e819e259d4c6e5dccd6d", "text": "Type \"fishing\" into the search bar", "tokens": 97, "ms": 740.6267089972971}
+{"key": "a031863198bcc8d5157612a01f6b1ab8fe3b51d9", "text": "Edit the profile bio and add \"Born January 5, 1980 | Love ramen noodles | Dairy", "tokens": 132, "ms": 1225.4949579946697}
+{"key": "75a0f68d5535669ecb0932a12ac0e9dd26bcc313", "text": "Add Pro Display XDR with nano texture to bag", "tokens": 114, "ms": 879.7415829976671}
+{"key": "b0b00e53ba6435c509f6771544cdb14720ac6de6", "text": "View the menu items on the national cafe page.", "tokens": 80, "ms": 729.6721249949769}
+{"key": "d1a7b65bd60fbfe51b6c6700780c7b93de8eacb4", "text": "See what's happening in store", "tokens": 125, "ms": 723.9172919944394}
+{"key": "edc0ad4ed76941366ebbb74238bc0a3ebcdbf0ae", "text": "Add White Queen 6 PC Rayon From Bamboo Solid Perfo... to cart", "tokens": 139, "ms": 1007.9120000009425}
+{"key": "29cdea3c588e207cb372200172ff415cb7ad9958", "text": "Select the SUV and Wagon vehicle types", "tokens": 133, "ms": 775.6272090045968}
+{"key": "67acbe3c823f4f1db1fb2d4517b6ed94b19cae68", "text": "click the Apply Now button", "tokens": 102, "ms": 617.3950410011457}
+{"key": "c89df2205edb0c1a661fba90b96f6a56dc435763", "text": "Click the Recommended button", "tokens": 103, "ms": 670.6907079933444}
+{"key": "e5c57d4562fc6f7b391b02112f41c723af57733e", "text": "Type 2 adults into the guest box", "tokens": 87, "ms": 693.28916700033}
+{"key": "46925d84dd9a0f560e42a6e7f5df29cae5adfbbf", "text": "Search for stores near zip code 82718", "tokens": 87, "ms": 776.4814589972957}
+{"key": "7f77de4eb5e36349cd6f1534edbc1af4c3c615e0", "text": "Select the \"Large\" size filter", "tokens": 92, "ms": 664.6423749989481}
+{"key": "6b5df663acb340ea7e619e3c444b2ccaa1bcdb00", "text": "Type \"Tempe, Arizona\" into the location box", "tokens": 96, "ms": 766.2312080065021}
+{"key": "46dd3c0ad75b77871cf4be1706219549c250e96f", "text": "Edit the profile section and add \"Birthday: January 5, 1980\", \"Allergies:", "tokens": 117, "ms": 1096.2691660024575}
+{"key": "ff47b3d2fe3720138b3742e42664e1003e5cebc4", "text": "Type \"5 days\" into the stay duration box", "tokens": 137, "ms": 843.6652090022108}
+{"key": "0f2df77100c96b1d4b7890cdff5939ff847e850f", "text": "Enter \"4 adults\" in the guest count field", "tokens": 131, "ms": 841.1512080056127}
+{"key": "d693b5aaf77e51126148a1733d00aedda87494a9", "text": "Type \"Bangalore\" into the from box and \"Goa\" into the to box.", "tokens": 110, "ms": 938.2294999959413}
+{"key": "99ef85c2123ce9c9b4236068a677eaf5f7e94079", "text": "View the product specifications section on the MacBook Air page.", "tokens": 94, "ms": 779.2996659991331}
+{"key": "a17b65d5efe705f2c625a3e079c705dac09b40d8", "text": "Search for \"5 star rated saltwater rods\" in the filter box", "tokens": 86, "ms": 822.2680420003599}
+{"key": "9c09c439c9dc14e020789ddfd4dd5c113af3402d", "text": "Type 1234567 into the Card Number textbox", "tokens": 125, "ms": 938.8279170016176}
+{"key": "9a154efffc99c8fb2b5385e71259562ac5cde168", "text": "Select the rental period: May 5 at 11:30 am to May 7 at 11", "tokens": 151, "ms": 1129.63937499444}
+{"key": "eb2544bbeca5a69aa342ed140b44371df09368ef", "text": "Type San Francisco into the origin box", "tokens": 101, "ms": 720.0860420052777}
+{"key": "75986d09ff361fcf4e160920d7579c91af92dbb1", "text": "Click the date picker and select \"April 12", "tokens": 114, "ms": 897.0842499984428}
+{"key": "97970a27056d99e3093394e0eb2b9c266f8ee956", "text": "Enter \"Las Vegas\" in the departure city box", "tokens": 103, "ms": 688.2553749965155}
+{"key": "a3cceb7192bc7378372eaaf6a9feb89c29e77217", "text": "Scroll down and click the weekly ad for the store closest to zip code 82718", "tokens": 130, "ms": 1077.094207998016}
+{"key": "9570c94a63331855b87f33acea7962b337689ce8", "text": "Type \"Lorton to Sanford\" into the route box.", "tokens": 156, "ms": 1000.4836250009248}
