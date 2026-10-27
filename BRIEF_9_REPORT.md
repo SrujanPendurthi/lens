@@ -1,4 +1,4 @@
-STATUS: Task 4 complete; D14 FAIL; next = Task 5 Step 1.
+STATUS: complete; D14 FAIL; Tasks 1–5 finished.
 
 # Brief 9: ColPali mean pooling and audit
 
@@ -77,4 +77,10 @@ Size-only floor: 12/200 (6.0%). ColPali-mean: 39/200 (19.5%), +27 hits / +13.5 p
 - Audit cuts: `a2015b9`.
 - Alignment findings: `de97047`.
 - Mean pooling and cache validation: `881d2a2`.
-- Results: this report/results commit. Task 5 removal follows because the gate failed.
+- Results: this report/results commit. Task 5 removal follows because the gate failed. Results commit: `612807a`.
+
+## Removal after FAIL
+
+Task 5 removed `lens/vision.py`, `test_vision.py`, ColPali dispatch/stat recording, box prep, and the Pillow requirement. Allowed rankers are the four existing text rankers. D12 boundary tests remain, using MaxSim as the comparison name after ColPali removal.
+
+Final verification: 19/19 eval tests, node extraction and MaxSim checks passed. `rg -n 'colpali|vision|boxes' lens eval.py` returned no matches. Brief 7's four remaining ranker R@5/R@10/R@20 rows still match exactly. All 200 ColPali tile cache sizes/mtimes remain unchanged; both ColPali result files still have 200 rows. No `data/` artifacts were staged. Removal is this final cleanup commit.

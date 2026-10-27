@@ -5,7 +5,6 @@ usage: python eval.py --prep-mm data/mm_test_task
 """
 import argparse
 import json
-import math
 import random
 import statistics as st
 import time
@@ -14,7 +13,6 @@ from pathlib import Path
 
 from lens.nodes import Node, extract
 from lens.rank import ALLOWED_RANKERS, RANKERS, rank
-from lens.vision import rank_colpali, encoding_stats
 
 STEPS = "data/steps_test.jsonl"
 
@@ -37,15 +35,6 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     pos, neg = [parsed(c) for c in pos], [parsed(c) for c in neg]
                     gold = sorted({str(c["backend_node_id"]) for c in pos})
                     refs = list(dict.fromkeys(str(c["backend_node_id"]) for c in pos + neg))
-                    boxes = {}
-                    for candidate in pos + neg:
-                        try:
-                            attrs = parsed(candidate.get("attributes") or {})
-                            rect = [float(v) for v in attrs["bounding_box_rect"].split(",")]
-                            if len(rect) == 4 and all(math.isfinite(v) for v in rect):
-                                boxes[str(candidate["backend_node_id"])] = rect
-                        except (KeyError, ValueError, TypeError, AttributeError):
-                            continue
                     nodes = extract(action["cleaned_html"], refs)
                     uid = action["action_uid"]
                     shot = shots / f"{uid}.png"
@@ -59,7 +48,7 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     row = {"task": action["confirmed_task"],
                            "prev": action["action_reprs"][:int(action["target_action_index"])][-3:],
                            "op": parsed(action["operation"]), "gold": gold,
-                           "nodes": [n.__dict__ for n in nodes], "uid": uid, "boxes": boxes}
+                           "nodes": [n.__dict__ for n in nodes], "uid": uid}
                     out.write(json.dumps(row) + "\n")
 
 
@@ -141,14 +130,10 @@ def main():
             texts = [n.text for n in nodes]
             for name in rankers:
                 t0 = time.perf_counter()
-                scores = (rank_colpali(query, s["uid"], [n.ref for n in nodes], s["boxes"])
-                          if name == "colpali" else rank(name, query, texts))
+                scores = rank(name, query, texts)
                 order = scores.argsort(descending=True).tolist()
                 row[name] = {"ms": (time.perf_counter() - t0) * 1000,
                              "gold_rank": min((order.index(i) for i, n in enumerate(nodes) if n.ref in gold), default=2**63 - 1)}
-                if name == "colpali":
-                    row[name].update(encoding_stats(s["uid"]))
-                    row[name]["ms"] -= row[name]["encode_s"] * 1000
                 if not a.no_llm:
                     for k in ks:
                         row[f"{name}@{k}"] = pick_nodes([nodes[i] for i in order[:k]], goal["tokens"])

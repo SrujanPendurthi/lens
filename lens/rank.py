@@ -6,7 +6,7 @@ from rank_bm25 import BM25Okapi
 
 DEVICE = os.environ.get("LENS_DEVICE", "mps" if torch.backends.mps.is_available() else "cpu")
 RANKERS = ("bm25", "single", "maxsim", "cross")
-ALLOWED_RANKERS = RANKERS + ("colpali",)
+ALLOWED_RANKERS = RANKERS
 
 
 def maxsim(q, docs):

@@ -179,9 +179,9 @@ Skip this task (tick it with "skipped: PASS") if D14 = PASS.
 - Delete: `lens/vision.py`, `test_vision.py`
 - Modify: `eval.py` (remove the `rank_colpali`/`encoding_stats` import and dispatch, plus `boxes` in `prep_mm`), `lens/rank.py:9` (`ALLOWED_RANKERS = RANKERS`), `test_eval.py` (colpali and box tests), `requirements.txt` (drop `pillow`)
 
-- [ ] **Step 1:** Delete as listed. Keep `results_test_colpali*.jsonl` and `data/colpali/` as evidence.
-- [ ] **Step 2: Verify:**
+- [x] **Step 1:** Delete as listed. Keep `results_test_colpali*.jsonl` and `data/colpali/` as evidence.
+- [x] **Step 2: Verify:**
   - `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py` passes.
   - `grep -rn "colpali\|vision\|boxes" lens eval.py` prints nothing.
   - `eval.py --summarize results_test_200.jsonl` still matches `BRIEF_7_REPORT.md:24-29`.
-- [ ] **Step 3: Commit** `refactor: remove ColPali ranker (D14 FAIL)` and push.
+- [x] **Step 3: Commit** `refactor: remove ColPali ranker (D14 FAIL)` and push.

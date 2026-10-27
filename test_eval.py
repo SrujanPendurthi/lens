@@ -42,7 +42,7 @@ class PrepTests(unittest.TestCase):
         for strings in (True, False):
             with self.subTest(strings=strings), tempfile.TemporaryDirectory() as d:
                 path = Path(d)
-                fields = {"operation": {"op": "CLICK"}, "pos_candidates": [{"backend_node_id": "7", "attributes": json.dumps({"bounding_box_rect": "534,45,151,22"})}], "neg_candidates": [{"backend_node_id": "8"}]}
+                fields = {"operation": {"op": "CLICK"}, "pos_candidates": [{"backend_node_id": "7"}], "neg_candidates": [{"backend_node_id": "8"}]}
                 row = {k: json.dumps(v) if strings else v for k, v in fields.items()}
                 row.update(cleaned_html='<html><body><button backend_node_id="7">Go</button></body></html>',
                            action_reprs=["a", "b", "c", "d"], target_action_index="2", action_uid="example",
@@ -51,7 +51,6 @@ class PrepTests(unittest.TestCase):
                 out, shots = path / "out.jsonl", path / "shots"
                 evaluator.prep_mm(d, str(out), str(shots))
                 result = json.loads(out.read_text())
-                self.assertEqual(result["boxes"], {"7": [534.0, 45.0, 151.0, 22.0]})
                 self.assertEqual(result["gold"], ["7"])
                 self.assertEqual(result["prev"], ["a", "b"])
                 self.assertEqual(result["op"]["op"], "CLICK")
@@ -72,14 +71,14 @@ class MarginTests(unittest.TestCase):
     def d12(self, hits, single_hits, n=200):
         rows = [{"n_nodes": 100, "textless_gold": False,
                  "single": {"gold_rank": 0 if i < single_hits else 99, "ms": 1},
-                 "colpali": {"gold_rank": 0 if i < hits else 99, "ms": 1}} for i in range(n)]
+                 "maxsim": {"gold_rank": 0 if i < hits else 99, "ms": 1}} for i in range(n)]
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
             summarize(rows, False)
         return out.getvalue()
 
     def test_d12_margin_boundary(self):
-        self.assertIn("D12 colpali: R@10 = 63/200, single = 53/200, margin = +5.0 pts → PASS", self.d12(63, 53))
+        self.assertIn("D12 maxsim: R@10 = 63/200, single = 53/200, margin = +5.0 pts → PASS", self.d12(63, 53))
         self.assertIn("margin = +4.5 pts → FAIL", self.d12(62, 53))
         self.assertNotIn("GATE:", self.d12(63, 53))
 
@@ -95,7 +94,7 @@ class QueryTests(unittest.TestCase):
         step = {"task": "Book a trip", "prev": ["typed Boston"],
                 "gold": ["1"], "op": {"op": "CLICK", "value": ""},
                 "nodes": [{"ref": "1", "tag": "button", "text": "secret gold text"}],
-                "uid": "example", "boxes": {"1": [0, 0, 40, 40]}}
+                "uid": "example"}
         with tempfile.TemporaryDirectory() as directory:
             steps, output = Path(directory) / "steps.jsonl", Path(directory) / "out.jsonl"
             steps.write_text(json.dumps(step) + "\n")
@@ -114,19 +113,6 @@ class QueryTests(unittest.TestCase):
             return json.loads(output.read_text()), rank_mock, goal_mock
 
 
-    def test_colpali_receives_uid_refs_boxes_and_saves_stats(self):
-        import torch
-        stats = {"no_screenshot": False, "n_tiles": 2, "encode_s": 2.0}
-        with patch("eval.rank_colpali", return_value=torch.tensor([1.])) as vision_rank, \
-             patch("eval.encoding_stats", return_value=stats), \
-             patch("eval.time.perf_counter", side_effect=[0., 3.]):
-            row, rank_mock, _ = self.run_eval("subgoal", False, extra=["--rankers", "colpali"])
-        vision_rank.assert_called_once_with("click Search", "example", ["1"], {"1": [0, 0, 40, 40]})
-        rank_mock.assert_not_called()
-        self.assertEqual(row["colpali"]["n_tiles"], 2)
-        self.assertFalse(row["colpali"]["no_screenshot"])
-        self.assertLess(row["colpali"]["ms"], 2000)
-        self.assertEqual(row["colpali"]["ms"], 1000)
 
     def test_subgoal_without_picker_still_generates_query(self):
         row, rank_mock, goal_mock = self.run_eval("subgoal", False)
