@@ -100,28 +100,28 @@
 - Create: `results_website_ft.jsonl`, `BRIEF_11_REPORT.md`
 - Modify: `PLAN.md` (D16 outcome, a Brief 11 results line)
 
-- [ ] **Step 1:**
+- [x] **Step 1:**
   1. Download `osunlp/Multimodal-Mind2Web` `data/test_website-*` (4 shards, about 1.0 GiB) to `data/mm_test_website/`.
   2. Run `.venv/bin/python eval.py --prep-mm data/mm_test_website --steps data/steps_website.jsonl`.
-- [ ] **Step 2: Leakage check.**
+- [x] **Step 2: Leakage check.**
   - Read only the `website` and `confirmed_task` columns, with no full download:
     `pq.read_table(path, columns=["website", "confirmed_task"], filesystem=huggingface_hub.HfFileSystem())`
     for each `datasets/osunlp/Multimodal-Mind2Web/data/train-*.parquet` and `test_website-*.parquet`.
   - Print the shared-website count and the shared-task count. Expected: both 0. **If either is not 0, STOP and report.**
-- [ ] **Step 3: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/website_ft.log -- eval.py --steps data/steps_website.jsonl --n 200 --no-llm --rankers single,maxsim,single_ft,maxsim_ft --output results_website_ft.jsonl`.
+- [x] **Step 3: Run** `LENS_DEVICE=cpu .venv/bin/python run_evals.py data/website_ft.log -- eval.py --steps data/steps_website.jsonl --n 200 --no-llm --rankers single,maxsim,single_ft,maxsim_ft --output results_website_ft.jsonl`.
   - Expected: gold coverage ≥ 98%, 200 rows.
   - If coverage is below 98%, STOP and report the number.
-- [ ] **Step 4: Write `BRIEF_11_REPORT.md`:**
+- [x] **Step 4: Write `BRIEF_11_REPORT.md`:**
   - website/task overlap counts and gold coverage;
   - the verbatim `eval.py --summarize results_website_ft.jsonl`;
   - R@5/10/20/50/100 for all four rankers;
   - a lift table (ft − zero-shot, in hits and pts) for **both** splits, with `test_task` taken from `results_test_ft.jsonl`;
   - the D16 verdict line: `D16: single_ft − single on test_website = <h> hits → GENERALIZES | MEMORIZATION`;
   - deviations.
-- [ ] **Step 5: `PLAN.md`:**
+- [x] **Step 5: `PLAN.md`:**
   - Add `Outcome: GENERALIZES|MEMORIZATION (single lift <h> hits; maxsim lift <h> hits)` under D16.
   - Add a `- Brief 11 (...)` line to Results.
-- [ ] **Step 6:**
+- [x] **Step 6:**
   - Delete `data/mm_test_website/`.
   - Commit `docs: brief 11 unseen-website check` + `chore: llm cache` and push.
   - **Stop.** The thesis re-grill is the planner's and user's job.
