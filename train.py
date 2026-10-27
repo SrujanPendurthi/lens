@@ -38,14 +38,12 @@ def triplets(steps: list[dict], seed: int = 0) -> tuple[list[dict], dict]:
 
 def fit(name):
     from datasets import Dataset
-    from transformers import set_seed
     from sentence_transformers import (SentenceTransformer, SentenceTransformerTrainer,
                                        SentenceTransformerTrainingArguments, losses)
 
     output = MODELS / f"{name}_ft"
     if output.exists():
         raise RuntimeError(f"refusing a second training run: {output} already exists")
-    set_seed(0)
     with TRIPLETS.open() as stream:
         dataset = Dataset.from_list([json.loads(line) for line in stream])
     kwargs = {}
@@ -59,8 +57,6 @@ def fit(name):
                               query_length=32, document_length=64)
         loss = colbert_losses.Contrastive(model)
         kwargs["data_collator"] = utils.ColBERTCollator(model.tokenize)
-    else:
-        raise ValueError(f"unknown training model: {name}")
     args = SentenceTransformerTrainingArguments(
         output_dir=str(output), seed=0, data_seed=0, num_train_epochs=1,
         learning_rate=2e-5, per_device_train_batch_size=32, warmup_ratio=0.1,

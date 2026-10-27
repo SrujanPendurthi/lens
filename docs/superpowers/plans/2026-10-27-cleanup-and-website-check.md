@@ -60,7 +60,7 @@
   - With `single_ft` present, it prints `D12` lines only for rankers whose names end in `_ft`.
   - Otherwise, it prints them for every non-`single` ranker (unchanged).
 
-- [ ] **Step 1: Write the failing test** in `MarginTests`:
+- [x] **Step 1: Write the failing test** in `MarginTests`:
   ```python
   def test_d12_lines_only_for_ft_when_base_is_ft(self):
       rows = [{"n_nodes": 100, "textless_gold": False,
@@ -74,8 +74,8 @@
       self.assertNotIn("D12 single:", out.getvalue())
       self.assertNotIn("D12 maxsim:", out.getvalue())
   ```
-- [ ] **Step 2: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v`. Expected: the new test FAILS.
-- [ ] **Step 3: Cuts:**
+- [x] **Step 2: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v`. Expected: the new test FAILS.
+- [x] **Step 3: Cuts:**
   - `eval.py`:
     - add the D12 filter;
     - delete the `ks = a.ks` alias (use `a.ks`);
@@ -89,10 +89,10 @@
   - `test_train.py`: delete `FitTests`. `TripletTests` stays.
   - `PLAN.md`, append to the D15 outcome: `Tie is real: 51 shared hits, 9 unique each; median gold rank 43.5 vs 45.5. Final train losses 3.09/3.25 vs ln 64 ≈ 4.16 chance, so both models learned only modestly in 224 steps; the FAIL holds for this budget only.`
   - Delete the two files listed under Files.
-- [ ] **Step 4: Verify:**
+- [x] **Step 4: Verify:**
   - Run `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval test_train -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS, including the unchanged `test_ft_models_keep_zero_shot_caps`.
   - Run `.venv/bin/python eval.py --summarize results_test_ft.jsonl`. The R@ rows must match the verbatim summary in `BRIEF_10_REPORT.md`, with only the `maxsim_ft` D12 line.
-- [ ] **Step 5: Commit** `refactor: brief 10 review and audit cuts` and push.
+- [x] **Step 5: Commit** `refactor: brief 10 review and audit cuts` and push.
 
 ### Task 2: Unseen-website recall check
 

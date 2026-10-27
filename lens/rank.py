@@ -17,7 +17,7 @@ def maxsim(q, docs):
 # Fixed max lengths bound the set of MPS graph shapes; uncapped, driver memory grows per new shape until OOM.
 @cache
 def _model(name):
-    checkpoint = {"single_ft": "models/single_ft", "maxsim_ft": "models/maxsim_ft"}.get(name)
+    checkpoint = f"models/{name}" if name.endswith("_ft") else None
     name = name.removesuffix("_ft")
     if DEVICE == "mps":
         torch.mps.set_per_process_memory_fraction(min(1.0, 20 * 2**30 / torch.mps.recommended_max_memory()))
@@ -37,16 +37,16 @@ def _model(name):
 
 
 def rank(name, query, texts):
-    if name == "bm25":
+    kind = name.removesuffix("_ft")
+    if kind == "bm25":
         return torch.tensor(BM25Okapi([t.lower().split() or [""] for t in texts]).get_scores(query.lower().split()))
     m = _model(name)
-    name = name.removesuffix("_ft")
-    if name == "single":
+    if kind == "single":
         e = m.encode([query] + texts, convert_to_tensor=True, normalize_embeddings=True)
         return (e[1:] @ e[0]).cpu()
-    if name == "maxsim":
+    if kind == "maxsim":
         q = torch.as_tensor(m.encode([query], is_query=True)[0])
         docs = [torch.as_tensor(d) for d in m.encode(texts, is_query=False)]
         return maxsim(q, docs)
-    if name == "cross":
+    if kind == "cross":
         return torch.tensor(m.predict([(query, t) for t in texts], batch_size=64))

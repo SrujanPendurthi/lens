@@ -72,6 +72,18 @@ class MarginTests(unittest.TestCase):
             summarize(rows, False)
         self.assertIn("D12 maxsim_ft: R@10 = 65/200, single_ft = 60/200, margin = +2.5 pts → FAIL", output.getvalue())
 
+    def test_d12_lines_only_for_ft_when_base_is_ft(self):
+        rows = [{"n_nodes": 100, "textless_gold": False,
+                 **{k: {"gold_rank": 0 if i < hits else 99, "ms": 1}
+                    for k, hits in (("single", 53), ("maxsim", 36), ("single_ft", 60), ("maxsim_ft", 60))}}
+                for i in range(200)]
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            summarize(rows, False)
+        self.assertIn("D12 maxsim_ft: R@10 = 60/200, single_ft = 60/200, margin = +0.0 pts → FAIL", out.getvalue())
+        self.assertNotIn("D12 single:", out.getvalue())
+        self.assertNotIn("D12 maxsim:", out.getvalue())
+
     def test_d12_margin_boundary(self):
         self.assertIn("D12 maxsim: R@10 = 63/200, single = 53/200, margin = +5.0 pts → PASS", self.d12(63, 53))
         self.assertIn("margin = +4.5 pts → FAIL", self.d12(62, 53))

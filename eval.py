@@ -5,6 +5,7 @@ usage: python eval.py --prep-mm data/mm_test_task
 """
 import argparse
 import json
+from pathlib import Path
 import random
 import statistics as st
 import time
@@ -16,7 +17,6 @@ STEPS = "data/steps_test.jsonl"
 
 
 def prep_mm(parquet_dir: str, steps_path: str) -> None:
-    from pathlib import Path
     import pyarrow.parquet as pq
 
     def parsed(value):
@@ -63,7 +63,6 @@ def main():
         return summarize(rows, "baseline" in rows[0])
     if a.prep_mm:
         return prep_mm(a.prep_mm, a.steps)
-    ks = a.ks
     rankers = list(dict.fromkeys(a.rankers.split(",")))
     if not rankers or any(name not in ALLOWED_RANKERS for name in rankers):
         ap.error("--rankers must contain names from " + ",".join(ALLOWED_RANKERS))
@@ -114,7 +113,7 @@ def main():
                 row[name] = {"ms": (time.perf_counter() - t0) * 1000,
                              "gold_rank": min((order.index(i) for i, n in enumerate(nodes) if n.ref in gold), default=2**63 - 1)}
                 if not a.no_llm:
-                    for k in ks:
+                    for k in a.ks:
                         row[f"{name}@{k}"] = pick_nodes([nodes[i] for i in order[:k]], goal["tokens"])
             rows.append(row)
             f.write(json.dumps(row) + "\n")
@@ -156,7 +155,7 @@ def summarize(rows, llm):
     if base in rankers:
         single_hits = sum(r[base]["gold_rank"] < 10 for r in rows)
         for name in rankers:
-            if name == base:
+            if name == base or (base == "single_ft" and not name.endswith("_ft")):
                 continue
             hits = sum(r[name]["gold_rank"] < 10 for r in rows)
             margin = (hits - single_hits) * 100 / n

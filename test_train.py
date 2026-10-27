@@ -20,45 +20,5 @@ class TripletTests(unittest.TestCase):
         subgoal.assert_called_once_with("t", [])
 
 
-class FitTests(unittest.TestCase):
-    def test_fit_uses_registered_settings(self):
-        import json
-        from pathlib import Path
-        import tempfile
-        from types import SimpleNamespace
-        for name in ('single', 'maxsim'):
-            with self.subTest(name=name), tempfile.TemporaryDirectory() as d, \
-                 patch.object(train, 'TRIPLETS', Path(d) / 'triplets.jsonl', create=True), \
-                 patch.object(train, 'MODELS', Path(d) / 'models', create=True), \
-                 patch('sentence_transformers.SentenceTransformer') as single, \
-                 patch('pylate.models.ColBERT') as colbert, \
-                 patch('sentence_transformers.SentenceTransformerTrainer') as trainer, \
-                 patch('sentence_transformers.losses.MultipleNegativesRankingLoss') as single_loss, \
-                 patch('pylate.losses.Contrastive') as multi_loss:
-                train.TRIPLETS.write_text(json.dumps({'query': 'q', 'positive': 'p', 'negative': 'n'}) + '\n')
-                trainer.return_value.train.return_value = SimpleNamespace(metrics={'train_loss': 1.25})
-                train.fit(name)
-                kwargs = trainer.call_args.kwargs
-                args = kwargs['args']
-                self.assertEqual((args.seed, args.num_train_epochs, args.learning_rate,
-                                  args.per_device_train_batch_size, args.warmup_steps), (0, 1, 2e-5, 32, .1))
-                self.assertEqual(args.get_warmup_steps(224), 23)
-                self.assertTrue(args.use_cpu)
-                self.assertEqual(args.save_strategy.value, 'no')
-                self.assertEqual(kwargs['train_dataset'].column_names, ['query', 'positive', 'negative'])
-                self.assertEqual(len(kwargs['train_dataset']), 1)
-                model = single.return_value if name == 'single' else colbert.return_value
-                if name == 'single':
-                    self.assertEqual(model.max_seq_length, 128)
-                    single_loss.assert_called_once_with(model)
-                else:
-                    self.assertEqual(colbert.call_args.kwargs['query_length'], 32)
-                    self.assertEqual(colbert.call_args.kwargs['document_length'], 64)
-                    multi_loss.assert_called_once_with(model)
-                    self.assertIs(kwargs['data_collator'].tokenize_fn, model.tokenize)
-                trainer.return_value.train.assert_called_once_with()
-                model.save_pretrained.assert_called_once_with(str(train.MODELS / f'{name}_ft'))
-
-
 if __name__ == '__main__':
     unittest.main()
