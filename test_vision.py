@@ -68,7 +68,7 @@ class GeometryTests(unittest.TestCase):
         selected = vision.image_embeddings(embeddings, ids, 99)
         self.assertTrue(torch.equal(selected, embeddings[0, [1, 2, 4]]))
 
-    def test_rank_clips_bottom_and_takes_max_across_tiles(self):
+    def test_rank_clips_bottom_and_pools_across_tiles(self):
         from PIL import Image
         tiles = [torch.zeros((1024, 2)), torch.zeros((1024, 2))]
         tiles[0][31 * 32] = torch.tensor([1., 0.])
@@ -80,7 +80,45 @@ class GeometryTests(unittest.TestCase):
             scores = vision.rank_colpali('q', 'abc', ['span', 'below', 'partial', 'missing', 'zero'],
                                          {'span': [0, 1270, 40, 20], 'below': [0, 1290, 40, 10],
                                           'partial': [0, 1285, 40, 20], 'zero': [0, 0, 0, 0]})
-            self.assertEqual(scores.tolist(), [2., float('-inf'), 1., float('-inf'), float('-inf')])
+            self.assertEqual(scores.tolist(), [1., float('-inf'), 1., float('-inf'), float('-inf')])
+
+    def test_nested_child_beats_container(self):
+        from PIL import Image
+        tile = torch.zeros((1024, 2))
+        tile[0] = torch.tensor([1., 0.])
+        with tempfile.TemporaryDirectory() as d, patch.object(vision, 'SHOTS', Path(d)), \
+             patch.object(vision, 'encode_tiles', return_value=[tile]), \
+             patch.object(vision, 'encode_query', return_value=torch.eye(2)[:1]):
+            Image.new('RGB', (1280, 1280), 'white').save(Path(d) / 'nested.png')
+            scores = vision.rank_colpali('q', 'nested', ['child', 'container'],
+                                         {'child': [0, 0, 40, 40], 'container': [0, 0, 1280, 1280]})
+            self.assertGreater(scores[0], scores[1])
+            self.assertEqual(scores[0].item(), 1.0)
+
+    def test_legacy_cache_hits(self):
+        tile = torch.ones((1024, 2))
+        with tempfile.TemporaryDirectory() as d, patch.object(vision, 'SHOTS', Path(d)), \
+             patch.object(vision, 'CACHE_DIR', Path(d)), \
+             patch.object(vision, 'load_tiles', side_effect=AssertionError('legacy cache missed')):
+            (Path(d) / 'u.png').touch()
+            torch.save({'tiles': [tile], 'stats': {'n_tiles': 1, 'encode_s': 2.}}, Path(d) / 'u.pt')
+            loaded = vision.encode_tiles('u')
+            self.assertTrue(torch.equal(loaded[0], tile))
+            self.assertTrue(vision.encoding_stats('u')['cache_hit'])
+
+    def test_stale_cache_reencodes(self):
+        for metadata in ({'model': 'other'}, {'tile': 640}):
+            with self.subTest(metadata=metadata), tempfile.TemporaryDirectory() as d, \
+                 patch.object(vision, 'SHOTS', Path(d)), patch.object(vision, 'CACHE_DIR', Path(d)), \
+                 patch.object(vision, 'load_tiles', return_value=[]) as load, \
+                 patch.object(vision, '_load', return_value=(object(), object())):
+                (Path(d) / 'u.png').touch()
+                torch.save({'tiles': [], 'stats': {}} | metadata, Path(d) / 'u.pt')
+                vision.encode_tiles('u')
+                load.assert_called_once_with('u')
+                payload = torch.load(Path(d) / 'u.pt', weights_only=True)
+                self.assertEqual(payload['model'], vision.MODEL)
+                self.assertEqual(payload['tile'], vision.TILE)
 
 
 @unittest.skipUnless(os.environ.get('LENS_VISION_TESTS'), 'loads 3B model')

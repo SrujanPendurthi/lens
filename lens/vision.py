@@ -15,7 +15,7 @@ PATCH = TILE // GRID
 SHOTS = Path("data/shots")
 CACHE_DIR = Path("data/colpali")
 MODEL = "vidore/colpali-v1.3-hf"
-DEVICE = os.environ.get("LENS_VISION_DEVICE", "mps")
+DEVICE = os.environ.get("LENS_VISION_DEVICE", "mps" if torch.backends.mps.is_available() else "cpu")
 _stats = {}
 
 
@@ -99,8 +99,9 @@ def encode_tiles(uid: str) -> list[torch.Tensor] | None:
     cached = CACHE_DIR / f"{uid}.pt"
     if cached.is_file():
         payload = torch.load(cached, map_location="cpu", weights_only=True)
-        _stats[uid] = payload["stats"] | {"cache_hit": True, "encode_s": 0.}
-        return payload["tiles"]
+        if payload.get("model", MODEL) == MODEL and payload.get("tile", TILE) == TILE:
+            _stats[uid] = payload["stats"] | {"cache_hit": True, "encode_s": 0.}
+            return payload["tiles"]
     tiles = load_tiles(uid)
     model, processor = _load()
     embeddings, timings = [], []
@@ -121,7 +122,7 @@ def encode_tiles(uid: str) -> list[torch.Tensor] | None:
     stats = {"no_screenshot": False, "n_tiles": len(tiles), "encode_s": sum(timings),
              "tile_encode_s": timings, "cache_hit": False, "device": DEVICE}
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    torch.save({"tiles": embeddings, "stats": stats}, cached)
+    torch.save({"tiles": embeddings, "stats": stats, "model": MODEL, "tile": TILE}, cached)
     _stats[uid] = stats
     return embeddings
 
@@ -155,12 +156,11 @@ def rank_colpali(query: str, uid: str, refs: list[str], boxes: dict[str, list[fl
         if left >= right or upper >= lower:
             continue
         box = [left, upper, right - left, lower - upper]
-        best = None
+        columns = []
         for tile_index, top in enumerate(tile_tops(height)):
             indices = box_patches(box, top)
             if indices:
-                maxima = similarities[tile_index][:, indices].max(dim=1).values
-                best = maxima if best is None else torch.maximum(best, maxima)
-        if best is not None:
-            scores[index] = best.sum()
+                columns.append(similarities[tile_index][:, indices])
+        if columns:
+            scores[index] = torch.cat(columns, dim=1).mean(dim=1).sum()
     return scores

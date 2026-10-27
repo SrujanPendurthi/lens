@@ -125,7 +125,7 @@
   - `rank_colpali(query, uid, refs, boxes) -> Tensor`, same signature, new score = `Σ_q mean over the box's patches across all tiles`;
   - the cache payload gains `"model": MODEL, "tile": TILE`.
 
-- [ ] **Step 1: Write the failing tests** in `test_vision.py`. Use the same patching style as the existing `test_rank_clips_bottom_and_takes_max_across_tiles`:
+- [x] **Step 1: Write the failing tests** in `test_vision.py`. Use the same patching style as the existing `test_rank_clips_bottom_and_takes_max_across_tiles`:
   - `test_nested_child_beats_container`:
     - one tile of zeros except patch 0 = `[1., 0.]`, with `encode_query` returning `torch.eye(2)[:1]`;
     - an image of 1280×1280;
@@ -135,18 +135,18 @@
   - `test_legacy_cache_hits`: write `{"tiles": [t], "stats": {...}}` with no model/tile keys to `CACHE_DIR/u.pt`; with `load_tiles` patched to raise, `encode_tiles('u')` returns `[t]`.
   - `test_stale_cache_reencodes`: the payload has `"model": "other"`; `encode_tiles` calls `load_tiles` (patch `load_tiles` and `_load` with mocks; assert `load_tiles` was called).
   - In `test_eval.py`'s `test_colpali_receives_uid_refs_boxes_and_saves_stats`: with mocked stats `encode_s=2.0`, assert `row["colpali"]["ms"] < 2000`. `ms` excludes tile encoding.
-- [ ] **Step 2: Run** `.venv/bin/python -m unittest test_vision test_eval -v`. Expected: the new tests FAIL; `test_nested_child_beats_container` fails because the scores tie at 1.0.
-- [ ] **Step 3: Implement:**
+- [x] **Step 2: Run** `.venv/bin/python -m unittest test_vision test_eval -v`. Expected: the new tests FAIL; `test_nested_child_beats_container` fails because the scores tie at 1.0.
+- [x] **Step 3: Implement:**
   - In `rank_colpali`, gather each box's patch similarity columns from every tile it overlaps, concatenate them (`[Lq, P]`), and score `.mean(dim=1).sum()`.
   - In `encode_tiles`:
     - save `model`/`tile` in the payload;
     - on load, re-encode if `payload.get("model", MODEL) != MODEL or payload.get("tile", TILE) != TILE`. A missing key means a legacy file built with the current constants.
   - `DEVICE` default: `"mps" if torch.backends.mps.is_available() else "cpu"`, as in `rank.py:7`.
   - In `eval.py`, colpali `ms` = elapsed ms − `encode_s * 1000`.
-- [ ] **Step 4: Verify:**
+- [x] **Step 4: Verify:**
   - Run plain: `.venv/bin/python -m unittest test_vision test_eval -v`.
   - Then run heavy via `../.gpu/gpu-run lens env LENS_VISION_TESTS=1 .venv/bin/python -m unittest test_vision -v`. Expected: all PASS, including `test_text_region_wins` (both boxes are the same size, so mean pooling keeps Search > Privacy). If it fails, STOP and report. Don't swap in synthetic vectors.
-- [ ] **Step 5: Commit** `fix: mean-pool ColPali box scores (size bias); versioned tile cache`.
+- [x] **Step 5: Commit** `fix: mean-pool ColPali box scores (size bias); versioned tile cache`.
 
 ### Task 4: Rerun, gate, record
 

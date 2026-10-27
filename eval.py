@@ -148,6 +148,7 @@ def main():
                              "gold_rank": min((order.index(i) for i, n in enumerate(nodes) if n.ref in gold), default=2**63 - 1)}
                 if name == "colpali":
                     row[name].update(encoding_stats(s["uid"]))
+                    row[name]["ms"] -= row[name]["encode_s"] * 1000
                 if not a.no_llm:
                     for k in ks:
                         row[f"{name}@{k}"] = pick_nodes([nodes[i] for i in order[:k]], goal["tokens"])

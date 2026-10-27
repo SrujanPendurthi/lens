@@ -116,14 +116,17 @@ class QueryTests(unittest.TestCase):
 
     def test_colpali_receives_uid_refs_boxes_and_saves_stats(self):
         import torch
-        stats = {"no_screenshot": False, "n_tiles": 2, "encode_s": 1.5}
+        stats = {"no_screenshot": False, "n_tiles": 2, "encode_s": 2.0}
         with patch("eval.rank_colpali", return_value=torch.tensor([1.])) as vision_rank, \
-             patch("eval.encoding_stats", return_value=stats):
+             patch("eval.encoding_stats", return_value=stats), \
+             patch("eval.time.perf_counter", side_effect=[0., 3.]):
             row, rank_mock, _ = self.run_eval("subgoal", False, extra=["--rankers", "colpali"])
         vision_rank.assert_called_once_with("click Search", "example", ["1"], {"1": [0, 0, 40, 40]})
         rank_mock.assert_not_called()
         self.assertEqual(row["colpali"]["n_tiles"], 2)
         self.assertFalse(row["colpali"]["no_screenshot"])
+        self.assertLess(row["colpali"]["ms"], 2000)
+        self.assertEqual(row["colpali"]["ms"], 1000)
 
     def test_subgoal_without_picker_still_generates_query(self):
         row, rank_mock, goal_mock = self.run_eval("subgoal", False)
