@@ -39,9 +39,8 @@ def _cached(key, fn):
     return row
 
 
-def pick_key(text, picker="qwen"):
-    model = MODEL if picker == "qwen" else HAIKU
-    return hashlib.sha1(f"pick-v2\n{model}\n{text}".encode()).hexdigest()
+def pick_key(text):
+    return hashlib.sha1(f"pick-v2\n{HAIKU}\n{text}".encode()).hexdigest()
 
 
 def subgoal(task, prev):
@@ -87,11 +86,9 @@ def parse_claude_json(stdout):
             "ttft": data["duration_api_ms"] / 1000}
 
 
-def pick(text, picker="haiku"):
+def pick(text):
     """Return a cached Haiku element choice for one prompt."""
-    if picker != "haiku":
-        raise ValueError(f"unknown picker: {picker}")
-    key = pick_key(text, picker)
+    key = pick_key(text)
 
     def generate():
         response = subprocess.run([
@@ -103,6 +100,6 @@ def pick(text, picker="haiku"):
         if response.returncode:
             raise RuntimeError(response.stderr[-500:])
         row = parse_claude_json(response.stdout)
-        return row | {"ref": parse_ref(row["out"]), "truncated": False}
+        return row | {"ref": parse_ref(row["out"])}
 
     return _cached(key, generate)

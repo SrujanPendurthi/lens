@@ -14,12 +14,6 @@ from lens.rank import RANKERS
 
 
 class CleanupTests(unittest.TestCase):
-    def test_qwen_picker_rejected(self):
-        import lens.pick as picker
-        with tempfile.TemporaryDirectory() as d, patch.object(picker, "CACHE", Path(d) / "cache"), \
-             patch.object(picker, "_memo", {}), patch.object(picker, "_load", side_effect=AssertionError("Qwen still accepted")):
-            with self.assertRaises(ValueError):
-                picker.pick("x", "qwen")
 
     def test_missing_screenshot_does_not_crash_prep(self):
         import pyarrow as pa
@@ -72,32 +66,27 @@ class PrepTests(unittest.TestCase):
 
 
 
-class GateTests(unittest.TestCase):
-    def verdict(self, max_rank, single_rank, *, k=10, llm=False):
-        row = {"n_nodes": 100, "textless_gold": False}
-        for name in RANKERS:
-            row[name] = {"gold_rank": max_rank if name == "maxsim" else single_rank,
-                         "ms": 1, "ok": True, "tokens": 10, "ttft": 0.1}
-        for name in RANKERS:
-            row[f"{name}@{k}"] = {"ok":True, "tokens":10, "ttft":0.1, "gold_shown":True, "hallucinated":False}
-        row["baseline"] = {"ok": True, "tokens": 100, "ttft": 0.1, "truncated": False, "gold_shown":True, "hallucinated":False}
-        output = io.StringIO()
-        with contextlib.redirect_stdout(output):
-            summarize([row], llm)
-        return output.getvalue().split("GATE: ")[1].split()[0]
 
-    def test_recall_cannot_pass_without_picker(self):
-        self.assertEqual(self.verdict(0, 12), "INCOMPLETE")
 
-    def test_single_vector_tie_kills(self):
-        self.assertEqual(self.verdict(0, 0), "KILL")
+class MarginTests(unittest.TestCase):
+    def d12(self, hits, single_hits, n=200):
+        rows = [{"n_nodes": 100, "textless_gold": False,
+                 "single": {"gold_rank": 0 if i < single_hits else 99, "ms": 1},
+                 "colpali": {"gold_rank": 0 if i < hits else 99, "ms": 1}} for i in range(n)]
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            summarize(rows, False)
+        return out.getvalue()
 
-    def test_recall_gate_always_uses_ten(self):
-        self.assertEqual(self.verdict(7, 12, k=5), "INCOMPLETE")
+    def test_d12_margin_boundary(self):
+        self.assertIn("D12 colpali: R@10 = 63/200, single = 53/200, margin = +5.0 pts → PASS", self.d12(63, 53))
+        self.assertIn("margin = +4.5 pts → FAIL", self.d12(62, 53))
+        self.assertNotIn("GATE:", self.d12(63, 53))
 
-    def test_full_gate_requires_top_ten_picker(self):
-        self.assertEqual(self.verdict(0, 12, llm=True), "PASS")
-        self.assertEqual(self.verdict(0, 12, k=20, llm=True), "INCOMPLETE")
+    def test_haiku_pick_key_unchanged(self):
+        import hashlib
+        from lens.pick import pick_key
+        self.assertEqual(pick_key("x"), hashlib.sha1(b"pick-v2\nclaude-haiku-5-5\nx").hexdigest())
 
 
 class QueryTests(unittest.TestCase):
@@ -117,8 +106,7 @@ class QueryTests(unittest.TestCase):
             with patch("sys.argv", args), patch("eval.STEPS", str(steps)), \
                  patch("eval.rank", return_value=torch.tensor([1.0])) as rank_mock, \
                  patch("lens.pick.subgoal", return_value={"text": "click Search", "tokens": 80, "ms": 10}) as goal_mock, \
-                 patch("lens.pick.pick", return_value={"ref": ref, "prompt_tokens": 100, "ttft": 0.1,
-                                                       "truncated": False}) as pick_mock, \
+                 patch("lens.pick.pick", return_value={"ref": ref, "prompt_tokens": 100, "ttft": 0.1}) as pick_mock, \
                  contextlib.redirect_stdout(io.StringIO()):
                 main()
             if llm:
@@ -166,15 +154,6 @@ class QueryTests(unittest.TestCase):
         self.assertTrue(row["single@50"]["gold_shown"])
 
 
-    def test_gate_incomplete_without_maxsim10(self):
-        row={"n_nodes":1,"textless_gold":False, "subgoal_tokens":20,"subgoal_ms":1,
-             "single":{"gold_rank":0,"ms":1},
-             "baseline":{"ok":True,"tokens":100,"ttft":1,"truncated":False,"gold_shown":True,"hallucinated":False},
-             "single@10":{"ok":True,"tokens":10,"ttft":1,"truncated":False,"gold_shown":True,"hallucinated":False}}
-        output=io.StringIO()
-        with contextlib.redirect_stdout(output):
-            summarize([row],True)
-        self.assertIn("GATE: INCOMPLETE", output.getvalue())
 
     def test_unlabeled_actions_do_not_lower_extraction_coverage(self):
         import torch
@@ -224,9 +203,6 @@ class CacheTests(unittest.TestCase):
             self.assertEqual(picker._cached("k", fn), {"v": 1, "key": "k"})
             self.assertEqual(len(calls), 1)
 
-    def test_qwen_pick_key_unchanged(self):
-        import hashlib, lens.pick as picker
-        self.assertEqual(picker.pick_key("x", "qwen"), hashlib.sha1(f"pick-v2\n{picker.MODEL}\nx".encode()).hexdigest())
 
     def test_subgoal_miss_is_transient(self):
         import lens.pick as picker
@@ -261,7 +237,7 @@ class IncrementalTests(unittest.TestCase):
             with patch("sys.argv", ["eval.py", "--summarize", str(path)]), contextlib.redirect_stdout(out):
                 main()
             self.assertIn("steps=1", out.getvalue())
-            self.assertIn("GATE: ", out.getvalue())
+            self.assertIn("D12 ", out.getvalue())
 
     def test_summarize_preserves_saved_query_mode(self):
         row={"query_mode":"oracle","n_nodes":1,"textless_gold":False}
@@ -294,19 +270,18 @@ class HaikuTests(unittest.TestCase):
                          SimpleNamespace(returncode=0, stdout='{"usage":{}}', stderr="")]:
             with self.subTest(response=response), tempfile.TemporaryDirectory() as d, patch.object(picker,"CACHE",Path(d)/"c.jsonl"), patch.object(picker,"_memo",{}), patch("subprocess.run",return_value=response):
                 with self.assertRaises(RuntimeError):
-                    picker.pick("x", "haiku")
+                    picker.pick("x")
                 self.assertFalse(picker.CACHE.exists())
-                self.assertNotIn(picker.pick_key("x", "haiku"), picker._memo)
+                self.assertNotIn(picker.pick_key("x"), picker._memo)
 
     def test_haiku_success_is_cached(self):
         import lens.pick as picker
         response=SimpleNamespace(returncode=0, stdout=self.OK, stderr="")
         with tempfile.TemporaryDirectory() as d, patch.object(picker,"CACHE",Path(d)/"c.jsonl"), patch.object(picker,"_memo",{}), patch("subprocess.run",return_value=response) as cli:
-            row=picker.pick("choose", "haiku")
+            row=picker.pick("choose")
             self.assertEqual(row["ref"], "42")
-            self.assertFalse(row["truncated"])
             self.assertEqual(row["prompt_tokens"], 150)
-            picker.pick("choose", "haiku")
+            picker.pick("choose")
             cli.assert_called_once()
             self.assertEqual(cli.call_args.kwargs["input"], "choose")
             self.assertEqual(cli.call_args.kwargs["timeout"], 120)

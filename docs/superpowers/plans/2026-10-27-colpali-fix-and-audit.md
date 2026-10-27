@@ -1,6 +1,6 @@
 # ColPali Size-Bias Fix + Audit Cuts Implementation Plan
 
-> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [ ]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** before starting.
+> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [x]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** before starting.
 
 **Goal:** Decide D12 piece 2 for real. Brief 8's ColPali FAIL (R@10 1.5%) is inconclusive: the scorer favors large boxes. Apply the repo-audit cuts, check that the box↔screenshot alignment is right, fix the scoring, rerun ColPali on cached embeddings, and record PASS or FAIL.
 
@@ -61,7 +61,7 @@
   - `pick_key(text: str) -> str`;
   - `summarize(rows, llm, query="subgoal")`, which prints `D12 <name>: R@10 = <a>/<n>, single = <b>/<n>, margin = <m:+.1f> pts → PASS|FAIL` for every ranker present except `single`, and no longer prints `GATE:`.
 
-- [ ] **Step 1: Write the failing tests** in `test_eval.py`.
+- [x] **Step 1: Write the failing tests** in `test_eval.py`.
   - Replace `GateTests` and `test_gate_incomplete_without_maxsim10` with:
     ```python
     def d12(self, hits, single_hits, n=200):
@@ -83,8 +83,8 @@
     ```
   - Delete `test_qwen_picker_rejected` and `test_qwen_pick_key_unchanged`.
   - Drop `picker`, `truncated` and `example` from the remaining fixtures and assertions.
-- [ ] **Step 2: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v`. Expected: the two new tests FAIL.
-- [ ] **Step 3: Apply the cuts:**
+- [x] **Step 2: Run** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v`. Expected: the two new tests FAIL.
+- [x] **Step 3: Apply the cuts:**
   - `eval.py`:
     - Delete the D7 verdict block (`:204-217`) and add the D12 line. The PASS test is `(hits - single_hits) * 100 >= 5 * n`.
     - Delete `--picker` and the `"picker"` row field.
@@ -98,11 +98,11 @@
   - `.gitignore`: replace the `data/train_*.json` and `data/steps*.jsonl` lines with `data/*` and `!data/llm_cache.jsonl`.
   - `PLAN.md`: delete the stale original-plan sections (`## Files (fewest possible)`, `## Steps`, `## Verification`, `## Risks to watch`) and both `## Handover status` blocks.
   - Delete the finished plan doc.
-- [ ] **Step 4: Verify:**
+- [x] **Step 4: Verify:**
   - Run `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval test_vision -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS.
   - Run `.venv/bin/python eval.py --summarize results_test_200.jsonl`. Its R@5/R@10/R@20 table must match `BRIEF_7_REPORT.md:24-29` exactly; the `pagemaxsim` row is absent (no longer allowed) and there is no `GATE:` line.
   - `git status --short` must not list `data/` paths other than `data/llm_cache.jsonl`.
-- [ ] **Step 5: Commit** `refactor: audit cuts; D12 margin replaces D7 verdict`.
+- [x] **Step 5: Commit** `refactor: audit cuts; D12 margin replaces D7 verdict`.
 
 ### Task 2: Box alignment check (no code committed)
 

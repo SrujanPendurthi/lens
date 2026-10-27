@@ -1,22 +1,6 @@
 # TokenLens v1: offline MaxSim-perception eval on Mind2Web
 
-## Handover status (2026-10-25)
 
-Brief 3's Qwen picker was stopped at 53/200 steps by the swap watchdog;
-D10 explicitly replaces it with Haiku rather than resuming it. The cleanup
-and Haiku-picker plan is `docs/superpowers/plans/2026-10-25-cleanup-and-haiku-picker.md`.
-Its implementation is tested and the Haiku hidden-context probe passed at
-203 input tokens. Context recall stopped at 67/200 rows with MPS out-of-memory
-and a swap-watchdog stop. The Haiku evaluation was not launched. See
-`BRIEF_5_REPORT.md` for saved partial results and remaining work.
-
-## Handover status (2026-10-23)
-
-The 200-step recall evaluation completed: **KILL under D7**. MaxSim recall@10
-is 4.5%, versus 14.0% for single-vector. Gold extraction and the trained
-ColBERT projection were checked. Stop before picker evaluation and later-phase
-infrastructure. See Results below and `data/recall.log` for the historical evidence;
-`results.jsonl` contains the saved per-step results. The original plan follows.
 
 ## Context
 lens/ is an empty git repo with three docs (the PRD is truncated after FR-2.2). The docs describe four projects at once: an encoder plus compression, a CUDA/PLAID index, a yield-and-inspect protocol, and RL. The grilling cut this down to one falsifiable question:
@@ -65,30 +49,3 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
 - Brief 6: Haiku (53 steps) baseline 35.8% at 15,402 tokens; cross@10 13.2% overall but 87.5% when gold was shown, at 968 tokens; 0-2% hallucinated refs. 200-step context R@10: bm25 12.5, single 18.0, maxsim 19.0, cross 19.5 (own text: 17.5/24.0/15.5/21.0). CPU vs MPS ranks agree on 99-100%. Retrieval is the bottleneck, not the picker.
 - Brief 7 (test_task, 200 steps, CPU): R@10 bm25 16.0, single 26.5, maxsim 18.0, cross 22.0, pagemaxsim 17.5; R@100 42.5/59.5/50.0/54.0/54.5. Gold coverage 100% of the 1,257 labeled actions; 1,338 screenshots saved (JPEG bytes in .png files). Report: BRIEF_7_REPORT.md.
 - Brief 8 (test_task, 200 steps): colpali (max-pooled boxes) R@5 0/200, R@10 3/200, R@20 14/200; single R@10 53/200. Invalid: the size bias in D14. Report: BRIEF_8_REPORT.md.
-
-## Files (fewest possible)
-- `pyproject.toml` (uv): torch, pylate (ColBERT load + MaxSim), sentence-transformers, rank-bm25, lxml, datasets, mlx-lm.
-- `lens/nodes.py`: cleaned_html → list of `Node(ref, tag, text)` using lxml (text, aria-label, placeholder, value, alt), skipping empty nodes.
-- `lens/rank.py`: four rankers behind one function `rank(name, query, nodes) -> scores`. MaxSim is a numpy/torch einsum plus max, and node score is the max over the node's token rows.
-- `lens/pick.py`: builds the multiple-choice prompt, calls mlx_lm, parses the ref, and caches by hash(prompt).
-- `eval.py`: loads N steps, runs baseline plus the 4 rankers, writes `results.jsonl` plus a summary table (recall@k for k in {5,10,20}, pick accuracy, prompt tokens, encode ms, TTFT), and prints PASS/KILL against D7.
-- `test_maxsim.py`: one assert-based check that MaxSim on a toy Q/D matches a hand-computed value, and that node scoring picks the planted gold node.
-- Edit `claude_guidance_file.md` §3: change the PLAID/1-bit/CUDA "MUST"s to "later phase (post v1 gate)".
-
-## Steps
-1. Verify Mind2Web access. HF `osunlp/Mind2Web`: the train split is open, but the test splits may be a password-gated zip. Fall back to a held-out slice of train if needed, and note that in results.
-2. Build nodes.py. Sanity-check that the gold `backend_node_id` survives extraction in ≥ 98% of steps (otherwise extraction is the bug, not ranking).
-3. Build rank.py and test_maxsim.py. Run recall@k for all 4 rankers. This needs no LLM and is the cheap early kill signal.
-4. Build pick.py. Measure the prefill tok/s curve once, then run baseline vs top-10 per ranker.
-5. Run eval.py and get the gate verdict.
-
-## Verification
-- `uv run python test_maxsim.py` passes.
-- `uv run python eval.py --n 20` runs smoke end to end. Then run `../.gpu/gpu-run lens uv run python eval.py --n 200` for the full run (any tag other than laguna or moe just takes the lock, with no priority hijack).
-- The summary table prints PASS or KILL with the numbers from D7.
-
-## Risks to watch
-- Mind2Web cleaned_html nodes with empty text (icon buttons) look identical to rankers. Track the share of misses on textless gold nodes.
-- Baseline truncation could make the baseline look artificially bad. Report the truncation rate separately.
-- Qwen3-4B could be too weak for both arms. If baseline accuracy is < 30%, the picker is the bottleneck, not ranking.
-- The PRD is truncated (FR-2.3 onward is empty). Restore it from its source before relying on it.

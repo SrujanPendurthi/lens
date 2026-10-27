@@ -1,4 +1,4 @@
-"""Mind2Web offline eval: baseline (all candidate nodes) vs top-k per ranker. Prints PASS/KILL per plan gate D7.
+"""Mind2Web offline eval: baseline (all candidate nodes) vs top-k per ranker. Prints D12 recall margins against single-vector.
 
 usage: python eval.py --prep-mm data/mm_test_task
        python eval.py --n 200 [--no-llm]
@@ -52,11 +52,8 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     if not shot.exists():
                         screenshot = action["screenshot"] or {}
                         data = screenshot.get("bytes")
-                        source = Path(screenshot["path"]) if screenshot.get("path") else None
                         if data is not None:
                             shot.write_bytes(data)
-                        elif source is not None and source.is_file():
-                            shot.write_bytes(source.read_bytes())
                         else:
                             print(f"missing screenshot {uid}", flush=True)
                     row = {"task": action["confirmed_task"],
@@ -66,13 +63,16 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     out.write(json.dumps(row) + "\n")
 
 
+def has_gold(step):
+    return bool(set(step["gold"]) & {n["ref"] for n in step["nodes"]})
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prep-mm")
     ap.add_argument("--n", type=int, default=200)
     ap.add_argument("--ks", default="10", help="comma-separated picker cutoffs")
     ap.add_argument("--rankers", default=",".join(RANKERS))
-    ap.add_argument("--picker", choices=("haiku",), default="haiku")
     ap.add_argument("--no-llm", action="store_true")
     ap.add_argument("--output")
     ap.add_argument("--summarize")
@@ -106,12 +106,13 @@ def main():
     if not labeled:
         ap.error("no labeled steps to evaluate")
     print(f"Prepared actions: {len(steps)}; unlabeled: {len(steps) - len(labeled)}", flush=True)
-    coverage = sum(bool(set(s["gold"]) & {n["ref"] for n in s["nodes"]}) for s in labeled) / len(labeled)
+    survival = {id(s): has_gold(s) for s in steps}
+    coverage = sum(survival[id(s)] for s in labeled) / len(labeled)
     print(f"Gold extraction coverage: {coverage:.2%} ({len(labeled)} steps)", flush=True)
     if coverage < 0.98:
         ap.error("gold extraction coverage is below 98%; fix extraction before evaluating")
     random.Random(0).shuffle(steps)  # one shard holds whole tasks; shuffle so n steps span many sites
-    steps = [s for s in steps if set(s["gold"]) & {n["ref"] for n in s["nodes"]}]
+    steps = [s for s in steps if survival[id(s)]]
     rows = []
     misses = 0
     with open(a.output or "results_subgoal.jsonl", "w") as f:
@@ -123,18 +124,12 @@ def main():
             goal = subgoal(s["task"], s["prev"])
             misses += bool(goal.get("miss"))
             query = goal["text"]
-            gold_node = next((n for n in nodes if n.ref in gold), None)
-            row = {"task": s["task"], "op": s["op"]["op"], "query_mode": "subgoal", "picker": a.picker, "query": query,
+            row = {"task": s["task"], "op": s["op"]["op"], "query_mode": "subgoal", "query": query,
                    "subgoal_tokens": goal["tokens"], "subgoal_ms": goal["ms"],
                    "n_nodes": len(nodes), "textless_gold": not any(n.text for n in nodes if n.ref in gold)}
-            if len(rows) < 5:
-                example = {"task": s["task"], "prev": s["prev"][-1] if s["prev"] else "none",
-                           "subgoal": query, "gold": gold_node.line() if gold_node else "missing"}
-                row["example"] = example
-                print("EXAMPLE:", json.dumps(example), flush=True)
             def pick_nodes(shown_nodes, cost):
                 from lens.pick import pick, prompt
-                p = pick(prompt(s["task"], s["prev"], shown_nodes), a.picker)
+                p = pick(prompt(s["task"], s["prev"], shown_nodes))
                 refs = {n.ref for n in shown_nodes}
                 return p | {"ok": p["ref"] in gold and p["ref"] in refs,
                             "tokens": p["prompt_tokens"] + cost, "shown": len(refs),
@@ -181,11 +176,7 @@ def summarize(rows, llm, query="subgoal"):
     if llm:
         pick_arms = [name for name in rows[0] if name == "baseline" or "@" in name]
         pick_arms = [name for name in pick_arms if all(name in r for r in rows)]
-        haiku = rows[0].get("picker") == "haiku"
-        timing = "API s" if haiku else "ttft s"
-        if haiku:
-            print("Haiku timing: total API duration, not TTFT")
-        print(f"{'pick arm':12}{'acc':>8}{'acc|shown':>11}{'halluc':>9}{'tok med':>10}{timing:>9}{'CLICK':>9}{'TYPE':>9}{'SELECT':>9}")
+        print(f"{'pick arm':12}{'acc':>8}{'acc|shown':>11}{'halluc':>9}{'tok med':>10}{'API s':>9}{'CLICK':>9}{'TYPE':>9}{'SELECT':>9}")
         for name in pick_arms:
             picks = [r[name] for r in rows]
             shown = [p for p in picks if p["gold_shown"]]
@@ -198,23 +189,16 @@ def summarize(rows, llm, query="subgoal"):
                 value = f"{sum(p['ok'] for p in subset)/len(subset):.1%}" if subset else "n/a"
                 line += f"{value:>9}"
             print(line)
-        if "baseline" in pick_arms:
-            print(f"baseline truncated: {sum(r['baseline']['truncated'] for r in rows)/n:.1%}")
 
-    # D7 always uses recall@10 and the top-10 MaxSim picker.
-    if "maxsim" not in rankers or "single" not in rankers or (llm and
-            not all("maxsim@10" in r and "baseline" in r for r in rows)):
-        verdict = "INCOMPLETE"
-    else:
-        kill = rec("maxsim", 10) <= rec("single", 10)
-        passed = rec("maxsim", 10) >= 0.85
-        if llm:
-            acc = lambda name: sum(r[name]["ok"] for r in rows) / n
-            tok = lambda name: st.median(r[name]["tokens"] for r in rows)
-            kill |= acc("maxsim@10") < acc("baseline") - 0.05
-            passed &= acc("maxsim@10") >= acc("baseline") - 0.02 and tok("maxsim@10") <= 0.2 * tok("baseline")
-        verdict = "KILL" if kill else "PASS" if passed and llm else "INCOMPLETE" if not llm else "NEITHER"
-    print("GATE:", verdict, "(recall-only)" if not llm else "")
+    if "single" in rankers:
+        single_hits = sum(r["single"]["gold_rank"] < 10 for r in rows)
+        for name in rankers:
+            if name == "single":
+                continue
+            hits = sum(r[name]["gold_rank"] < 10 for r in rows)
+            margin = (hits - single_hits) * 100 / n
+            verdict = "PASS" if (hits - single_hits) * 100 >= 5 * n else "FAIL"
+            print(f"D12 {name}: R@10 = {hits}/{n}, single = {single_hits}/{n}, margin = {margin:+.1f} pts → {verdict}")
 
 
 if __name__ == "__main__":
