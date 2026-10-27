@@ -105,7 +105,8 @@ class QueryTests(unittest.TestCase):
         import torch
         step = {"task": "Book a trip", "prev": ["typed Boston"],
                 "gold": ["1"], "op": {"op": "CLICK", "value": ""},
-                "nodes": [{"ref": "1", "tag": "button", "text": "secret gold text"}]}
+                "nodes": [{"ref": "1", "tag": "button", "text": "secret gold text"}],
+                "uid": "example", "boxes": {"1": [0, 0, 40, 40]}}
         with tempfile.TemporaryDirectory() as directory:
             steps, output = Path(directory) / "steps.jsonl", Path(directory) / "out.jsonl"
             steps.write_text(json.dumps(step) + "\n")
@@ -124,6 +125,17 @@ class QueryTests(unittest.TestCase):
                 self.assertTrue(all("Boston trip details" not in call.args[0] for call in pick_mock.call_args_list))
             return json.loads(output.read_text()), rank_mock, goal_mock
 
+
+    def test_colpali_receives_uid_refs_boxes_and_saves_stats(self):
+        import torch
+        stats = {"no_screenshot": False, "n_tiles": 2, "encode_s": 1.5}
+        with patch("eval.rank_colpali", return_value=torch.tensor([1.])) as vision_rank, \
+             patch("eval.encoding_stats", return_value=stats):
+            row, rank_mock, _ = self.run_eval("subgoal", False, extra=["--rankers", "colpali"])
+        vision_rank.assert_called_once_with("click Search", "example", ["1"], {"1": [0, 0, 40, 40]})
+        rank_mock.assert_not_called()
+        self.assertEqual(row["colpali"]["n_tiles"], 2)
+        self.assertFalse(row["colpali"]["no_screenshot"])
 
     def test_subgoal_without_picker_still_generates_query(self):
         row, rank_mock, goal_mock = self.run_eval("subgoal", False)

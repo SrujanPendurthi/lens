@@ -14,6 +14,7 @@ from pathlib import Path
 
 from lens.nodes import Node, extract
 from lens.rank import ALLOWED_RANKERS, RANKERS, rank
+from lens.vision import rank_colpali, encoding_stats
 
 STEPS = "data/steps_test.jsonl"
 
@@ -145,10 +146,13 @@ def main():
             texts = [n.text for n in nodes]
             for name in rankers:
                 t0 = time.perf_counter()
-                scores = rank(name, query, texts)
+                scores = (rank_colpali(query, s["uid"], [n.ref for n in nodes], s["boxes"])
+                          if name == "colpali" else rank(name, query, texts))
                 order = scores.argsort(descending=True).tolist()
                 row[name] = {"ms": (time.perf_counter() - t0) * 1000,
                              "gold_rank": min((order.index(i) for i, n in enumerate(nodes) if n.ref in gold), default=2**63 - 1)}
+                if name == "colpali":
+                    row[name].update(encoding_stats(s["uid"]))
                 if not a.no_llm:
                     for k in ks:
                         row[f"{name}@{k}"] = pick_nodes([nodes[i] for i in order[:k]], goal["tokens"])

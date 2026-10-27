@@ -139,7 +139,7 @@ self.assertEqual(rows[0]["boxes"], {"7": [534.0, 45.0, 151.0, 22.0]})
   - `rank_colpali(query: str, uid: str, refs: list[str], boxes: dict[str, list[float]]) -> torch.Tensor` gives one score per ref: `Σ_i max_{p ∈ patches(ref)} q_i·p`, or `-inf` when there are no patches or no screenshot. Query tokens come from `processor.process_queries`.
 - The model and processor load lazily and once (`functools.cache`) on `LENS_VISION_DEVICE` in bf16. Batch one tile at a time, so the shape is fixed.
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
 
 ```python
 class GeometryTests(unittest.TestCase):
@@ -170,10 +170,10 @@ class ColPaliModelTests(unittest.TestCase):
 ```
 
 
-- [ ] **Step 2: Run them.** `.venv/bin/python -m unittest test_vision -v`. Expected: FAIL (`ModuleNotFoundError: lens.vision`).
-- [ ] **Step 3: Implement** `lens/vision.py` and the eval dispatch; `pip install pillow` into `.venv`.
-- [ ] **Step 4: Run the tests.** Run them plain (geometry/IO), then `LENS_VISION_TESTS=1 .venv/bin/python -m unittest test_vision -v` (downloads about 6 GB once; needs network approval). Expected: all PASS. If `test_text_region_wins` fails, stop and report (Global Constraints).
-- [ ] **Step 5: Run all tests** (Task 1 Step 4 command + `test_vision`), then commit with `feat: ColPali screenshot-patch ranker (vision piece 2)`.
+- [x] **Step 2: Run them.** `.venv/bin/python -m unittest test_vision -v`. Expected: FAIL (`ModuleNotFoundError: lens.vision`).
+- [x] **Step 3: Implement** `lens/vision.py` and the eval dispatch; `pip install pillow` into `.venv`.
+- [x] **Step 4: Run the tests.** Run them plain (geometry/IO), then `LENS_VISION_TESTS=1 .venv/bin/python -m unittest test_vision -v` (downloads about 6 GB once; needs network approval). Expected: all PASS. If `test_text_region_wins` fails, stop and report (Global Constraints).
+- [x] **Step 5: Run all tests** (Task 1 Step 4 command + `test_vision`), then commit with `feat: ColPali screenshot-patch ranker (vision piece 2)`.
 
 ### Task 4: Run, gate, report
 
