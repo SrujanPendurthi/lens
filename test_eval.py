@@ -35,6 +35,23 @@ class PrepTests(unittest.TestCase):
                 self.assertEqual(result["op"]["op"], "CLICK")
                 self.assertNotIn("page", result)
 
+class FineTunedModelTests(unittest.TestCase):
+    def test_ft_models_keep_zero_shot_caps(self):
+        import lens.rank as ranker
+        ranker._model.cache_clear()
+        try:
+            with patch.object(ranker, "DEVICE", "cpu"), \
+                 patch("sentence_transformers.SentenceTransformer") as single, \
+                 patch("pylate.models.ColBERT") as colbert:
+                model = ranker._model("single_ft")
+                single.assert_called_once_with("models/single_ft", device="cpu")
+                self.assertEqual(model.max_seq_length, 128)
+                ranker._model("maxsim_ft")
+                colbert.assert_called_once_with("models/maxsim_ft", device="cpu", query_length=32, document_length=64)
+        finally:
+            ranker._model.cache_clear()
+
+
 class MarginTests(unittest.TestCase):
     def d12(self, hits, single_hits, n=200):
         rows = [{"n_nodes": 100, "textless_gold": False,
@@ -44,6 +61,16 @@ class MarginTests(unittest.TestCase):
         with contextlib.redirect_stdout(out):
             summarize(rows, False)
         return out.getvalue()
+
+    def test_d12_uses_single_ft_when_present(self):
+        rows = [{"n_nodes": 100, "textless_gold": False,
+                 "single": {"gold_rank": 0 if i < 53 else 99, "ms": 1},
+                 "single_ft": {"gold_rank": 0 if i < 60 else 99, "ms": 1},
+                 "maxsim_ft": {"gold_rank": 0 if i < 65 else 99, "ms": 1}} for i in range(200)]
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            summarize(rows, False)
+        self.assertIn("D12 maxsim_ft: R@10 = 65/200, single_ft = 60/200, margin = +2.5 pts → FAIL", output.getvalue())
 
     def test_d12_margin_boundary(self):
         self.assertIn("D12 maxsim: R@10 = 63/200, single = 53/200, margin = +5.0 pts → PASS", self.d12(63, 53))

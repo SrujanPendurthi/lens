@@ -6,7 +6,7 @@ from rank_bm25 import BM25Okapi
 
 DEVICE = os.environ.get("LENS_DEVICE", "mps" if torch.backends.mps.is_available() else "cpu")
 RANKERS = ("bm25", "single", "maxsim", "cross")
-ALLOWED_RANKERS = RANKERS
+ALLOWED_RANKERS = RANKERS + ("single_ft", "maxsim_ft")
 
 
 def maxsim(q, docs):
@@ -17,16 +17,18 @@ def maxsim(q, docs):
 # Fixed max lengths bound the set of MPS graph shapes; uncapped, driver memory grows per new shape until OOM.
 @cache
 def _model(name):
+    checkpoint = {"single_ft": "models/single_ft", "maxsim_ft": "models/maxsim_ft"}.get(name)
+    name = name.removesuffix("_ft")
     if DEVICE == "mps":
         torch.mps.set_per_process_memory_fraction(min(1.0, 20 * 2**30 / torch.mps.recommended_max_memory()))
     if name == "single":
         from sentence_transformers import SentenceTransformer
-        m = SentenceTransformer("BAAI/bge-small-en-v1.5", device=DEVICE)
+        m = SentenceTransformer(checkpoint or "BAAI/bge-small-en-v1.5", device=DEVICE)
         m.max_seq_length = 128
         return m
     if name == "maxsim":
         from pylate import models
-        return models.ColBERT("answerdotai/answerai-colbert-small-v1", device=DEVICE, query_length=32,
+        return models.ColBERT(checkpoint or "answerdotai/answerai-colbert-small-v1", device=DEVICE, query_length=32,
                              document_length=64)
     if name == "cross":
         from sentence_transformers import CrossEncoder
@@ -38,6 +40,7 @@ def rank(name, query, texts):
     if name == "bm25":
         return torch.tensor(BM25Okapi([t.lower().split() or [""] for t in texts]).get_scores(query.lower().split()))
     m = _model(name)
+    name = name.removesuffix("_ft")
     if name == "single":
         e = m.encode([query] + texts, convert_to_tensor=True, normalize_embeddings=True)
         return (e[1:] @ e[0]).cpu()

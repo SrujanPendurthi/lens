@@ -152,15 +152,16 @@ def summarize(rows, llm):
                 line += f"{value:>9}"
             print(line)
 
-    if "single" in rankers:
-        single_hits = sum(r["single"]["gold_rank"] < 10 for r in rows)
+    base = "single_ft" if "single_ft" in rankers else "single"
+    if base in rankers:
+        single_hits = sum(r[base]["gold_rank"] < 10 for r in rows)
         for name in rankers:
-            if name == "single":
+            if name == base:
                 continue
             hits = sum(r[name]["gold_rank"] < 10 for r in rows)
             margin = (hits - single_hits) * 100 / n
             verdict = "PASS" if (hits - single_hits) * 100 >= 5 * n else "FAIL"
-            print(f"D12 {name}: R@10 = {hits}/{n}, single = {single_hits}/{n}, margin = {margin:+.1f} pts → {verdict}")
+            print(f"D12 {name}: R@10 = {hits}/{n}, {base} = {single_hits}/{n}, margin = {margin:+.1f} pts → {verdict}")
 
 
 if __name__ == "__main__":

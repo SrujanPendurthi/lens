@@ -1,6 +1,6 @@
 # Cleanup + Fine-Tuned ColBERT vs Single-Vector (Vision Piece 3) Implementation Plan
 
-> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [x]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** before starting.
+> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [ ]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** before starting.
 
 **Goal:** Apply the brief 9 review and audit cuts, then test D12 piece 3, the last one. When both models are fine-tuned on the same Mind2Web train triplets, does ColBERT MaxSim beat single-vector recall@10 by ≥ 5 pts on the same 200 test steps?
 
@@ -149,14 +149,14 @@
   - `ALLOWED_RANKERS = RANKERS + ("single_ft", "maxsim_ft")`;
   - `rank(name, query, texts)` accepts the `_ft` names.
 
-- [ ] **Step 1: Write the failing tests:**
+- [x] **Step 1: Write the failing tests:**
   - `test_ft_models_keep_zero_shot_caps` (`test_eval.py`):
     - Patch `sentence_transformers.SentenceTransformer` and `pylate.models.ColBERT` with mocks, then clear the `rank._model` cache.
     - `_model("single_ft")` → SentenceTransformer called with `"models/single_ft"`, and the result's `max_seq_length == 128`.
     - `_model("maxsim_ft")` → ColBERT called with `"models/maxsim_ft"`, `query_length=32`, `document_length=64`.
   - `test_d12_uses_single_ft_when_present` (`MarginTests`): rows with `single` 53/200, `single_ft` 60/200 and `maxsim_ft` 65/200 → output contains `D12 maxsim_ft: R@10 = 65/200, single_ft = 60/200, margin = +2.5 pts → FAIL`.
-- [ ] **Step 2: Run them.** Expected: FAIL.
-- [ ] **Step 3: Implement:**
+- [x] **Step 2: Run them.** Expected: FAIL.
+- [x] **Step 3: Implement:**
   - In `rank.py`, map each name to a checkpoint (`single_ft` → `models/single_ft`, `maxsim_ft` → `models/maxsim_ft`) and branch on `name.removesuffix("_ft")`. Caps are identical.
   - In `summarize`, `base = "single_ft" if "single_ft" in rankers else "single"`. Print a D12 line for every ranker except `base`, formatted with the base's name.
   - `train.py --fit`:
@@ -165,11 +165,11 @@
     - single: `MultipleNegativesRankingLoss`.
     - maxsim: `pylate.losses.Contrastive` + `pylate.utils.ColBERTCollator(model.tokenize)`.
     - Save to `models/<name>_ft`.
-- [ ] **Step 4: Run all tests.** Expected: PASS.
-- [ ] **Step 5: Train both:**
+- [x] **Step 4: Run all tests.** Expected: PASS.
+- [x] **Step 5: Train both:**
   - `run_evals.py data/fit_single.log -- train.py --fit single`, then `run_evals.py data/fit_maxsim.log -- train.py --fit maxsim`.
   - Each must exit 0 and leave a loadable model dir. Record the final train loss for each.
-- [ ] **Step 6: Commit** `feat: fine-tuned single/maxsim rankers (piece 3)`.
+- [x] **Step 6: Commit** `feat: fine-tuned single/maxsim rankers (piece 3)`.
 
 ### Task 4: Run, gate, record
 
