@@ -48,12 +48,20 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
 
 - D12 (2026-10-26) **Back to the original vision, gated by evidence.** The untested pieces of the PRD vision get tested in order of cost: (1) whole-page contextual MaxSim (token vectors encoded with their page neighbors, mapped back to nodes), (2) ColPali screenshot patches mapped to elements by bounding box, (3) fine-tuned ColBERT vs fine-tuned single-vector. Data moves to **Multimodal-Mind2Web `test_task`** (open; screenshots + official test split; fixes the train-shard contamination). **Gate per piece:** recall@10 ≥ single-vector own-text recall@10 + 5 pts on the same 200 test steps. The first piece to pass gets the deferred infrastructure (PLAID, 1-bit quantization, streaming daemon, yield-and-inspect) built around it. If all three fail, re-grill the thesis.
 
+- D13 (2026-10-26, after brief 7) **D12 piece 1 FAILS:** pagemaxsim R@10 17.5% vs single 26.5% on 200 test_task steps. Cause, verified: contextual encoding blends neighboring nodes inside a window. In a toy case, per-node MaxSim ranks Search over Privacy 31.2 to 30.3, a shared window flips it 21.9 to 24.2, and filler separation restores it. Consequences:
+  - pagemaxsim code is deleted.
+  - Settled modes go: the context node-text mode (D9), the Qwen picker branch (D10) and train-split prep (D12 moved eval to test).
+  - Default picker = haiku; default steps = `data/steps_test.jsonl`.
+  - Train-split results (briefs 1-6) predate the iframe-parsing fix and the gold-survival filter, so they are not bit-reproducible. That's accepted; they stay recorded here.
+  - Next: piece 2, ColPali screenshot patches, via native `transformers` ColPali (`vidore/colpali-v1.3-hf`), no new dependency. Same gate: R@10 ≥ single + 5 pts (≥ 31.5%) on the same 200 steps.
+
 ## Results
 - Run 1 (recall-only, Q = task + prev, n=200, median 457 nodes): R@10 bm25 13.0, single 14.0, maxsim 4.5, cross 16.5; R@100 51/50/40/55. Gate formally KILL, but **invalid**: even the cross-encoder ceiling fails, because gold is the next step and the query is the whole task (e.g. gold `button "submit Search"` after typing "Ballet"). Superseded by D6′.
 - Brief 2 (recall-only, n=200): oracle R@10 bm25 11.5, single 15.5, maxsim 8.5, cross 10.5. Sub-goal R@10 17.5/24.0/15.5/21.0, R@100 41.5/57.0/47.5/55.0. Sub-goal cost: median 112 tokens, 713 ms. Caveats: the oracle query is weak for CLICK (it carries no target name); the sub-goal can't see the page, so it hallucinates details or skips steps; the query_length change from 64 to 32 is confounded with the query-mode change. Full report: BRIEF_2_REPORT.md.
 - Brief 3 (partial, 53/200; stopped by the swap watchdog): Qwen3-4B baseline 5.7% accuracy (CLICK 3/42, TYPE 0/9, SELECT 0/2), 0% parse failures, truncation 5.7%. Own-text rankers reproduce brief 2 exactly. Run B (context recall) not run. Report: BRIEF_3_REPORT.md.
 - Brief 5 (partial): Tasks 1-4 done (audit cuts, crash-safe rows, Haiku backend, multi-k metrics). Run B stopped at 67/200 by MPS out-of-memory. On those 67 steps context R@10 was bm25 11.9, single 17.9, maxsim 16.4, cross 17.9; context lowered R@10 for bm25/single/cross and raised MaxSim (10.4 to 16.4) and R@100. The Haiku CLI probe passed at 203 input tokens (cwd=/private/tmp, --safe-mode, --disable-slash-commands). Report: BRIEF_5_REPORT.md.
 - Brief 6: Haiku (53 steps) baseline 35.8% at 15,402 tokens; cross@10 13.2% overall but 87.5% when gold was shown, at 968 tokens; 0-2% hallucinated refs. 200-step context R@10: bm25 12.5, single 18.0, maxsim 19.0, cross 19.5 (own text: 17.5/24.0/15.5/21.0). CPU vs MPS ranks agree on 99-100%. Retrieval is the bottleneck, not the picker.
+- Brief 7 (test_task, 200 steps, CPU): R@10 bm25 16.0, single 26.5, maxsim 18.0, cross 22.0, pagemaxsim 17.5; R@100 42.5/59.5/50.0/54.0/54.5. Gold coverage 100% of the 1,257 labeled actions; 1,338 screenshots saved (JPEG bytes in .png files). Report: BRIEF_7_REPORT.md.
 
 ## Files (fewest possible)
 - `pyproject.toml` (uv): torch, pylate (ColBERT load + MaxSim), sentence-transformers, rank-bm25, lxml, datasets, mlx-lm.
