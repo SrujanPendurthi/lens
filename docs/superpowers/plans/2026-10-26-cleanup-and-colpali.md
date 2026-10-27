@@ -1,6 +1,6 @@
 # Cleanup + ColPali Screenshot Retrieval (Vision Piece 2) Implementation Plan
 
-> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [ ]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** below before starting.
+> **Executor: Codex (`gpt-6.1-sol`).** Execute the tasks yourself in order. Each task runs TDD: failing test, verify fail, implement, verify pass, commit. Tick each `- [x]` → `- [x]` in this file as you finish it and commit the ticks with that task's commit. Read **Codex execution notes** below before starting.
 
 **Goal:** Apply the brief 7 review and audit cuts, then test D12 piece 2: does ColPali MaxSim over screenshot patches, mapped to elements by bounding box, beat single-vector recall@10 by ≥ 5 pts?
 
@@ -75,7 +75,7 @@
 **Interfaces:**
 - Produces: `rank(name, query, texts) -> Tensor`; `pick(text, picker="haiku") -> dict`; `summarize(rows, llm, query="subgoal")`; `ALLOWED_RANKERS`.
 
-- [ ] **Step 1: Write the failing tests.**
+- [x] **Step 1: Write the failing tests.**
 
 ```python
 def test_qwen_picker_rejected(self):
@@ -90,10 +90,10 @@ def test_missing_screenshot_does_not_crash_prep(self):
     self.assertNotIn("page", rows[0])
 ```
 
-- [ ] **Step 2: Run them.** `.venv/bin/python -m unittest test_eval -v`. Expected: both FAIL (Qwen is still accepted; the bad path raises `FileNotFoundError`).
-- [ ] **Step 3: Apply the cuts** listed under Files.
-- [ ] **Step 4: Run all tests:** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS. `grep -rn "pagemaxsim\|page_words\|node_text\|visible_refs" lens eval.py` must print nothing.
-- [ ] **Step 5: Commit** with `refactor: remove failed pagemaxsim and settled modes (D13)`.
+- [x] **Step 2: Run them.** `.venv/bin/python -m unittest test_eval -v`. Expected: both FAIL (Qwen is still accepted; the bad path raises `FileNotFoundError`).
+- [x] **Step 3: Apply the cuts** listed under Files.
+- [x] **Step 4: Run all tests:** `LENS_DEVICE=cpu .venv/bin/python -m unittest test_eval -v && .venv/bin/python test_nodes.py && .venv/bin/python test_maxsim.py`. Expected: PASS. `grep -rn "pagemaxsim\|page_words\|node_text\|visible_refs" lens eval.py` must print nothing.
+- [x] **Step 5: Commit** with `refactor: remove failed pagemaxsim and settled modes (D13)`.
 
 ### Task 2: Element boxes in prep, re-prep, regression
 

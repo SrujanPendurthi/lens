@@ -1,7 +1,7 @@
 """Mind2Web offline eval: baseline (all candidate nodes) vs top-k per ranker. Prints PASS/KILL per plan gate D7.
 
-usage: python eval.py --prep data/train_0.json   # build data/steps.jsonl once
-       python eval.py --n 200 [--k 10] [--no-llm]
+usage: python eval.py --prep-mm data/mm_test_task
+       python eval.py --n 200 [--no-llm]
 """
 import argparse
 import json
@@ -11,23 +11,10 @@ import time
 
 from pathlib import Path
 
-from lens.nodes import Node, extract, page_words
-from lens.rank import ALLOWED_RANKERS, RANKERS, rank, rank_page
+from lens.nodes import Node, extract
+from lens.rank import ALLOWED_RANKERS, RANKERS, rank
 
-STEPS = "data/steps.jsonl"
-
-
-def prep(path, steps_path=STEPS):
-    with open(steps_path, "w") as out:
-        for t in json.load(open(path)):
-            for i, a in enumerate(t["actions"]):
-                gold = sorted({c["backend_node_id"] for c in a["pos_candidates"]})
-                if not gold:
-                    continue
-                refs = [c["backend_node_id"] for c in a["pos_candidates"] + a["neg_candidates"]]
-                nodes = extract(a["cleaned_html"], refs)
-                out.write(json.dumps({"task": t["confirmed_task"], "prev": t["action_reprs"][max(0, i - 3):i],
-                                      "op": a["operation"], "gold": gold, "nodes": [n.__dict__ for n in nodes]}) + "\n")
+STEPS = "data/steps_test.jsonl"
 
 
 def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") -> None:
@@ -51,43 +38,43 @@ def prep_mm(parquet_dir: str, steps_path: str, shots_dir: str = "data/shots") ->
                     nodes = extract(action["cleaned_html"], refs)
                     uid = action["action_uid"]
                     shot = shots / f"{uid}.png"
-                    if not shot.exists() and action["screenshot"] is not None:
-                        screenshot = action["screenshot"]
+                    if not shot.exists():
+                        screenshot = action["screenshot"] or {}
                         data = screenshot.get("bytes")
-                        shot.write_bytes(data if data is not None else Path(screenshot["path"]).read_bytes())
+                        source = Path(screenshot["path"]) if screenshot.get("path") else None
+                        if data is not None:
+                            shot.write_bytes(data)
+                        elif source is not None and source.is_file():
+                            shot.write_bytes(source.read_bytes())
+                        else:
+                            print(f"missing screenshot {uid}", flush=True)
                     row = {"task": action["confirmed_task"],
                            "prev": action["action_reprs"][:int(action["target_action_index"])][-3:],
                            "op": parsed(action["operation"]), "gold": gold,
-                           "nodes": [n.__dict__ for n in nodes], "uid": uid,
-                           "page": page_words(action["cleaned_html"], refs)}
+                           "nodes": [n.__dict__ for n in nodes], "uid": uid}
                     out.write(json.dumps(row) + "\n")
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--prep")
     ap.add_argument("--prep-mm")
     ap.add_argument("--n", type=int, default=200)
-    ap.add_argument("--k", type=int, default=10, help="summary compatibility; D7 always uses top 10")
     ap.add_argument("--ks", default="10", help="comma-separated picker cutoffs")
     ap.add_argument("--rankers", default=",".join(RANKERS))
-    ap.add_argument("--picker", choices=("qwen", "haiku"), default="qwen")
+    ap.add_argument("--picker", choices=("haiku",), default="haiku")
     ap.add_argument("--no-llm", action="store_true")
     ap.add_argument("--output")
     ap.add_argument("--summarize")
     ap.add_argument("--steps", default=STEPS)
-    ap.add_argument("--node-text", choices=("own", "context"), default="own")
     a = ap.parse_args()
     if a.summarize:
         with open(a.summarize) as f:
             rows = [json.loads(line) for line in f if line.strip()]
         if not rows:
             ap.error("no result rows to summarize")
-        return summarize(rows, a.k, "baseline" in rows[0], rows[0].get("query_mode", "unknown"), rows[0].get("node_text", "own"))
+        return summarize(rows, "baseline" in rows[0], rows[0].get("query_mode", "unknown"))
     if a.prep_mm:
         return prep_mm(a.prep_mm, a.steps)
-    if a.prep:
-        return prep(a.prep, a.steps)
     try:
         ks = list(dict.fromkeys(int(k) for k in a.ks.split(",")))
     except ValueError:
@@ -97,13 +84,13 @@ def main():
         ap.error("--rankers must contain names from " + ",".join(ALLOWED_RANKERS))
     if not ks or min(ks) < 1:
         ap.error("--ks must be positive")
-    if a.n < 1 or a.k < 1:
-        ap.error("--n and --k must be positive")
+    if a.n < 1:
+        ap.error("--n must be positive")
 
     with open(a.steps) as f:
         steps = [json.loads(l) for l in f]
     if not steps:
-        ap.error("no prepared steps; run --prep first")
+        ap.error("no prepared steps; run --prep-mm first")
     labeled = [s for s in steps if s["gold"]]
     if not labeled:
         ap.error("no labeled steps to evaluate")
@@ -116,8 +103,7 @@ def main():
     steps = [s for s in steps if set(s["gold"]) & {n["ref"] for n in s["nodes"]}]
     rows = []
     misses = 0
-    suffix = "_ctx" if a.node_text == "context" else ""
-    with open(a.output or f"results_subgoal{suffix}.jsonl", "w") as f:
+    with open(a.output or "results_subgoal.jsonl", "w") as f:
         for s in steps[:a.n]:
             nodes, gold = [Node(**n) for n in s["nodes"]], set(s["gold"])
             # random.shuffle gives baseline a neutral order; Mind2Web lists pos_candidates first
@@ -127,12 +113,9 @@ def main():
             misses += bool(goal.get("miss"))
             query = goal["text"]
             gold_node = next((n for n in nodes if n.ref in gold), None)
-            row = {"task": s["task"], "op": s["op"]["op"], "query_mode": "subgoal", "node_text": a.node_text, "picker": a.picker, "query": query,
+            row = {"task": s["task"], "op": s["op"]["op"], "query_mode": "subgoal", "picker": a.picker, "query": query,
                    "subgoal_tokens": goal["tokens"], "subgoal_ms": goal["ms"],
                    "n_nodes": len(nodes), "textless_gold": not any(n.text for n in nodes if n.ref in gold)}
-            if "pagemaxsim" in rankers:
-                page_refs = {ref for _, ref in s["page"] if ref is not None}
-                row["page_textless_gold"] = not bool(gold & page_refs)
             if len(rows) < 5:
                 example = {"task": s["task"], "prev": s["prev"][-1] if s["prev"] else "none",
                            "subgoal": query, "gold": gold_node.line() if gold_node else "missing"}
@@ -142,8 +125,6 @@ def main():
                 from lens.pick import pick, prompt
                 p = pick(prompt(s["task"], s["prev"], shown_nodes), a.picker)
                 refs = {n.ref for n in shown_nodes}
-                if p.get("visible_refs") is not None:
-                    refs &= set(p["visible_refs"])
                 return p | {"ok": p["ref"] in gold and p["ref"] in refs,
                             "tokens": p["prompt_tokens"] + cost, "shown": len(refs),
                             "gold_shown": bool(gold & refs),
@@ -151,11 +132,10 @@ def main():
 
             if not a.no_llm:
                 row["baseline"] = pick_nodes(nodes, 0)
-            texts = [f"{n.text} | {n.context}" if a.node_text == "context" else n.text for n in nodes]
+            texts = [n.text for n in nodes]
             for name in rankers:
                 t0 = time.perf_counter()
-                scores = (rank_page(query, s["page"], [n.ref for n in nodes]) if name == "pagemaxsim"
-                          else rank(name, query, texts, node_text=a.node_text))
+                scores = rank(name, query, texts)
                 order = scores.argsort(descending=True).tolist()
                 row[name] = {"ms": (time.perf_counter() - t0) * 1000,
                              "gold_rank": min((order.index(i) for i, n in enumerate(nodes) if n.ref in gold), default=2**63 - 1)}
@@ -167,17 +147,16 @@ def main():
             f.flush()
             print(len(rows), {k: row[k].get("gold_rank", row[k].get("ok")) for k in ("baseline",) + ALLOWED_RANKERS if k in row}, flush=True)
     print(f"subgoal cache misses: {misses}")
-    summarize(rows, a.k, not a.no_llm, "subgoal", a.node_text)
+    summarize(rows, not a.no_llm, "subgoal")
 
 
-def summarize(rows, k, llm, query="subgoal", node_text=None):
+def summarize(rows, llm, query="subgoal"):
     if not rows:
         raise ValueError("no result rows to summarize")
     n = len(rows)
     rankers = [name for name in ALLOWED_RANKERS if all(name in r for r in rows)]
     rec = lambda name, kk: sum(r[name]["gold_rank"] < kk for r in rows) / n
     print(f"\nquery={query}")
-    print(f"node_text={node_text or rows[0].get('node_text', 'own')}")
     print(f"steps={n}  median nodes={st.median(r['n_nodes'] for r in rows)}  textless gold={sum(r['textless_gold'] for r in rows) / n:.1%}")
     if all("subgoal_tokens" in r for r in rows):
         print(f"subgoal median tokens={st.median(r['subgoal_tokens'] for r in rows):.0f}  ms={st.median(r['subgoal_ms'] for r in rows):.2f}")

@@ -8,7 +8,6 @@ from pathlib import Path
 
 MODEL = "mlx-community/Qwen3-4B-Instruct-2507-4bit"
 HAIKU = "claude-haiku-5-5"
-CTX = 32768
 CACHE = Path(__file__).parent.parent / "data" / "llm_cache.jsonl"
 _memo = {}
 
@@ -88,36 +87,22 @@ def parse_claude_json(stdout):
             "ttft": data["duration_api_ms"] / 1000}
 
 
-def pick(text, picker="qwen"):
-    """Return {ref, prompt_tokens, ttft, truncated} for one prompt; cached on disk."""
-    if picker not in ("qwen", "haiku"):
+def pick(text, picker="haiku"):
+    """Return a cached Haiku element choice for one prompt."""
+    if picker != "haiku":
         raise ValueError(f"unknown picker: {picker}")
     key = pick_key(text, picker)
 
     def generate():
-        if picker == "haiku":
-            response = subprocess.run([
-                "claude", "-p", "--model", HAIKU, "--tools", "", "--strict-mcp-config",
-                "--setting-sources", "", "--no-session-persistence", "--safe-mode",
-                "--disable-slash-commands", "--output-format", "json",
-                "--system-prompt", "You pick one web page element. Reply with only its number in brackets, e.g. [123], or [none].",
-            ], input=text, capture_output=True, text=True, timeout=120, cwd="/private/tmp")
-            if response.returncode:
-                raise RuntimeError(response.stderr[-500:])
-            row = parse_claude_json(response.stdout)
-            return row | {"ref": parse_ref(row["out"]), "truncated": False, "visible_refs": None}
-        from mlx_lm import stream_generate
-        model, tok = _load()
-        ids = tok.apply_chat_template([{"role": "user", "content": text}], add_generation_prompt=True)
-        truncated = len(ids) > CTX
-        if truncated:  # keep head (task + first nodes) and the question tail
-            ids = ids[:CTX - 64] + ids[-64:]
-        visible_refs = re.findall(r"(?m)^\[(\d+)\]", tok.decode(ids)) if truncated else None
-        out, r = "", None
-        for r in stream_generate(model, tok, ids, max_tokens=12):
-            out += r.text
-        row = {"ref": parse_ref(out), "out": out, "prompt_tokens": r.prompt_tokens,
-               "ttft": r.prompt_tokens / r.prompt_tps, "truncated": truncated, "visible_refs": visible_refs}
-        return row
+        response = subprocess.run([
+            "claude", "-p", "--model", HAIKU, "--tools", "", "--strict-mcp-config",
+            "--setting-sources", "", "--no-session-persistence", "--safe-mode",
+            "--disable-slash-commands", "--output-format", "json",
+            "--system-prompt", "You pick one web page element. Reply with only its number in brackets, e.g. [123], or [none].",
+        ], input=text, capture_output=True, text=True, timeout=120, cwd="/private/tmp")
+        if response.returncode:
+            raise RuntimeError(response.stderr[-500:])
+        row = parse_claude_json(response.stdout)
+        return row | {"ref": parse_ref(row["out"]), "truncated": False}
 
     return _cached(key, generate)
