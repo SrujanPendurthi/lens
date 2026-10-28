@@ -70,6 +70,22 @@ If not, the multi-vector, quantization and PLAID stack is unjustified and doesn'
   - The same rule, C vs D, is the "product edge" line. Accuracy is reported, not gated.
   - PASS → build the cross-page knowledge graph next. FAIL → re-grill.
 
+- D20 (2026-10-27, after the 10-question pilot, before any of the other 90 questions were seen) **D19 amended.** Pilot findings:
+  - Unsupported claims were near-absent (1/79), because Haiku abstains rather than invents (rag abstained on 60%). Nearly every question is a tie, so the D19 primary gate cannot detect a difference.
+  - The single unsupported claim was a hedge about the evidence ("the evidence doesn't say…"), an artifact of judging against the full pages.
+  - The judge check had no negatives: Opus and Sonnet agreed on 30/30 claims, but all 30 were SUPPORTED.
+  - Lens ran at 3.3× rag's retrieval time (each sentence encoded 3× in neighbour windows) against a 1.25× guard.
+  - The signal is in accuracy: rag 30%, lens 50%, rerank 60%.
+
+  Amendments:
+  1. **Primary metric = grounded-correct:** a question's answer is judged CORRECT and has zero UNSUPPORTED claims. Win means C grounded-correct and B not; loss is the reverse. PASS needs net ≥ 5 and a one-sided sign test p < 0.05.
+  2. **Guards:** pooled unsupported rate C ≤ B; median retrieval ms C ≤ 1.25× B. The abstention guard is dropped, since abstaining already counts as not grounded-correct.
+  3. **Judge prompt** adds: "Do not extract statements about the evidence itself (e.g. 'the evidence does not say X') as claims."
+  4. **Judge check:** Sonnet, with the amended prompt, re-labels the 30 Opus-labeled claims (≥ 85% agreement) plus 10 Opus-written false claims in frames_judge_negatives.jsonl (≥ 9/10 UNSUPPORTED).
+  5. **Lens arm:** each sentence is scored alone (rank maxsim, length 64), so it is encoded once. Adjacent picks are still merged in the output, which gives the answerer the context.
+
+  Everything else in D19 is unchanged, including the product edge line (same rule vs rerank). Plan: docs/superpowers/plans/2026-10-27-frames-d20.md.
+
 ## Results
 - Run 1 (recall-only, Q = task + prev, n=200, median 457 nodes): R@10 bm25 13.0, single 14.0, maxsim 4.5, cross 16.5; R@100 51/50/40/55. Gate formally KILL, but **invalid**: even the cross-encoder ceiling fails, because gold is the next step and the query is the whole task (e.g. gold `button "submit Search"` after typing "Ballet"). Superseded by D6′.
 - Brief 2 (recall-only, n=200): oracle R@10 bm25 11.5, single 15.5, maxsim 8.5, cross 10.5. Sub-goal R@10 17.5/24.0/15.5/21.0, R@100 41.5/57.0/47.5/55.0. Sub-goal cost: median 112 tokens, 713 ms. Caveats: the oracle query is weak for CLICK (it carries no target name); the sub-goal can't see the page, so it hallucinates details or skips steps; the query_length change from 64 to 32 is confounded with the query-mode change. Full report: BRIEF_2_REPORT.md.
